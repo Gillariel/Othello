@@ -8,7 +8,7 @@ package models;
 import javafx.scene.image.Image;
 
 /**
- *
+ * 
  * @author User
  */
 public class Board {
@@ -27,6 +27,4 @@ public class Board {
         this.pawns = pawns;
         this.img_background = img_background;
     }
-    
-    
 }
