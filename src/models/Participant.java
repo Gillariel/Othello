@@ -23,6 +23,13 @@ public class Participant {
         lastname = "";
     }
 
+    public Participant(String pseudo, String firstname, String lastname) {
+        this.pseudo = pseudo;
+        this.password = "";
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+    
     public Participant(String pseudo, String password, String firstname, String lastname) {
         this.pseudo = pseudo;
         this.password = password;

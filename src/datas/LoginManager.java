@@ -5,24 +5,25 @@
  */
 package datas;
 
-import java.util.List;
-import models.Participant;
+import utils.SHA256;
 
 /**
  *
  * @author User
  */
-public class ParticipantsManager extends DbConnect {
+public class LoginManager extends DbConnect{
 
-    public ParticipantsManager() { super();}
+    public LoginManager() { super(); }
     
-    public Participant selectParticipant(String pseudo) {
+    public boolean Authenticate(String pseudo, String password) {
+        String hashPassword = SHA256.encode(password);
         String[][] result = getDb().createStatement("SELECT pseudo, firstname, lastname"
                 + "FROM PARTICIPANT"
-                + "WHERE pseudo LIKE @pseudo")
+                + "WHERE pseudo LIKE @pseudo AND password LIKE @password")
                 .bindParameter("@pseudo", pseudo)
+                .bindParameter("@password", hashPassword)
                 .executeQuery();
-        return DbEntityToObject.ParticipantParser(result);
+        return (result.length == 1)? true : false;
     }
     
     

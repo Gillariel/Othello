@@ -6,9 +6,38 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="othello.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="othello.FXMLDocumentController">
     <children>
-        <Button fx:id="button" layoutX="126" layoutY="90" onAction="#handleButtonAction" text="Click Me" />
-        <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
+      <MenuBar fx:id="menuBar" layoutY="1.0" prefHeight="25.0" prefWidth="100.0">
+        <menus>
+          <Menu fx:id="editMenu" mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem fx:id="newMemberMenuItem" mnemonicParsing="false" text="New Member" />
+                  <MenuItem fx:id="currentTournamentMenuItm" mnemonicParsing="false" text="Current Tournament" />
+                  <MenuItem fx:id="closeTournamentMenuItem" mnemonicParsing="false" text="Close Tournament" />
+            </items>
+          </Menu>
+          <Menu fx:id="helpMenu" mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Pane layoutX="27.0" layoutY="29.0" prefHeight="677.0" prefWidth="1000.0">
+         <children>
+            <TableView fx:id="CurrentParticipantsView" layoutX="20.0" layoutY="24.0" prefHeight="442.0" prefWidth="555.0">
+              <columns>
+                <TableColumn prefWidth="129.0" text="C1" />
+                <TableColumn prefWidth="134.0" text="C2" />
+                  <TableColumn prefWidth="143.0" text="Column X" />
+                  <TableColumn prefWidth="148.0" text="Column X" />
+              </columns>
+            </TableView>
+              <Button fx:id="btn_add_participant" layoutX="52.0" layoutY="497.0" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="143.0" text="Add Participant" />
+            <Button fx:id="btn_delete_one" layoutX="243.0" layoutY="497.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" text="Delete Participant" />
+            <Button fx:id="btn_delete_all" layoutX="427.0" layoutY="497.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" text="Delete All Participants" />
+         </children>
+      </Pane>
     </children>
 </AnchorPane>

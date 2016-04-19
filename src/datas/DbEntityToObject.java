@@ -5,7 +5,6 @@
  */
 package datas;
 
-import java.util.ArrayList;
 import java.util.List;
 import models.Participant;
 
@@ -14,12 +13,8 @@ import models.Participant;
  * @author User
  */
 public class DbEntityToObject {
-    
-    public static List<Participant> ParticipantParser(String[][] entity) {
-        ArrayList<Participant> result = new ArrayList<>();
-        if(entity.length > 1) {
-            return null;
-        }
-        return null;
+    public static Participant ParticipantParser(String[][] entity) {
+        //entity : [0] = pseudo, [1] = password, [2] = firstname, [3] = lastname 
+        return (entity != null)? new Participant(entity[0][0], entity[0][2], entity[0][3]) : null;
     }
 }
