@@ -22,7 +22,7 @@ public abstract class DbConnect {
         this.db = new SqlServerConnectionConfig()
                 .withUserName("")
                 .withPassword("")
-                .withHost("")
+                .withHost("192.168.128.18")
                 .withDatabase("");
         this.token = null;
     }
