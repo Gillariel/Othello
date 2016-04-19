@@ -25,5 +25,19 @@ public class ParticipantsManager extends DbConnect {
         return DbEntityToObject.ParticipantParser(result);
     }
     
+    public int insertParticipant(Participant p){
+        int result = this.getDb().createStatement("INSERT INTO PARTICIPANTS (pseudo,password,firstname,lastName)" 
+               +" VALUES (@pseudo,@password,@firstname,@lastname)")
+                .bindParameter("@pseudo",p.getPseudo())
+                .bindParameter("@password",p.getPassword())
+                .bindParameter("@firstname",p.getFirstname())
+                .bindParameter("@lastname",p.getLastname())
+                /**
+                 * textuellement: exécuter la mise à jour de la bd donc valable pour les insert et les update sur les
+                 * tables
+                 * */
+                .executeUpdate();
+          return result;      
+    }
     
 }
