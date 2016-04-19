@@ -5,6 +5,7 @@
  */
 package datas;
 
+import helmo.nhpack.NHDatabaseSession;
 import java.util.List;
 import models.Participant;
 
@@ -16,28 +17,66 @@ public class ParticipantsManager extends DbConnect {
 
     public ParticipantsManager() { super();}
     
+    
+   // try(blabla) = bloc de ressource -> appel automatique de close() à la fin
     public Participant selectParticipant(String pseudo) {
-        String[][] result = getDb().createStatement("SELECT pseudo, firstname, lastname"
-                + "FROM PARTICIPANT"
-                + "WHERE pseudo LIKE @pseudo")
-                .bindParameter("@pseudo", pseudo)
-                .executeQuery();
-        return DbEntityToObject.ParticipantParser(result);
+        try(NHDatabaseSession session = getDb()){
+            String[][] result = session.createStatement("SELECT pseudo, firstname, lastname "
+                    + "FROM PARTICIPANTS"
+                    + "WHERE pseudo LIKE @pseudo")
+                    .bindParameter("@pseudo", pseudo)
+                    .executeQuery();
+            return DbEntityToObject.ParticipantParser(result);
+        }catch(Exception e) {
+            return null;
+        }
     }
     
     public int insertParticipant(Participant p){
-        int result = this.getDb().createStatement("INSERT INTO PARTICIPANTS (pseudo,password,firstname,lastName)" 
-               +" VALUES (@pseudo,@password,@firstname,@lastname)")
-                .bindParameter("@pseudo",p.getPseudo())
-                .bindParameter("@password",p.getPassword())
-                .bindParameter("@firstname",p.getFirstname())
-                .bindParameter("@lastname",p.getLastname())
-                /**
-                 * textuellement: exécuter la mise à jour de la bd donc valable pour les insert et les update sur les
-                 * tables
-                 * */
-                .executeUpdate();
-          return result;      
+        try(NHDatabaseSession session = getDb()){
+            int result = session.createStatement("INSERT INTO PARTICIPANTS (pseudo,password,firstname,lastName)" 
+                    +" VALUES (@pseudo,@password,@firstname,@lastname)")
+                    .bindParameter("@pseudo",p.getPseudo())
+                    .bindParameter("@password",p.getPassword())
+                    .bindParameter("@firstname",p.getFirstname())
+                    .bindParameter("@lastname",p.getLastname())
+                    /**
+                     * textuellement: exécuter la mise à jour de la bd donc valable pour les insert et les update sur les
+                    * tables
+                     * */
+                    .executeUpdate();
+            return result;      
+        }catch(Exception e){
+            return -1;
+        }
+    }
+    
+    public int deleteParticipant(String pseudo) {
+        try(NHDatabaseSession session = getDb()){
+            int result = session.createStatement("DELETE FROM PARTICIPANTS WHERE pseudo LIKE @pseudo")
+                    .bindParameter("@pseudo", pseudo)
+                    .executeUpdate();
+            return result;
+        }catch(Exception e){
+            return -1;
+        }
+    }
+    
+    public int updateParticipant(Participant p) {
+        try(NHDatabaseSession session = getDb()){
+            p.cryptPassword();
+            int result = session.createStatement("UPDATE PARTICIPANTS "
+                    + "SET pseudo = @pseudo, password = @password "
+                    + "WHERE firstname LIKE @firstname AND lastname LIKE @lastname")
+                    .bindParameter("@pseudo", p.getPseudo())
+                    .bindParameter("@password", p.getPassword())
+                    .bindParameter("@firstname", p.getFirstname())
+                    .bindParameter("@lastname", p.getLastname())
+                    .executeUpdate();
+            return result;
+        }catch(Exception e){
+            return -1;
+        }
     }
     
 }
