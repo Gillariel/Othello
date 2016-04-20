@@ -50,8 +50,9 @@ public class ParticipantsManager extends DbConnect {
     
     public int insertParticipant(Participant p){
         try(NHDatabaseSession session = getDb()){
-            int result = session.createStatement("INSERT INTO PARTICIPANTS (pseudo,password,firstname,lastName)" 
-                    +" VALUES (@pseudo,@password,@firstname,@lastname)")
+ 
+            int result = session.createStatement("INSERT INTO CONTENDERS (pseudo,firstname,lastname,wonGames,lostGames,_password)" 
+                    +"VALUES (@pseudo,@firstname,@lastname,0,0,@password);")
                     .bindParameter("@pseudo",p.getPseudo())
                     .bindParameter("@password",p.getPassword())
                     .bindParameter("@firstname",p.getFirstname())
@@ -95,4 +96,7 @@ public class ParticipantsManager extends DbConnect {
         }
     }
     
+    public boolean isConnected(){
+        return this.getDb().isConnected();  
+    }
 }
