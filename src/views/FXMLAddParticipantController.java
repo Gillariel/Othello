@@ -5,11 +5,9 @@
  */
 package views;
 
-import datas.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.value.ObservableListValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,7 +16,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
-import javax.swing.text.DefaultEditorKit;
 import models.Participant;
 
 /**

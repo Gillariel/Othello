@@ -59,38 +59,6 @@ public class FXMLInscriptionController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.btn_reset_form.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                fieldPseudo.setText("");
-                fieldPassword.setText("");
-                fieldFirstname.setText("");
-                fieldLastname.setText("");
-            }
-        });
-        
-        this.btn_confirm.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(!fieldPseudo.getText().matches("^\\S(.){6,20}\\S$")){
-                    MyDialog.warningDialog("Erreur", "Le pseudo doit contenir entre 8 et 20 caractères (sans restrictions");
-                    return;
-                }
-                datas.ParticipantsManager provider = new datas.ParticipantsManager();
-                //Better to use BuilderFactory to not import the package
-                Participant p = new Participant(fieldPseudo.getText(), SHA256.encode(fieldPassword.getText()), fieldFirstname.getText(), fieldLastname.getText());
-                if(provider.insertParticipant(p) > 0) {
-                    MyDialog.dialogWithoutHeader("Ajout", "Le membre a bien été ajouté");
-                    try{
-                        finalize();
-                    }catch (Throwable ex) { Logger.getLogger(FXMLInscriptionController.class.getName()).log(Level.SEVERE, null, ex); }
-                }
-                else { 
-                    MyDialog.warningDialog("Ajout Nok", "Erreur lors de l'insertion du mnouveau membre!");
-                    btn_reset_form.fire();
-                }
-            }
-        });
         
         fieldPassword.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if(newValue.matches("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$")){
@@ -108,13 +76,34 @@ public class FXMLInscriptionController implements Initializable {
 
     @FXML
     private void handleAdd(ActionEvent event) {
+        if(!fieldPseudo.getText().matches("^\\S(.){6,20}\\S$")){
+            MyDialog.warningDialog("Erreur", "Le pseudo doit contenir entre 8 et 20 caractères (sans restrictions");
+            return;
+        }else if(passwordComplexityLabel.getText().equals("Too Small")){
+            MyDialog.warningDialog("Erreur", "Le mot de passe doit contenir au minimum 6 caractère");
+            return;
+        }
+        datas.ParticipantsManager provider = new datas.ParticipantsManager();
+        //Better to use BuilderFactory to not import the package
+        Participant p = new Participant(fieldPseudo.getText(), SHA256.encode(fieldPassword.getText()), fieldFirstname.getText(), fieldLastname.getText());
+        if(provider.insertParticipant(p) > 0) {
+            MyDialog.dialogWithoutHeader("Ajout", "Le membre a bien été ajouté");
+            try{
+                //finalize() est une méthode détruisant completement l'objet et libérant ses ressources (a utiliser prudemment!)
+                finalize();
+            }catch (Throwable ex) { Logger.getLogger(FXMLInscriptionController.class.getName()).log(Level.SEVERE, null, ex); }
+        }
+        else { 
+            MyDialog.warningDialog("Ajout Nok", "Erreur lors de l'insertion du mnouveau membre!");
+            btn_reset_form.fire();
+        }
     }
 
     @FXML
     private void handleReset(ActionEvent event) {
-    }
-    
-    private boolean chechPseudo(String pseudo) {
-        return pseudo.matches("^\\S(.){6,20}\\S$");
+        fieldPseudo.setText("");
+        fieldPassword.setText("");
+        fieldFirstname.setText("");
+        fieldLastname.setText("");
     }
 }

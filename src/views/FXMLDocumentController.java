@@ -5,20 +5,14 @@
  */
 package views;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -27,7 +21,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+import utils.AppInfo;
+import utils.FasterFXMLLoader;
+import utils.MyDialog;
 import views.models.Person;
 
 /**
@@ -36,30 +32,42 @@ import views.models.Person;
  */
 public class FXMLDocumentController implements Initializable {
     
-    private final ObservableList<Person> data =
-        FXCollections.observableArrayList(
-            new Person("A", "Z", "a@example.com", 0, 0),
-            new Person("B", "X", "b@example.com", 0, 0),
-            new Person("C", "W", "c@example.com", 0, 0),
-            new Person("D", "Y", "d@example.com", 0, 0),
-            new Person("E", "V", "e@example.com", 0, 0)
-        );
-    
-    private Label label;
+    //Menu
     @FXML
     private MenuBar menuBar;
+    
     @FXML
-    private Menu editMenu;
+    private Menu participantMenu;
     @FXML
     private MenuItem newMemberMenuItem;
+    @FXML
+    private MenuItem deleteMemberMenuItem;
+    @FXML
+    private MenuItem modifiyMemberMenuItem;
+    
+    @FXML
+    private Menu tournamentMenu;
     @FXML
     private MenuItem currentTournamentMenuItm;
     @FXML
     private MenuItem closeTournamentMenuItem;
     @FXML
+    private MenuItem switchTournamentMenuItem;
+    @FXML
+    private MenuItem generateTournamentMenuItem;
+    
+    @FXML
+    private MenuItem launchGameMenuItem;
+    
+    @FXML
     private Menu helpMenu;
     @FXML
+    private MenuItem rulesMenuItem;
+    @FXML
     private MenuItem aboutMenuItem;
+    //End Menu
+    
+    //TableView
     @FXML
     private TableView<Person> CurrentParticipantsView;
     @FXML
@@ -72,24 +80,23 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<Person,Integer> wonGamesTableColumn;
     @FXML
     private TableColumn<Person,Integer> lostGamesTableColumn;
+    private final ObservableList<Person> data = FXCollections.observableArrayList();
+    
+    //Buttons
     @FXML
     private Button btn_add_participant;
     @FXML
     private Button btn_delete_one;
     @FXML
     private Button btn_delete_all;
+    
     @FXML
     private ImageView imgOthelloGame;
-    @FXML
-    private MenuItem deleteMemberMenuItem;
+    
     @FXML
     private Pane mainMenuPane;
-    
-    /*private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }*/
      
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         CurrentParticipantsView.setEditable(true);
@@ -112,66 +119,66 @@ public class FXMLDocumentController implements Initializable {
         CurrentParticipantsView.setItems(data);
         CurrentParticipantsView.getColumns().addAll(pseudoTableColumn,firstnameTableColumn, lastnameTableColumn, wonGamesTableColumn, lostGamesTableColumn);
         
-        btn_add_participant.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try{
-                    Parent root = FXMLLoader.load(getClass().getResource("/views/FXMLAddParticipant.fxml"));
-                    Scene scene = new Scene(root);
-                    
-                    Stage stage = new Stage();
-                    stage.setScene(scene);
-                    stage.setTitle("Add participant");
-                    stage.centerOnScreen();
-                    stage.setResizable(false);
-                    stage.show();
-                    
-                }catch(IOException e) { ; }
-            }
-        });
     }    
 
+    //Check La Classe utils.FasterFXMLLoader si tu as un doute, c'est juste une manière de ne pas réécrire 100x le meme code :p
     @FXML
-    private void handleNewMember(ActionEvent event) {
-        try{
-           Parent root = FXMLLoader.load(getClass().getResource("/views/FXMLInscription.fxml"));
-           Scene scene = new Scene(root);
- 
-           Stage stage = new Stage();
-           stage.setScene(scene);
-           stage.setTitle("Inscription");
-           stage.centerOnScreen();
-           stage.setResizable(false);
-           stage.show();
-        }catch(IOException e){
-            
-        }
-    }
-
-    @FXML
-    private void handleCurrentTournament(ActionEvent event) {
-    }
-
-    @FXML
-    private void handleCloseTournament(ActionEvent event) {
-    }
-
-    @FXML
-    private void handleBtnAddParticipant(ActionEvent event) {
-    }
-
-    @FXML
-    private void handleBtnDeleteParticipant(ActionEvent event) {
-    }
-
-    @FXML
-    private void handleBtnDeleteAllParticipants(ActionEvent event) {
-    }
-
+    private void handleNewMember(ActionEvent event) { FasterFXMLLoader.load("/views/FXMLInscription.fxml", this); }
     @FXML
     // Méthode faisant le lien entre le click sur le menu et le lancement de la fenetre
     private void handleDeleteMember(ActionEvent event) {
         
     }
+    @FXML
+    private void handleModifyMember(ActionEvent event) { FasterFXMLLoader.load("/views/FXMLModifyMember.fxml", this, "Modify Member"); }
     
+    @FXML
+    private void handleCurrentTournament(ActionEvent event) {
+    
+    }
+    @FXML
+    private void handleCloseTournament(ActionEvent event) {
+    
+    }
+    @FXML
+    private void handleSwitchTournament(ActionEvent event) {
+    
+    }
+    @FXML
+    private void handleGenerateTournament(ActionEvent event) {
+    
+    }
+    
+    //Never using it while the second app is not created and bit completed yet!
+    @FXML
+    private void handleLaunchGame(ActionEvent event) {
+        String cmd = "c:\\windows\\Othello_Game.exe";
+        try {
+            Runtime r = Runtime.getRuntime();
+            Process p = r.exec(cmd);
+            p.waitFor();//si l'application doit attendre a ce que ce process fini
+        }catch(Exception e) {
+            MyDialog.warningDialog("Erreur", "Le programme 'Othello - Game' est-il bien installé? (Veuillez ne jamais le changer de place)");
+        } 
+    }
+
+    @FXML
+    private void handleRules(ActionEvent event) { AppInfo.showRules(); }
+    @FXML
+    private void handleAbout(ActionEvent event) { AppInfo.showLicence(); }
+    
+    @FXML
+    private void handleBtnAddParticipant(ActionEvent event) { FasterFXMLLoader.load("/views/FXMLAddParticipant.fxml", this, "Add Participant"); }
+    @FXML
+    private void handleBtnDeleteParticipant(ActionEvent event) {
+        if(!CurrentParticipantsView.getSelectionModel().isEmpty())
+            CurrentParticipantsView.getItems().remove(CurrentParticipantsView.getSelectionModel().getSelectedIndex());
+        else
+            MyDialog.warningDialog("Warning", "no participants has been selected.\nPlease choose one before deleting.");
+    }
+    @FXML
+    private void handleBtnDeleteAllParticipants(ActionEvent event) {
+        if(MyDialog.confirmationDialog("All Delete", "Delete Participants not impact the Database","Are you sure you want to delete all the participants in the list?"))
+            CurrentParticipantsView.getItems().clear();
+    }
 }

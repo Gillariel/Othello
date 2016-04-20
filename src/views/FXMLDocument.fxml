@@ -9,19 +9,32 @@
 
 <AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.FXMLDocumentController">
     <children>
-      <MenuBar fx:id="menuBar" layoutY="1.0" prefHeight="25.0" prefWidth="100.0">
+      <MenuBar fx:id="menuBar" layoutY="1.0" prefHeight="25.0" prefWidth="260.0">
         <menus>
-          <Menu fx:id="editMenu" mnemonicParsing="false" text="Edit">
+          <Menu fx:id="participantMenu" mnemonicParsing="false" text="Participant">
             <items>
               <MenuItem fx:id="newMemberMenuItem" mnemonicParsing="false" onAction="#handleNewMember" text="New Member" />
+                  <MenuItem fx:id="modifiyMemberMenuItem" mnemonicParsing="false" onAction="#handleModifyMember" text="Modifiy Member" />
                   <MenuItem fx:id="deleteMemberMenuItem" mnemonicParsing="false" onAction="#handleDeleteMember" text="Delete Member" />
-                  <MenuItem fx:id="currentTournamentMenuItm" mnemonicParsing="false" onAction="#handleCurrentTournament" text="Current Tournament" />
-                  <MenuItem fx:id="closeTournamentMenuItem" mnemonicParsing="false" onAction="#handleCloseTournament" text="Close Tournament" />
             </items>
           </Menu>
+            <Menu fx:id="tournamentMenu" mnemonicParsing="false" text="Tournament">
+              <items>
+                  <MenuItem fx:id="currentTournamentMenuItm" mnemonicParsing="false" onAction="#handleCurrentTournament" text="Current Tournament" />
+                <MenuItem fx:id="switchTournamentMenuItem" mnemonicParsing="false" onAction="#handleSwitchTournament" text="Switch Tournament" />
+                  <MenuItem fx:id="closeTournamentMenuItem" mnemonicParsing="false" onAction="#handleCloseTournament" text="Close Tournament" />
+                  <MenuItem fx:id="generateTournamentMenuItem" mnemonicParsing="false" onAction="#handleGenerateTournament" text="Generate Tournament" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Game">
+              <items>
+                <MenuItem fx:id="launchGameMenuItem" mnemonicParsing="false" onAction="#handleLaunchGame" text="Launch Game" />
+              </items>
+            </Menu>
           <Menu fx:id="helpMenu" mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="About" />
+                  <MenuItem fx:id="rulesMenuItem" mnemonicParsing="false" onAction="#handleRules" text="Rules" />
+              <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" onAction="#handleAbout" text="About" />
             </items>
           </Menu>
         </menus>
