@@ -26,6 +26,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import views.models.Person;
 
@@ -79,6 +80,10 @@ public class FXMLDocumentController implements Initializable {
     private Button btn_delete_all;
     @FXML
     private ImageView imgOthelloGame;
+    @FXML
+    private MenuItem deleteMemberMenuItem;
+    @FXML
+    private Pane mainMenuPane;
     
     /*private void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
@@ -161,6 +166,12 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void handleBtnDeleteAllParticipants(ActionEvent event) {
+    }
+
+    @FXML
+    // Méthode faisant le lien entre le click sur le menu et le lancement de la fenetre
+    private void handleDeleteMember(ActionEvent event) {
+        
     }
     
 }

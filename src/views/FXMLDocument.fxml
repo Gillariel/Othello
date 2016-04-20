@@ -14,6 +14,7 @@
           <Menu fx:id="editMenu" mnemonicParsing="false" text="Edit">
             <items>
               <MenuItem fx:id="newMemberMenuItem" mnemonicParsing="false" onAction="#handleNewMember" text="New Member" />
+                  <MenuItem fx:id="deleteMemberMenuItem" mnemonicParsing="false" onAction="#handleDeleteMember" text="Delete Member" />
                   <MenuItem fx:id="currentTournamentMenuItm" mnemonicParsing="false" onAction="#handleCurrentTournament" text="Current Tournament" />
                   <MenuItem fx:id="closeTournamentMenuItem" mnemonicParsing="false" onAction="#handleCloseTournament" text="Close Tournament" />
             </items>
