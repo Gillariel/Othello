@@ -23,7 +23,7 @@ public class ParticipantsManager extends DbConnect {
     public Participant selectParticipant(String pseudo) {
         try(NHDatabaseSession session = getDb()){
             String[][] result = session.createStatement("SELECT pseudo, firstname, lastname "
-                    + "FROM PARTICIPANTS"
+                    + "FROM CONTENDERS"
                     + "WHERE pseudo LIKE @pseudo")
                     .bindParameter("@pseudo", pseudo)
                     .executeQuery();
@@ -70,7 +70,7 @@ public class ParticipantsManager extends DbConnect {
     
     public int deleteParticipant(String pseudo) {
         try(NHDatabaseSession session = getDb()){
-            int result = session.createStatement("DELETE FROM PARTICIPANTS WHERE pseudo LIKE @pseudo")
+            int result = session.createStatement("DELETE FROM CONTENDERS WHERE pseudo LIKE @pseudo")
                     .bindParameter("@pseudo", pseudo)
                     .executeUpdate();
             return result;
@@ -82,7 +82,7 @@ public class ParticipantsManager extends DbConnect {
     public int updateParticipant(Participant p) {
         try(NHDatabaseSession session = getDb()){
             p.cryptPassword();
-            int result = session.createStatement("UPDATE PARTICIPANTS "
+            int result = session.createStatement("UPDATE CONTENDERS "
                     + "SET pseudo = @pseudo, password = @password "
                     + "WHERE firstname LIKE @firstname AND lastname LIKE @lastname")
                     .bindParameter("@pseudo", p.getPseudo())

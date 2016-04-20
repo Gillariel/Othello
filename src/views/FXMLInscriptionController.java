@@ -9,6 +9,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,6 +18,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import models.Participant;
 import utils.MyDialog;
 import utils.SHA256;
@@ -47,6 +51,8 @@ public class FXMLInscriptionController implements Initializable {
     private Button btn_confirm;
     @FXML
     private Button btn_reset_form;
+    @FXML
+    private Label passwordComplexityLabel;
 
     /**
      * Initializes the controller class.
@@ -66,6 +72,10 @@ public class FXMLInscriptionController implements Initializable {
         this.btn_confirm.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                if(!fieldPseudo.getText().matches("^\\S(.){6,20}\\S$")){
+                    MyDialog.warningDialog("Erreur", "Le pseudo doit contenir entre 8 et 20 caractères (sans restrictions");
+                    return;
+                }
                 datas.ParticipantsManager provider = new datas.ParticipantsManager();
                 //Better to use BuilderFactory to not import the package
                 Participant p = new Participant(fieldPseudo.getText(), SHA256.encode(fieldPassword.getText()), fieldFirstname.getText(), fieldLastname.getText());
@@ -81,6 +91,19 @@ public class FXMLInscriptionController implements Initializable {
                 }
             }
         });
+        
+        fieldPassword.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            if(newValue.matches("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$")){
+                passwordComplexityLabel.setText("Strong ! :O"); passwordComplexityLabel.setTextFill(Color.web("#39ff00"));
+            }else if(newValue.matches("^(?=.{7,})(((?=.*[A-Z])(?=.*[a-z]))|((?=.*[A-Z])(?=.*[0-9]))|((?=.*[a-z])(?=.*[0-9]))).*$")){
+                passwordComplexityLabel.setText("Good :)"); passwordComplexityLabel.setTextFill(Color.web("#ff9500"));
+            }else if(newValue.matches("(?=.{6,}).*")) {
+                passwordComplexityLabel.setText("Weak :/"); passwordComplexityLabel.setTextFill(Color.web("#ff0000"));
+            }else{
+                passwordComplexityLabel.setText("Too small"); passwordComplexityLabel.setTextFill(Color.web("#ff0000"));
+            }
+        });
+        
     }    
 
     @FXML
@@ -91,4 +114,7 @@ public class FXMLInscriptionController implements Initializable {
     private void handleReset(ActionEvent event) {
     }
     
+    private boolean chechPseudo(String pseudo) {
+        return pseudo.matches("^\\S(.){6,20}\\S$");
+    }
 }
