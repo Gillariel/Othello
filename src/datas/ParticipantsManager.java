@@ -6,6 +6,7 @@
 package datas;
 
 import helmo.nhpack.NHDatabaseSession;
+import java.util.ArrayList;
 import java.util.List;
 import models.Participant;
 
@@ -31,6 +32,21 @@ public class ParticipantsManager extends DbConnect {
             return null;
         }
     }
+    
+    public List<Participant> selectAllParticipants() {
+        List<Participant> list = new ArrayList<>();
+        try(NHDatabaseSession session = getDb()){
+            String[][] result = session.createStatement("SELECT pseudo, firstname, lastname "
+                    + "FROM CONTENDERS;")
+                    .executeQuery();
+            for(String[] oneParticipant : result)
+                list.add(DbEntityToObject.ParticipantParser(oneParticipant));
+            
+            return list;
+        }catch(Exception e) {
+            return null;
+        }
+    } 
     
     public int insertParticipant(Participant p){
         try(NHDatabaseSession session = getDb()){

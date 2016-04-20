@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="views.FXMLAddParticipantController">
+   <children>
+      <MenuBar fx:id="mainMenuMenuBar">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <ComboBox fx:id="partcipantComboBox" layoutX="218.0" layoutY="89.0" prefWidth="150.0" />
+      <Label fx:id="partcipantLabel" layoutX="75.0" layoutY="93.0" text="Choisissez le participant :" />
+      <Button fx:id="btn_confirm" layoutX="245.0" layoutY="188.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" text="Confirm" />
+   </children>
+</AnchorPane>

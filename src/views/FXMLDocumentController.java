@@ -110,7 +110,18 @@ public class FXMLDocumentController implements Initializable {
         btn_add_participant.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                data.add(new Person("Add","Je marche?", "Bah Oui!",99999,-1));
+                try{
+                    Parent root = FXMLLoader.load(getClass().getResource("/views/FXMLAddParticipant.fxml"));
+                    Scene scene = new Scene(root);
+                    
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.setTitle("Add participant");
+                    stage.centerOnScreen();
+                    stage.setResizable(false);
+                    stage.show();
+                    
+                }catch(IOException e) { ; }
             }
         });
     }    

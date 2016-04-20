@@ -15,6 +15,11 @@ import models.Participant;
 public class DbEntityToObject {
     public static Participant ParticipantParser(String[][] entity) {
         //entity : [0] = pseudo, [1] = password, [2] = firstname, [3] = lastname 
-        return (entity != null)? new Participant(entity[0][0], entity[0][2], entity[0][3]) : null;
+        return (entity != null)? new Participant(entity[0][0], entity[0][1], entity[0][2]) : null;
+    }
+    
+    public static Participant ParticipantParser(String[] entity) {
+        //entity : [0] = pseudo, [1] = password, [2] = firstname, [3] = lastname 
+        return (entity != null)? new Participant(entity[0], entity[1], entity[2]) : null;
     }
 }
