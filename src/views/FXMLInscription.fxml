@@ -6,6 +6,37 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.FXMLInscriptionController">
-    
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="views.FXMLInscriptionController">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Label fx:id="labelPseudo" layoutX="36.0" layoutY="82.0" text="Pseudo" />
+      <Label fx:id="labelPassword" layoutX="36.0" layoutY="141.0" text="Password" />
+      <Label fx:id="labelFirstname" layoutX="36.0" layoutY="202.0" text="First Name" />
+      <Label fx:id="labelLastname" layoutX="36.0" layoutY="264.0" text="Last Name" />
+      <TextField fx:id="fieldPseudo" layoutX="105.0" layoutY="78.0" />
+      <TextField fx:id="fieldPassword" layoutX="105.0" layoutY="137.0" />
+      <TextField fx:id="fieldFirstname" layoutX="105.0" layoutY="198.0" />
+      <TextField fx:id="fieldLastname" layoutX="105.0" layoutY="260.0" />
+      <Button fx:id="btn_confirm" layoutX="38.0" layoutY="325.0" mnemonicParsing="false" onAction="#handleAdd" prefHeight="25.0" prefWidth="78.0" text="Add" />
+      <Button fx:id="btn_reset_form" layoutX="172.0" layoutY="325.0" mnemonicParsing="false" onAction="#handleReset" prefHeight="25.0" prefWidth="78.0" text="Reset" />
+   </children>
 </AnchorPane>
