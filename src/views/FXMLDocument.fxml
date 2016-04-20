@@ -25,7 +25,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Pane layoutX="27.0" layoutY="29.0" prefHeight="677.0" prefWidth="1000.0">
+      <Pane fx:id="mainMenuPane" layoutX="27.0" layoutY="29.0" prefHeight="677.0" prefWidth="1000.0" visible="false">
          <children>
             <TableView fx:id="CurrentParticipantsView" layoutX="20.0" layoutY="24.0" prefHeight="442.0" prefWidth="533.0">
               <columns>

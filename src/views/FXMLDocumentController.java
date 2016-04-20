@@ -5,6 +5,7 @@
  */
 package views;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -12,7 +13,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -22,6 +26,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import views.models.Person;
 
 /**
@@ -112,7 +117,19 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void handleNewMember(ActionEvent event) {
-        //data.add(new Person("Add","Je marche?", "Bah Oui!",99999,-1));
+        try{
+           Parent root = FXMLLoader.load(getClass().getResource("/views/FXMLInscription.fxml"));
+           Scene scene = new Scene(root);
+ 
+           Stage stage = new Stage();
+           stage.setScene(scene);
+           stage.setTitle("Inscription");
+           stage.centerOnScreen();
+           stage.setResizable(false);
+           stage.show();
+        }catch(IOException e){
+            
+        }
     }
 
     @FXML
