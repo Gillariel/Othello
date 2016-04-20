@@ -20,10 +20,10 @@ public abstract class DbConnect {
 
     public DbConnect() {
         this.db = new SqlServerConnectionConfig()
-                .withUserName("")
-                .withPassword("")
+                .withUserName("in15b1114")
+                .withPassword("2134")
                 .withHost("192.168.128.18")
-                .withDatabase("");
+                .withDatabase("in15b1114");
         this.token = null;
     }
     
