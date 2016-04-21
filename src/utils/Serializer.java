@@ -11,7 +11,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import views.FXMLDocumentController;
 
 /**
  * 
@@ -19,7 +18,7 @@ import views.FXMLDocumentController;
  */
 public class Serializer {
     public static void save(Object o){
-        File f = new File(o.toString() + ".object");
+        File f = new File(o.getClass() + ".object");
         try (ObjectOutputStream stream = new ObjectOutputStream (new FileOutputStream (f));) {
             stream.writeObject (o);
         } catch (IOException e) {
@@ -28,7 +27,7 @@ public class Serializer {
     }
     
     public static <T> T LoadData(Class<T> className) throws InstantiationException, IllegalAccessException {
-        File f = new File(className.toString() + ".object");
+        File f = new File((T)className + ".object");
         try (ObjectInputStream stream = new ObjectInputStream (new FileInputStream (f));) {
             T object = (T) stream.readObject();
             return object;
@@ -36,7 +35,7 @@ public class Serializer {
             System.out.println ("Impossible de lire l'objet : " + e.getMessage());
             return className.newInstance();
         } catch (IOException e2) {
-            System.out.println ("Erreur lors de l'écriture : " + e2.getMessage());
+            System.out.println ("Erreur lors de la lecture de : " + f.getName());
             return className.newInstance();
         }
     }

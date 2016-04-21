@@ -109,6 +109,7 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         CurrentParticipantsView.setEditable(true);
+        CurrentParticipantsView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         
         pseudoTableColumn = new TableColumn("Pseudo");
         pseudoTableColumn.setCellValueFactory(new PropertyValueFactory<Person,String>("pseudo"));
@@ -213,7 +214,7 @@ public class FXMLDocumentController implements Initializable {
         data.add(new Person(p.getPseudo(),p.getFirstname(), p.getLastname(),0,0));
     }
     
-    public boolean isTableViewEmpty() { return CurrentParticipantsView.getSelectionModel().isEmpty(); }
+    public boolean isTableViewEmpty() { return CurrentParticipantsView.getItems().isEmpty(); }
     
     @Override
     public String toString() { return "FXMLController"; }

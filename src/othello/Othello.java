@@ -6,10 +6,7 @@
 package othello;
 
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,19 +28,20 @@ public class Othello extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/FXMLDocument.fxml"));
         Parent root = loader.load();
         FXMLDocumentController controller = loader.getController();
-        
+        if(controllerFileExists(""+controller.getClass()))
+            loader.setController(Serializer.LoadData(FXMLDocumentController.class));
+            
         Scene scene = new Scene(root);
+        
+        System.out.println(FXMLDocumentController.class);
         
         stage.setScene(scene);
         stage.getIcons().add(new Image("http://swap.sec.net/annex/icon.png"));
         
-        if(controllerFileExists(controller.toString()))
-            /*FXMLDocumentController con =*/ //Serializer.LoadData(controller);
-            
+        
         
         stage.setOnCloseRequest((WindowEvent event) -> {
-            MyDialog.warningDialog("Check", "CheckOk");
-            if(controller.isTableViewEmpty()){
+            if(!controller.isTableViewEmpty()){
                 if(MyDialog.confirmationDialog("Save", "Tournament is not finished and save in DB", "Do you want to save it in a specific file?"))
                     Serializer.save(controller);
             }

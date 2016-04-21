@@ -71,6 +71,7 @@ public class FXMLModifyMemberController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         searchTableView.setEditable(true);
+        searchTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         
         pseudoTableColumn.setCellValueFactory(new PropertyValueFactory<Person,String>("pseudo"));
         firstNameTableColumn.setCellValueFactory(new PropertyValueFactory<Person,String>("firstname"));
