@@ -24,8 +24,8 @@ public class ParticipantsManager extends DbConnect {
         try(NHDatabaseSession session = getDb()){
             String[][] result = session.createStatement("SELECT pseudo, firstname, lastname "
                     + "FROM CONTENDERS "
-                    + "WHERE pseudo LIKE @pseudo;")
-                    .bindParameter("@pseudo", pseudo)
+                    + "WHERE LOWER(pseudo) LIKE @pseudo;")
+                    .bindParameter("@pseudo", pseudo.toLowerCase())
                     .executeQuery();
             return DbEntityToObject.ParticipantParser(result);
         }catch(Exception e) {
@@ -81,7 +81,6 @@ public class ParticipantsManager extends DbConnect {
     
     public int updateParticipant(Participant p) {
         try(NHDatabaseSession session = getDb()){
-            p.cryptPassword();
             int result = session.createStatement("UPDATE CONTENDERS "
                     + "SET pseudo = @pseudo, password = @password "
                     + "WHERE firstname LIKE @firstname AND lastname LIKE @lastname")

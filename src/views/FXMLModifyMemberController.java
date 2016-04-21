@@ -72,28 +72,19 @@ public class FXMLModifyMemberController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         searchTableView.setEditable(true);
         
-        pseudoTableColumn = new TableColumn("Pseudo");
         pseudoTableColumn.setCellValueFactory(new PropertyValueFactory<Person,String>("pseudo"));
-        
-        firstNameTableColumn = new TableColumn("First Name");
         firstNameTableColumn.setCellValueFactory(new PropertyValueFactory<Person,String>("firstname"));
-        
-        lastNameTableColumn = new TableColumn("Last Name");
         lastNameTableColumn.setCellValueFactory(new PropertyValueFactory<Person,String>("lastname"));
-        
-        wonGamesTableColumn = new TableColumn("Won Games");
         wonGamesTableColumn.setCellValueFactory(new PropertyValueFactory<Person,Integer>("wonGames"));
-        
-        lostGamesTableColumn = new TableColumn("Lost Games");
         lostGamesTableColumn.setCellValueFactory(new PropertyValueFactory<Person,Integer>("lostGames"));
     
         searchTableView.setItems(data);
-        searchTableView.getColumns().addAll(pseudoTableColumn,firstNameTableColumn, lastNameTableColumn, wonGamesTableColumn, lostGamesTableColumn);
         
     }    
 
     @FXML
     private void handleSearch(ActionEvent event) {
+        data.clear();
         datas.ParticipantsManager provider = new datas.ParticipantsManager();
         for(Participant p : provider.selectAllParticipants())
             if(p.getPseudo().contains(fieldSearch.getText()))
@@ -102,15 +93,17 @@ public class FXMLModifyMemberController implements Initializable {
     }
 
     @FXML
-    private void handleConfirm(ActionEvent event) {
+    private void handleConfirm(ActionEvent event) throws Throwable {
         if(!searchTableView.getSelectionModel().isEmpty()){
             int selectedIndex = searchTableView.getSelectionModel().getSelectedIndex();
+            Person p = searchTableView.getItems().get(selectedIndex);
             tempParticipant.setPseudo(fieldPseudo.getText());
             tempParticipant.setPassword(SHA256.encode(fieldPassword.getText()));
-            tempParticipant.setFirstname(searchTableView.getItems().get(selectedIndex).getFirstname());
-            tempParticipant.setLastname(searchTableView.getItems().get(selectedIndex).getLastname());
+            tempParticipant.setFirstname(p.getFirstname());
+            tempParticipant.setLastname(p.getLastname());
             datas.ParticipantsManager provider = new datas.ParticipantsManager();
             provider.updateParticipant(tempParticipant);
+            this.finalize();
         }else
             MyDialog.warningDialog("Warning", "Please select a member from the list to update it");
     }
