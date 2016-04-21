@@ -23,8 +23,8 @@ public class ParticipantsManager extends DbConnect {
     public Participant selectParticipant(String pseudo) {
         try(NHDatabaseSession session = getDb()){
             String[][] result = session.createStatement("SELECT pseudo, firstname, lastname "
-                    + "FROM CONTENDERS"
-                    + "WHERE pseudo LIKE @pseudo")
+                    + "FROM CONTENDERS "
+                    + "WHERE pseudo LIKE @pseudo;")
                     .bindParameter("@pseudo", pseudo)
                     .executeQuery();
             return DbEntityToObject.ParticipantParser(result);
@@ -51,7 +51,7 @@ public class ParticipantsManager extends DbConnect {
     public int insertParticipant(Participant p){
         try(NHDatabaseSession session = getDb()){
  
-            int result = session.createStatement("INSERT INTO CONTENDERS (pseudo,firstname,lastname,wonGames,lostGames,_password)" 
+            int result = session.createStatement("INSERT INTO CONTENDERS (pseudo,firstname,lastname,wonGames,lostGames,_password) " 
                     +"VALUES (@pseudo,@firstname,@lastname,0,0,@password);")
                     .bindParameter("@pseudo",p.getPseudo())
                     .bindParameter("@password",p.getPassword())

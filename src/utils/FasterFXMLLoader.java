@@ -27,7 +27,9 @@ public class FasterFXMLLoader {
     public static void load(String fxmlName, Object classController) {
         try{
             Parent root = FXMLLoader.load(classController.getClass().getResource(fxmlName));
+            
             Scene scene = new Scene(root);
+            
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.centerOnScreen();

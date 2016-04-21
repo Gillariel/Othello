@@ -5,13 +5,19 @@
  */
 package views;
 
+import datas.ParticipantsManager;
+import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -21,6 +27,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import models.Participant;
 import utils.AppInfo;
 import utils.FasterFXMLLoader;
 import utils.MyDialog;
@@ -128,7 +136,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     // Méthode faisant le lien entre le click sur le menu et le lancement de la fenetre
     private void handleDeleteMember(ActionEvent event) {
-        
     }
     @FXML
     private void handleModifyMember(ActionEvent event) { FasterFXMLLoader.load("/views/FXMLModifyMember.fxml", this, "Modify Member"); }
@@ -169,7 +176,22 @@ public class FXMLDocumentController implements Initializable {
     private void handleAbout(ActionEvent event) { AppInfo.showLicence(); }
     
     @FXML
-    private void handleBtnAddParticipant(ActionEvent event) { FasterFXMLLoader.load("/views/FXMLAddParticipant.fxml", this, "Add Participant"); }
+    // Impossible de passer par FasterFXMLLoader car besoin d'une référence vers le controller principale (celui-ci)
+    private void handleBtnAddParticipant(ActionEvent event) { 
+        try{
+            FXMLLoader loaderFXML = new FXMLLoader(getClass().getResource("/views/FXMLAddParticipant.fxml"));
+            Parent root = (Parent)loaderFXML.load();
+            FXMLAddParticipantController controller = loaderFXML.getController();
+            controller.setMainController(this);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.setResizable(false);
+            stage.show();
+        }catch(IOException e) { MyDialog.warningDialog("Erreur", "Erreur lors du chargement de fenêtre."); }
+    }
+    
     @FXML
     private void handleBtnDeleteParticipant(ActionEvent event) {
         if(!CurrentParticipantsView.getSelectionModel().isEmpty())
@@ -183,4 +205,16 @@ public class FXMLDocumentController implements Initializable {
         if(MyDialog.confirmationDialog("All Delete", "Delete Participants not impact the Database","Are you sure you want to delete all the participants in the list?"))
             CurrentParticipantsView.getItems().clear();
     }
+    
+    
+    public void addDataToTableView(String pseudo){
+        datas.ParticipantsManager provider = new ParticipantsManager();
+        Participant p = provider.selectParticipant(pseudo);
+        data.add(new Person(p.getPseudo(),p.getFirstname(), p.getLastname(),0,0));
+    }
+    
+    public boolean isTableViewEmpty() { return CurrentParticipantsView.getSelectionModel().isEmpty(); }
+    
+    @Override
+    public String toString() { return "FXMLController"; }
 }
