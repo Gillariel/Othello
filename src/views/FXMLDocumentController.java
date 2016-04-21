@@ -80,6 +80,7 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<Person,Integer> wonGamesTableColumn;
     @FXML
     private TableColumn<Person,Integer> lostGamesTableColumn;
+    
     private final ObservableList<Person> data = FXCollections.observableArrayList();
     
     //Buttons
@@ -172,7 +173,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleBtnDeleteParticipant(ActionEvent event) {
         if(!CurrentParticipantsView.getSelectionModel().isEmpty())
-            CurrentParticipantsView.getItems().remove(CurrentParticipantsView.getSelectionModel().getSelectedIndex());
+            if(MyDialog.confirmationDialog("All Delete", "Delete Participants not impact the Database","Are you sure you want to delete all the participants in the list?"))
+                CurrentParticipantsView.getItems().remove(CurrentParticipantsView.getSelectionModel().getSelectedIndex());
         else
             MyDialog.warningDialog("Warning", "no participants has been selected.\nPlease choose one before deleting.");
     }

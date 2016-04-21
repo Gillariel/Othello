@@ -49,4 +49,10 @@ public class Participant {
     public void setFirstname(String firstname) { this.firstname = firstname; }
     public void setLastname(String lastname) { this.lastname = lastname; }
     
+    public void setAll(String pseudo, String password, String firstname, String lastname){
+        this.pseudo = pseudo;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
 }
