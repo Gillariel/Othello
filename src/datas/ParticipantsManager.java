@@ -82,7 +82,7 @@ public class ParticipantsManager extends DbConnect {
     public int updateParticipant(Participant p) {
         try(NHDatabaseSession session = getDb()){
             int result = session.createStatement("UPDATE CONTENDERS "
-                    + "SET pseudo = @pseudo, password = @password "
+                    + "SET pseudo = @pseudo, _password = @password "
                     + "WHERE firstname LIKE @firstname AND lastname LIKE @lastname")
                     .bindParameter("@pseudo", p.getPseudo())
                     .bindParameter("@password", p.getPassword())
