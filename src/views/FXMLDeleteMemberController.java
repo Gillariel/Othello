@@ -78,9 +78,12 @@ public class FXMLDeleteMemberController implements Initializable {
             int index = memberTableView.getSelectionModel().getSelectedIndex();
            if(provider.deleteParticipant((memberTableView.getItems().get(index)).getPseudo())>0)
             MyDialog.dialogWithoutHeader("Delete", "The member has been successful deleted ");
+            memberTableView.getItems().remove(memberTableView.getSelectionModel().getSelectedIndex());
+           
         }else{
             MyDialog.dialogWithoutHeader("Warning", "Please select a member from the list below");
         }
+         
     }
 
     @FXML
