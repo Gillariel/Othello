@@ -136,8 +136,7 @@ public class FXMLDocumentController implements Initializable {
     private void handleNewMember(ActionEvent event) { FasterFXMLLoader.load("/views/FXMLInscription.fxml", this); }
     @FXML
     // Méthode faisant le lien entre le click sur le menu et le lancement de la fenetre
-    private void handleDeleteMember(ActionEvent event) {
-    }
+    private void handleDeleteMember(ActionEvent event) { FasterFXMLLoader.load("/views/FXMLDeleteMember.fxml", this,"Delete Member");  }
     @FXML
     private void handleModifyMember(ActionEvent event) { FasterFXMLLoader.load("/views/FXMLModifyMember.fxml", this, "Modify Member"); }
     
