@@ -76,7 +76,8 @@ public class FXMLDeleteMemberController implements Initializable {
         if(!memberTableView.getSelectionModel().isEmpty()) {
             datas.ParticipantsManager provider = new ParticipantsManager();
             int index = memberTableView.getSelectionModel().getSelectedIndex();
-            provider.deleteParticipant((memberTableView.getItems().get(index)).getPseudo());
+           if(provider.deleteParticipant((memberTableView.getItems().get(index)).getPseudo())>0)
+            MyDialog.dialogWithoutHeader("Delete", "The member has been successful deleted ");
         }else{
             MyDialog.dialogWithoutHeader("Warning", "Please select a member from the list below");
         }
