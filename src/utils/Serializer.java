@@ -18,7 +18,7 @@ import java.io.ObjectOutputStream;
  */
 public class Serializer {
     public static void save(Object o){
-        File f = new File(o.getClass() + ".object");
+        File f = new File((o.getClass().toString().replace(" ", "_")).replace(".", "_") + ".object");
         try (ObjectOutputStream stream = new ObjectOutputStream (new FileOutputStream (f));) {
             stream.writeObject (o);
         } catch (IOException e) {
@@ -27,7 +27,7 @@ public class Serializer {
     }
     
     public static <T> T LoadData(Class<T> className) throws InstantiationException, IllegalAccessException {
-        File f = new File((T)className + ".object");
+        File f = new File((((T)className).toString().replace(" ", "_")).replace(".", "_") + ".object");
         try (ObjectInputStream stream = new ObjectInputStream (new FileInputStream (f));) {
             T object = (T) stream.readObject();
             return object;

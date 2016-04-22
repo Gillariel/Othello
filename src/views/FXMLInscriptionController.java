@@ -68,7 +68,7 @@ public class FXMLInscriptionController implements Initializable {
             }else if(newValue.matches("(?=.{6,}).*")) {
                 passwordComplexityLabel.setText("Weak :/"); passwordComplexityLabel.setTextFill(Color.web("#ff0000"));
             }else{
-                passwordComplexityLabel.setText("Too small"); passwordComplexityLabel.setTextFill(Color.web("#ff0000"));
+                passwordComplexityLabel.setText("Too Small"); passwordComplexityLabel.setTextFill(Color.web("#ff0000"));
             }
         });
         

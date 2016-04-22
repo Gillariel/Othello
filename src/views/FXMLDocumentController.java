@@ -216,6 +216,8 @@ public class FXMLDocumentController implements Initializable {
     
     public boolean isTableViewEmpty() { return CurrentParticipantsView.getItems().isEmpty(); }
     
+    public TableView getTableView() { return CurrentParticipantsView; }
+    
     @Override
     public String toString() { return "FXMLController"; }
 }
