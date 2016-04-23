@@ -64,6 +64,7 @@ public class FXMLModifyMemberController implements Initializable {
     private TableColumn<Person, Integer> lostGamesTableColumn;
     
     private final ObservableList<Person> data = FXCollections.observableArrayList();
+ 
 
     /**
      * Initializes the controller class.
@@ -104,7 +105,11 @@ public class FXMLModifyMemberController implements Initializable {
             tempParticipant.setLastname(p.getLastname());
             datas.ParticipantsManager provider = new datas.ParticipantsManager();
             provider.updateParticipant(tempParticipant);
+            if(!fieldPseudo.getText().isEmpty() || !fieldPassword.getText().isEmpty()){
+                MyDialog.dialogWithoutHeader("Update", "The member has been successful updated ");
+            }
             this.finalize();
+            
         }else
             MyDialog.warningDialog("Warning", "Please select a member from the list to update it");
     }
@@ -114,5 +119,10 @@ public class FXMLModifyMemberController implements Initializable {
         fieldPseudo.setText("");
         fieldPassword.setText("");
     }
+
+
+
+    
+    
     
 }

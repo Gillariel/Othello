@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="views.FXMLModifyMemberController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.FXMLModifyMemberController">
     <children>
       <MenuBar>
         <menus>
@@ -28,21 +28,21 @@
         </menus>
       </MenuBar>
       <Label fx:id="labelSearch" layoutX="36.0" layoutY="50.0" text="Pseudo à rechercher :" />
-      <Label fx:id="labelPseudo" layoutX="35.0" layoutY="237.0" text="New Pseudo :" />
-      <Label fx:id="labelPassword" layoutX="34.0" layoutY="286.0" text="New Password :" />
+      <Label fx:id="labelPseudo" layoutX="37.0" layoutY="229.0" text="New Pseudo :" />
+      <Label fx:id="labelPassword" layoutX="37.0" layoutY="265.0" text="New Password :" />
       <TextField fx:id="fieldSearch" layoutX="157.0" layoutY="47.0" />
-      <TextField fx:id="fieldPseudo" layoutX="157.0" layoutY="233.0" />
-      <TextField fx:id="fieldPassword" layoutX="157.0" layoutY="282.0" />
+      <TextField fx:id="fieldPseudo" layoutX="140.0" layoutY="225.0" />
+      <TextField fx:id="fieldPassword" layoutX="140.0" layoutY="261.0" />
       <Button fx:id="btn_search" layoutX="360.0" layoutY="50.0" mnemonicParsing="false" onAction="#handleSearch" prefHeight="25.0" prefWidth="78.0" text="Search" />
       <Button fx:id="btn_confirm" layoutX="34.0" layoutY="326.0" mnemonicParsing="false" onAction="#handleConfirm" prefHeight="25.0" prefWidth="78.0" text="Modify" />
       <Button fx:id="btn_reset_form" layoutX="167.0" layoutY="326.0" mnemonicParsing="false" onAction="#handleReset" prefHeight="25.0" prefWidth="78.0" text="Reset" />
-      <TableView fx:id="searchTableView" layoutX="35.0" layoutY="87.0" prefHeight="123.0" prefWidth="401.0">
+      <TableView fx:id="searchTableView" layoutX="35.0" layoutY="87.0" prefHeight="123.0" prefWidth="396.0">
         <columns>
           <TableColumn fx:id="pseudoTableColumn" prefWidth="81.0" text="Pseudo" />
           <TableColumn fx:id="firstNameTableColumn" prefWidth="75.0" text="First Name" />
             <TableColumn fx:id="lastNameTableColumn" prefWidth="72.0" text="Last Name" />
             <TableColumn fx:id="wonGamesTableColumn" prefWidth="81.0" text="Won Games" />
-            <TableColumn fx:id="lostGamesTableColumn" prefWidth="91.0" text="Lost Games" />
+            <TableColumn fx:id="lostGamesTableColumn" prefWidth="85.0" text="Lost Games" />
         </columns>
       </TableView>
    </children>

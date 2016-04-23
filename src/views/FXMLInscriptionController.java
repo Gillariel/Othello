@@ -87,14 +87,14 @@ public class FXMLInscriptionController implements Initializable {
         //Better to use BuilderFactory to not import the package
         Participant p = new Participant(fieldPseudo.getText(), SHA256.encode(fieldPassword.getText()), fieldFirstname.getText(), fieldLastname.getText());
         if(provider.insertParticipant(p) > 0) {
-            MyDialog.dialogWithoutHeader("Ajout", "Le membre a bien été ajouté");
+            MyDialog.dialogWithoutHeader("Add", "The member has been successful added");
             try{
                 //finalize() est une méthode détruisant completement l'objet et libérant ses ressources (a utiliser prudemment!)
                 finalize();
             }catch (Throwable ex) { Logger.getLogger(FXMLInscriptionController.class.getName()).log(Level.SEVERE, null, ex); }
         }
         else { 
-            MyDialog.warningDialog("Ajout Nok", "Erreur lors de l'insertion du mnouveau membre!");
+            MyDialog.warningDialog("Add Nok", "Erreur lors de l'insertion du nouveau membre!");
             btn_reset_form.fire();
         }
     }
