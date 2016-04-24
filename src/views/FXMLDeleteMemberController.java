@@ -7,6 +7,7 @@ package views;
 
 import datas.ParticipantsManager;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -76,10 +77,12 @@ public class FXMLDeleteMemberController implements Initializable {
         if(!memberTableView.getSelectionModel().isEmpty()) {
             datas.ParticipantsManager provider = new ParticipantsManager();
             int index = memberTableView.getSelectionModel().getSelectedIndex();
-           if(provider.deleteParticipant((memberTableView.getItems().get(index)).getPseudo())>0)
-            MyDialog.dialogWithoutHeader("Delete", "The member has been successful deleted ");
+           if(provider.deleteParticipant((memberTableView.getItems().get(index)).getPseudo()) > 0) {
+            MyDialog.dialogWithoutHeader("Delete", "The member has been successfully deleted ");
             memberTableView.getItems().remove(memberTableView.getSelectionModel().getSelectedIndex());
-           
+           }else{
+               MyDialog.warningDialog("Warning", "Error in Database modification, please check you connection and try again.");
+           }
         }else{
             MyDialog.dialogWithoutHeader("Warning", "Please select a member from the list below");
         }
@@ -90,9 +93,14 @@ public class FXMLDeleteMemberController implements Initializable {
     private void handle_btn_search(ActionEvent event) {
         data.clear();
         datas.ParticipantsManager provider = new ParticipantsManager();
-        for(Participant p : provider.selectAllParticipants())
-            if(p.getPseudo().contains(fieldPseudo.getText()))
-                data.add(new Person(p.getPseudo(), p.getFirstname(), p.getLastname(), 0, 0));
+        List<Participant> result = provider.selectAllParticipants();
+        if(result.isEmpty()) 
+            MyDialog.dialogWithoutHeader("Info", "Database is empty right now.");
+        else{
+            for(Participant p : result)
+                if(p.getPseudo().contains(fieldPseudo.getText()))
+                    data.add(new Person(p.getPseudo(), p.getFirstname(), p.getLastname(), 0, 0));
+        }
         fieldPseudo.setText("");
     }
     

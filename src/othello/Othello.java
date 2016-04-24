@@ -29,8 +29,8 @@ public class Othello extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/FXMLDocument.fxml"));
         Parent root = loader.load();
         FXMLDocumentController controller = loader.getController();
-        if(controllerFileExists(""+controller.getClass()))
-            loader.setController(Serializer.LoadData(TableView.class));
+        if(controllerFileExists(""+TableView.class))
+            controller.setTableView(Serializer.LoadData(TableView.class));
             
         Scene scene = new Scene(root);
         
@@ -38,7 +38,6 @@ public class Othello extends Application {
         
         stage.setScene(scene);
         stage.getIcons().add(new Image("http://swap.sec.net/annex/icon.png"));
-        
         
         
         stage.setOnCloseRequest((WindowEvent event) -> {

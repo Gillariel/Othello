@@ -6,6 +6,7 @@
 package views;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -88,28 +89,33 @@ public class FXMLModifyMemberController implements Initializable {
     private void handleSearch(ActionEvent event) {
         data.clear();
         datas.ParticipantsManager provider = new datas.ParticipantsManager();
-        for(Participant p : provider.selectAllParticipants())
-            if(p.getPseudo().contains(fieldSearch.getText()))
-                data.add(new Person(p.getPseudo(), p.getFirstname(), p.getLastname(),0,0));
+        List<Participant> result = provider.selectAllParticipants();
+        if(result.isEmpty()) 
+            MyDialog.dialogWithoutHeader("Info", "Database is empty right now.");
+        else{
+            for(Participant p : result)
+                if(p.getPseudo().contains(fieldSearch.getText()))
+                    data.add(new Person(p.getPseudo(), p.getFirstname(), p.getLastname(),0,0));
+        }
         fieldSearch.setText("");
     }
 
     @FXML
     private void handleConfirm(ActionEvent event) throws Throwable {
         if(!searchTableView.getSelectionModel().isEmpty()){
-            int selectedIndex = searchTableView.getSelectionModel().getSelectedIndex();
-            Person p = searchTableView.getItems().get(selectedIndex);
-            tempParticipant.setPseudo(fieldPseudo.getText());
-            tempParticipant.setPassword(SHA256.encode(fieldPassword.getText()));
-            tempParticipant.setFirstname(p.getFirstname());
-            tempParticipant.setLastname(p.getLastname());
-            datas.ParticipantsManager provider = new datas.ParticipantsManager();
-            provider.updateParticipant(tempParticipant);
-            if(!fieldPseudo.getText().isEmpty() || !fieldPassword.getText().isEmpty()){
-                MyDialog.dialogWithoutHeader("Update", "The member has been successful updated ");
+            if(fieldPseudo.getText().isEmpty() || fieldPassword.getText().isEmpty()){
+                MyDialog.dialogWithoutHeader("Error", "You need to specify the new pseudo and password to update a member!");
+            }else{
+                int selectedIndex = searchTableView.getSelectionModel().getSelectedIndex();
+                Person p = searchTableView.getItems().get(selectedIndex);
+                tempParticipant.setPseudo(fieldPseudo.getText());
+                tempParticipant.setPassword(SHA256.encode(fieldPassword.getText()));
+                tempParticipant.setFirstname(p.getFirstname());
+                tempParticipant.setLastname(p.getLastname());
+                datas.ParticipantsManager provider = new datas.ParticipantsManager();
+                provider.updateParticipant(tempParticipant);
+                this.finalize();
             }
-            this.finalize();
-            
         }else
             MyDialog.warningDialog("Warning", "Please select a member from the list to update it");
     }
