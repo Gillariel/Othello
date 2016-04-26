@@ -16,7 +16,7 @@ import models.Participant;
  */
 public class ParticipantsManager extends DbConnect {
 
-    public ParticipantsManager() { super();}
+    public ParticipantsManager() { super(); }
     
     
    // try(blabla) = bloc de ressource -> appel automatique de close() à la fin
