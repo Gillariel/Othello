@@ -133,7 +133,7 @@ public class FXMLDocumentController implements Initializable {
 
     //Check La Classe utils.FasterFXMLLoader si tu as un doute, c'est juste une manière de ne pas réécrire 100x le meme code :p
     @FXML
-    private void handleNewMember(ActionEvent event) { FasterFXMLLoader.load("/views/FXMLInscription.fxml", this); }
+    private void handleNewMember(ActionEvent event) { FasterFXMLLoader.load("/views/FXMLInscription.fxml", this, "New Member"); }
     @FXML
     // Méthode faisant le lien entre le click sur le menu et le lancement de la fenetre
     private void handleDeleteMember(ActionEvent event) { FasterFXMLLoader.load("/views/FXMLDeleteMember.fxml", this,"Delete Member");  }
