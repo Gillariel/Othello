@@ -11,11 +11,7 @@ import java.util.Comparator;
  *
  * @author User
  */
-public class GameComparator implements Comparator, Comparable<Game>{
-    @Override
-    public int compareTo(Game o) {
-        return 0;
-    }
+public class GameComparator implements Comparator{
 
     @Override
     public int compare(Object o1, Object o2) {
