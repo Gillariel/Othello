@@ -29,7 +29,7 @@ public class ContendersManager extends DbConnect{
             
             return list;
         }catch(Exception e) {
-            return null;
+            return null; 
         }
     }
     
