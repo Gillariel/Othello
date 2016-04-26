@@ -5,16 +5,76 @@
  */
 package models;
 
+import datas.ParticipantsManager;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Set;
 import java.util.TreeSet;
-
+/* A checker pour le déroulement complet (ensemble des games)
+* nombre de niveau = log²(nb_element) + 1
+*import java.util.PriorityQueue
+*/
 /**
  *
  * @author User
  */
 public class Tournament {
-    private long id;
-    private int nb_participants;
+    private final long ID;
+    private final int NB_PARTICIPANTS;
     private long[] participants_id;
-    private TreeSet leaf;
+    private PriorityQueue<Game> queue;
+
+    public Tournament(int NB_PARTICIPANTS, long[] participants_id) {
+        this.ID = System.currentTimeMillis();
+        this.NB_PARTICIPANTS = NB_PARTICIPANTS;
+        this.participants_id = participants_id;
+        this.queue = new PriorityQueue(new GameComparator());
+    }
+
+    /**
+     * 1) préparation collections
+     * 2) Parcours du 1er niveau 
+     * 3) ajouter 2 participants danas un Objet Game -> itération suivante
+     * 4) Jouez chaque partie du 1er
+     * 5) Parcourir le 1er niveau 2 par 2
+     * 6) Pour chaque Pair<Game, Game>, on initialise internal
+     * 7) Sur base du gagnant de chaque enfant, on crée la Game correspondante
+     * 8) on itère pour chaque Pair :
+     *      SI une Game est seule (pas de Game à associer), on initialise une Game dont le vainqueur est automatiquement le gagnant de la précédente
+     * 9) Jusqu'a ce qu'une seule Pair soit présente
+     * 10) Le gagnant de cette Game gagne le tournoi.
+     */
+    /**
+    * Modifier Schéma BD :  Contenders devient Member
+    * une table Contenders sera crée, comprenant seulement les membres participants au tournoi en cours
+    */
+    public Map<String,List<Game>> initData() {
+        List<Game> leafs = new ArrayList<>();
+        List<Game> internals = new ArrayList<>();
+        
+        Map<String,List<Game>> result = new HashMap<String, List<Game>>();
+        Collections.shuffle(leafs); Collections.shuffle(internals);
+        
+        result.put("leafs",leafs); result.put("internals",internals);
+        return result;
+    }
     
+    public void bindDataToQueue() {
+        Map<String, List<Game>> data = initData();
+        for(Game leaf : data.get("leafs"))
+            queue.add(leaf);
+        for(Game internal : data.get("internals"))
+            queue.add(internal);
+        
+    }
+    
+    public long[] getParticipants_id() { return participants_id; }
+    public void setParticipants_id(long[] participants_id) { this.participants_id = participants_id; }
+    public PriorityQueue<Game> getQueue() { return queue; }
+    public void setQueue(PriorityQueue queue) { this.queue = queue; }
 }
