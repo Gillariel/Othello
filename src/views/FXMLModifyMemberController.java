@@ -114,7 +114,9 @@ public class FXMLModifyMemberController implements Initializable {
                 tempParticipant.setLastname(p.getLastname());
                 datas.ParticipantsManager provider = new datas.ParticipantsManager();
                 provider.updateParticipant(tempParticipant);
-                this.finalize();
+                data.remove(selectedIndex);
+                data.add(new Person(tempParticipant.getPseudo(), tempParticipant.getFirstname(), tempParticipant.getLastname(), 0, 0));
+                MyDialog.dialogWithoutHeader("Result", "Update completely done!");
             }
         }else
             MyDialog.warningDialog("Warning", "Please select a member from the list to update it");

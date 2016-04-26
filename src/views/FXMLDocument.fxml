@@ -14,7 +14,7 @@
           <Menu fx:id="participantMenu" mnemonicParsing="false" text="Participant">
             <items>
               <MenuItem fx:id="newMemberMenuItem" mnemonicParsing="false" onAction="#handleNewMember" text="New Member" />
-                  <MenuItem fx:id="modifiyMemberMenuItem" mnemonicParsing="false" onAction="#handleModifyMember" text="Modifiy Member" />
+                  <MenuItem fx:id="modifiyMemberMenuItem" mnemonicParsing="false" onAction="#handleModifyMember" text="Modify Member" />
                   <MenuItem fx:id="deleteMemberMenuItem" mnemonicParsing="false" onAction="#handleDeleteMember" text="Delete Member" />
             </items>
           </Menu>
