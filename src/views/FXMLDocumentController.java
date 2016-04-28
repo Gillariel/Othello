@@ -5,14 +5,15 @@
  */
 package views;
 
+import datas.ContendersManager;
 import datas.ParticipantsManager;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,6 +29,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import models.Contender;
 import models.Participant;
 import utils.AppInfo;
 import utils.FasterFXMLLoader;
@@ -39,11 +41,11 @@ import views.models.Person;
  * @author User
  */
 public class FXMLDocumentController implements Initializable {
-    
+
     //Menu
     @FXML
     private MenuBar menuBar;
-    
+
     @FXML
     private Menu participantMenu;
     @FXML
@@ -52,7 +54,7 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem deleteMemberMenuItem;
     @FXML
     private MenuItem modifiyMemberMenuItem;
-    
+
     @FXML
     private Menu tournamentMenu;
     @FXML
@@ -63,10 +65,10 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem switchTournamentMenuItem;
     @FXML
     private MenuItem generateTournamentMenuItem;
-    
+
     @FXML
     private MenuItem launchGameMenuItem;
-    
+
     @FXML
     private Menu helpMenu;
     @FXML
@@ -74,23 +76,23 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private MenuItem aboutMenuItem;
     //End Menu
-    
+
     //TableView
     @FXML
     private TableView<Person> CurrentParticipantsView;
     @FXML
-    private TableColumn<Person,String> pseudoTableColumn;
+    private TableColumn<Person, String> pseudoTableColumn;
     @FXML
-    private TableColumn<Person,String> firstnameTableColumn;
+    private TableColumn<Person, String> firstnameTableColumn;
     @FXML
-    private TableColumn<Person,String> lastnameTableColumn;
+    private TableColumn<Person, String> lastnameTableColumn;
     @FXML
-    private TableColumn<Person,Integer> wonGamesTableColumn;
+    private TableColumn<Person, Integer> wonGamesTableColumn;
     @FXML
-    private TableColumn<Person,Integer> lostGamesTableColumn;
-    
+    private TableColumn<Person, Integer> lostGamesTableColumn;
+
     private final ObservableList<Person> data = FXCollections.observableArrayList();
-    
+
     //Buttons
     @FXML
     private Button btn_add_participant;
@@ -98,65 +100,92 @@ public class FXMLDocumentController implements Initializable {
     private Button btn_delete_one;
     @FXML
     private Button btn_delete_all;
-    
+
     @FXML
     private ImageView imgOthelloGame;
-    
+
     @FXML
     private Pane mainMenuPane;
-     
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         CurrentParticipantsView.setEditable(true);
         CurrentParticipantsView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
+
         pseudoTableColumn = new TableColumn("Pseudo");
-        pseudoTableColumn.setCellValueFactory(new PropertyValueFactory<Person,String>("pseudo"));
-        
+        pseudoTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("pseudo"));
+
         firstnameTableColumn = new TableColumn("First Name");
-        firstnameTableColumn.setCellValueFactory(new PropertyValueFactory<Person,String>("firstname"));
-        
+        firstnameTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("firstname"));
+
         lastnameTableColumn = new TableColumn("Last Name");
-        lastnameTableColumn.setCellValueFactory(new PropertyValueFactory<Person,String>("lastname"));
-        
+        lastnameTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("lastname"));
+
         wonGamesTableColumn = new TableColumn("Won Games");
-        wonGamesTableColumn.setCellValueFactory(new PropertyValueFactory<Person,Integer>("wonGames"));
-        
+        wonGamesTableColumn.setCellValueFactory(new PropertyValueFactory<Person, Integer>("wonGames"));
+
         lostGamesTableColumn = new TableColumn("Lost Games");
-        lostGamesTableColumn.setCellValueFactory(new PropertyValueFactory<Person,Integer>("lostGames"));
-    
+        lostGamesTableColumn.setCellValueFactory(new PropertyValueFactory<Person, Integer>("lostGames"));
+
         CurrentParticipantsView.setItems(data);
-        CurrentParticipantsView.getColumns().addAll(pseudoTableColumn,firstnameTableColumn, lastnameTableColumn, wonGamesTableColumn, lostGamesTableColumn);
-        
-    }    
+        CurrentParticipantsView.getColumns().addAll(pseudoTableColumn, firstnameTableColumn, lastnameTableColumn, wonGamesTableColumn, lostGamesTableColumn);
+
+    }
 
     //Check La Classe utils.FasterFXMLLoader si tu as un doute, c'est juste une manière de ne pas réécrire 100x le meme code :p
     @FXML
-    private void handleNewMember(ActionEvent event) { FasterFXMLLoader.load("/views/FXMLInscription.fxml", this, "New Member"); }
+    private void handleNewMember(ActionEvent event) {
+        FasterFXMLLoader.load("/views/FXMLInscription.fxml", this, "New Member");
+    }
+
     @FXML
     // Méthode faisant le lien entre le click sur le menu et le lancement de la fenetre
-    private void handleDeleteMember(ActionEvent event) { FasterFXMLLoader.load("/views/FXMLDeleteMember.fxml", this,"Delete Member");  }
+    private void handleDeleteMember(ActionEvent event) {
+        FasterFXMLLoader.load("/views/FXMLDeleteMember.fxml", this, "Delete Member");
+    }
+
     @FXML
-    private void handleModifyMember(ActionEvent event) { FasterFXMLLoader.load("/views/FXMLModifyMember.fxml", this, "Modify Member"); }
-    
+    private void handleModifyMember(ActionEvent event) {
+        FasterFXMLLoader.load("/views/FXMLModifyMember.fxml", this, "Modify Member");
+    }
+
     @FXML
     private void handleCurrentTournament(ActionEvent event) {
-    
+
     }
+
     @FXML
     private void handleCloseTournament(ActionEvent event) {
-    
+
+        /*datas.ContendersManager provider = new ContendersManager();
+       
+        if (provider.countContender() < 2) {
+            
+            MyDialog.warningDialog("Error", "You must add an other member to close the inscription");
+        }
+        if (provider.countContender() > 16) {
+           MyDialog.warningDialog("Error", "You can add 16 participants");
+        }*/
+        btn_add_participant.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                MyDialog.warningDialog("Error", "Inscriptions are closed. You can't add a participant");
+                btn_add_participant.disarm();
+            }
+        });
+
     }
+
     @FXML
     private void handleSwitchTournament(ActionEvent event) {
-    
+
     }
+
     @FXML
     private void handleGenerateTournament(ActionEvent event) {
-    
+
     }
-    
+
     //Never using it while the second app is not created and bit completed yet!
     @FXML
     private void handleLaunchGame(ActionEvent event) {
@@ -165,22 +194,27 @@ public class FXMLDocumentController implements Initializable {
             Runtime r = Runtime.getRuntime();
             Process p = r.exec(cmd);
             p.waitFor();//si l'application doit attendre a ce que ce process fini
-        }catch(Exception e) {
+        } catch (Exception e) {
             MyDialog.warningDialog("Erreur", "Le programme 'Othello - Game' est-il bien installé? (Veuillez ne jamais le changer de place)");
-        } 
+        }
     }
 
     @FXML
-    private void handleRules(ActionEvent event) { AppInfo.showRules(); }
+    private void handleRules(ActionEvent event) {
+        AppInfo.showRules();
+    }
+
     @FXML
-    private void handleAbout(ActionEvent event) { AppInfo.showLicence(); }
-    
+    private void handleAbout(ActionEvent event) {
+        AppInfo.showLicence();
+    }
+
     @FXML
     // Impossible de passer par FasterFXMLLoader car besoin d'une référence vers le controller principale (celui-ci)
-    private void handleBtnAddParticipant(ActionEvent event) { 
-        try{
+    private void handleBtnAddParticipant(ActionEvent event) {
+        try {
             FXMLLoader loaderFXML = new FXMLLoader(getClass().getResource("/views/FXMLAddParticipant.fxml"));
-            Parent root = (Parent)loaderFXML.load();
+            Parent root = (Parent) loaderFXML.load();
             FXMLAddParticipantController controller = loaderFXML.getController();
             controller.setMainController(this);
             Scene scene = new Scene(root);
@@ -189,35 +223,65 @@ public class FXMLDocumentController implements Initializable {
             stage.centerOnScreen();
             stage.setResizable(false);
             stage.show();
-        }catch(IOException e) { MyDialog.warningDialog("Erreur", "Erreur lors du chargement de fenêtre."); }
+        } catch (IOException e) {
+            MyDialog.warningDialog("Erreur", "Erreur lors du chargement de fenêtre.");
+        }
     }
-    
+
     @FXML
     private void handleBtnDeleteParticipant(ActionEvent event) {
-        if(!CurrentParticipantsView.getSelectionModel().isEmpty())
-            if(MyDialog.confirmationDialog("All Delete", "Delete Participants not impact the Database","Are you sure you want to delete all the participants in the list?"))
-                CurrentParticipantsView.getItems().remove(CurrentParticipantsView.getSelectionModel().getSelectedIndex());
-        else
-            MyDialog.warningDialog("Warning", "no participants has been selected.\nPlease choose one before deleting.");
+
+        if (!CurrentParticipantsView.getSelectionModel().isEmpty()) {
+            if (MyDialog.confirmationDialog("Delete", "Delete Participant have an impact to the contenders", "Are you sure you want to delete all the participants in the list?")) {
+
+                ContendersManager provider = new ContendersManager();
+                int index = CurrentParticipantsView.getSelectionModel().getSelectedIndex();
+
+                if (provider.deleteContenders(CurrentParticipantsView.getItems().get(index).getPseudo()) > 0) {
+                    MyDialog.dialogWithoutHeader("Delete", "The participant has been successfully deleted ");
+                    CurrentParticipantsView.getItems().remove(CurrentParticipantsView.getSelectionModel().getSelectedIndex());
+                }
+            } else {
+                MyDialog.warningDialog("Warning", "no participants has been selected.\nPlease choose one before deleting.");
+            }
+        }
     }
+
     @FXML
     private void handleBtnDeleteAllParticipants(ActionEvent event) {
-        if(MyDialog.confirmationDialog("All Delete", "Delete Participants not impact the Database","Are you sure you want to delete all the participants in the list?"))
+        if (MyDialog.confirmationDialog("All Delete", "Delete Participants not impact the Database", "Are you sure you want to delete all the participants in the list?")) {
             CurrentParticipantsView.getItems().clear();
+        }
     }
-    
-    
-    public void addDataToTableView(String pseudo){
+
+    public void addDataToTableView(String pseudo) {
         datas.ParticipantsManager provider = new ParticipantsManager();
+        datas.ContendersManager pro = new ContendersManager();
         Participant p = provider.selectParticipant(pseudo);
-        data.add(new Person(p.getPseudo(),p.getFirstname(), p.getLastname(),0,0));
+        Contender c = new Contender(pseudo);
+        data.add(new Person(p.getPseudo(), p.getFirstname(), p.getLastname(), 0, 0));
+
+        if (pro.insertContenders(pseudo) > 0) {
+            MyDialog.dialogWithoutHeader("Add", "The member has been successful added");
+
+        }
+
     }
-    
-    public boolean isTableViewEmpty() { return CurrentParticipantsView.getItems().isEmpty(); }
-    
-    public TableView getTableView() { return CurrentParticipantsView; }
-    public void setTableView(TableView t) { CurrentParticipantsView = t; }
-    
+
+    public boolean isTableViewEmpty() {
+        return CurrentParticipantsView.getItems().isEmpty();
+    }
+
+    public TableView getTableView() {
+        return CurrentParticipantsView;
+    }
+
+    public void setTableView(TableView t) {
+        CurrentParticipantsView = t;
+    }
+
     @Override
-    public String toString() { return "FXMLController"; }
+    public String toString() {
+        return "FXMLController";
+    }
 }

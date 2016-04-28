@@ -6,47 +6,61 @@
 package datas;
 
 import helmo.nhpack.NHDatabaseSession;
-import java.util.ArrayList;
-import java.util.List;
-import models.Participant;
+import models.Contender;
 
 /**
  *
  * @author User
  */
-public class ContendersManager extends DbConnect{
-    public ContendersManager() { super(); }
-    
-    public List<Participant> selectContenders() {
-        List<Participant> list = new ArrayList<>();
-        try(NHDatabaseSession session = getDb()){
-            String[][] result = session.createStatement("SELECT pseudo, firstname, lastname "
-                    + "FROM CONTENDERS;")
+public class ContendersManager extends DbConnect {
+
+    public ContendersManager() {
+        super();
+    }
+
+    public Contender selectContenders(String pseudo) {
+        try (NHDatabaseSession session = getDb()) {
+            String[][] result = session.createStatement("SELECT pseudo"
+                    + "FROM Test where pseudo = @pseudo;")
+                    .bindParameter("@pseudo", pseudo)
                     .executeQuery();
-        
-            for(String[] oneParticipant : result)
-                list.add(DbEntityToObject.ParticipantParser(oneParticipant));
-            
-            return list;
-        }catch(Exception e) {
-            return null; 
+            return DbEntityToObject.ContederParser(result);
+        } catch (Exception e) {
+            return null;
         }
     }
-    
-    public int insertAllContenders(List<Participant> contenders) {
-        int results = 0;
-        try(NHDatabaseSession session = getDb()){
-            for(Participant p : contenders){
-                int result = session.createStatement("INSERT INTO CONTENDERS (pseudo,firstname,lastname,totalScore) " 
-                        +"VALUES (@pseudo,@firstname,@lastname,0);")
-                        .bindParameter("@pseudo",p.getPseudo())
-                        .bindParameter("@firstname",p.getFirstname())
-                        .bindParameter("@lastname",p.getLastname())
-                        .executeUpdate();
-                results += result; 
-            }
-            return results;      
-        }catch(Exception e){
+
+    public int insertContenders(String pseudo) {
+        try (NHDatabaseSession session = getDb()) {
+            int result = session.createStatement("INSERT INTO TEST (pseudo)"
+                    + "VALUES (@pseudo);")
+                    .bindParameter("@pseudo", pseudo)
+                    .executeUpdate();
+            return result;
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    public int countContender() {
+        try (NHDatabaseSession session = getDb()) {
+            int result = session.createStatement("SELECT count(*)"
+                    + "FROM test;")
+                    .executeUpdate();
+            return result;
+        } catch (Exception e) {
+            return -1;
+        }
+
+    }
+
+    public int deleteContenders(String pseudo) {
+        try (NHDatabaseSession session = getDb()) {
+            int result = session.createStatement("DELETE FROM Test WHERE pseudo LIKE @pseudo")
+                    .bindParameter("@pseudo", pseudo)
+                    .executeUpdate();
+            return result;
+        } catch (Exception e) {
             return -1;
         }
     }

@@ -50,7 +50,7 @@ public class ParticipantsManager extends DbConnect {
     
     public int insertParticipant(Participant p){
         try(NHDatabaseSession session = getDb()){
- 
+            
             int result = session.createStatement("INSERT INTO CONTENDERS (pseudo,firstname,lastname,wonGames,lostGames,_password) " 
                     +"VALUES (@pseudo,@firstname,@lastname,0,0,@password);")
                     .bindParameter("@pseudo",p.getPseudo())
@@ -62,6 +62,7 @@ public class ParticipantsManager extends DbConnect {
                     * tables
                      * */
                     .executeUpdate();
+            
             return result;      
         }catch(Exception e){
             return -1;

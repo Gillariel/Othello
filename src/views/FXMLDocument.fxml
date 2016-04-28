@@ -11,7 +11,7 @@
     <children>
       <MenuBar fx:id="menuBar" layoutY="2.0" prefHeight="25.0" prefWidth="331.0">
         <menus>
-          <Menu fx:id="participantMenu" mnemonicParsing="false" text="Participant">
+          <Menu fx:id="participantMenu" mnemonicParsing="false" text="Members">
             <items>
               <MenuItem fx:id="newMemberMenuItem" mnemonicParsing="false" onAction="#handleNewMember" text="New Member" />
                   <MenuItem fx:id="modifiyMemberMenuItem" mnemonicParsing="false" onAction="#handleModifyMember" text="Modify Member" />

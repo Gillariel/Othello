@@ -94,7 +94,7 @@ public class FXMLInscriptionController implements Initializable {
             }catch (Throwable ex) { Logger.getLogger(FXMLInscriptionController.class.getName()).log(Level.SEVERE, null, ex); }
         }
         else { 
-            MyDialog.warningDialog("Add Nok", "Erreur lors de l'insertion du nouveau membre!");
+            MyDialog.warningDialog("Add Nok", "Erreur lors de l'insertion du nouveau membre!Vérifiez que le pseudo ne soit pas déjà utilisé");
             btn_reset_form.fire();
         }
     }

@@ -5,7 +5,6 @@
  */
 package views;
 
-
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -18,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
+import models.Contender;
 import models.Participant;
 import utils.MyDialog;
 
@@ -29,7 +29,7 @@ import utils.MyDialog;
 public class FXMLAddParticipantController implements Initializable {
 
     private FXMLDocumentController mainController;
-    
+
     @FXML
     private MenuBar mainMenuMenuBar;
     @FXML
@@ -46,23 +46,31 @@ public class FXMLAddParticipantController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         datas.ParticipantsManager provider = new datas.ParticipantsManager();
         ObservableList<String> pseudoList = FXCollections.observableArrayList();
-        for(Participant p : provider.selectAllParticipants())
+
+        for (Participant p : provider.selectAllParticipants()) {
             pseudoList.add(p.getPseudo());
-            
+           
+        }
+
         partcipantComboBox.getItems().addAll(pseudoList);
-        
+
         btn_confirm.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(!partcipantComboBox.getSelectionModel().isEmpty())
+                
+                if (!partcipantComboBox.getSelectionModel().isEmpty()) {
+                    
                     mainController.addDataToTableView(partcipantComboBox.getItems().get(partcipantComboBox.getSelectionModel().getSelectedIndex()));
-                else
+                    partcipantComboBox.getItems().remove(partcipantComboBox.getSelectionModel().getSelectedIndex());
+                     
+                } else {
                     MyDialog.warningDialog("Erreur", "Please select participant to add in the list below or cancel.");
+                }
             }
         });
     }
-    
-    public void setMainController(FXMLDocumentController c){
+
+    public void setMainController(FXMLDocumentController c) {
         this.mainController = c;
     }
 }

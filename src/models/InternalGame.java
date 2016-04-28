@@ -11,4 +11,8 @@ package models;
  */
 public class InternalGame extends Game{
     
+    public InternalGame(String id1, String id2, int priority) {
+        super(id1, id2, priority);
+    }
+    
 }
