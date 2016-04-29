@@ -75,10 +75,11 @@ public class Tournament {
         Map<String, List<Member>> data = initData();
         //boucle for simple car itérer sur i+2 et pas i+1 -> On prend 2 participants d'un coup
         //Checker si tout seul, Game ou il gagne d'office
-        for(Game leaf : data.get("leafs"))
+        /*for(Game leaf : data.get("leafs"))
             queue.add(leaf);
         for(Game internal : data.get("internals"))
             queue.add(internal);
+        */
     }
     
     public long[] getParticipants_id() { return participants_id; }

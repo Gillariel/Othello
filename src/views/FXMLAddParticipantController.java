@@ -45,14 +45,6 @@ public class FXMLAddParticipantController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        datas.ParticipantsManager provider = new datas.ParticipantsManager();
-        ObservableList<String> pseudoList = FXCollections.observableArrayList();
-
-        for(Member p : provider.selectAllParticipants()) { pseudoList.add(p.getPseudo()); }
-        for(Person p : mainController.getData()) { pseudoList.remove(p.getPseudo()); };
-
-        partcipantComboBox.getItems().addAll(pseudoList);
-
         btn_confirm.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -71,5 +63,15 @@ public class FXMLAddParticipantController implements Initializable {
 
     public void setMainController(FXMLDocumentController c) {
         this.mainController = c;
+    }
+    
+    public void initDataFromDb() {
+        datas.ParticipantsManager provider = new datas.ParticipantsManager();
+        ObservableList<String> pseudoList = FXCollections.observableArrayList();
+
+        for(Member p : provider.selectAllParticipants()) pseudoList.add(p.getPseudo());
+        for(Person p : mainController.getData()) pseudoList.remove(p.getPseudo());
+        
+        partcipantComboBox.getItems().addAll(pseudoList);
     }
 }

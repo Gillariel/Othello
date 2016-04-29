@@ -37,7 +37,7 @@ public class ParticipantsManager extends DbConnect {
         List<Member> list = new ArrayList<>();
         try(NHDatabaseSession session = getDb()){
             String[][] result = session.createStatement("SELECT pseudo, firstname, lastname "
-                    + "FROM CONTENDERS;")
+                    + "FROM MEMBERS;")
                     .executeQuery();
             for(String[] oneParticipant : result)
                 list.add(DbEntityToObject.ParticipantParser(oneParticipant));

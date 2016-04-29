@@ -161,10 +161,10 @@ public class FXMLDocumentController implements Initializable {
         if (data.size() < 2 || data.size() > 16) 
             MyDialog.warningDialog("Error", "Number of member must be between 2 and 16 participants.");
         
-        TournamentManager provider = new TournamentManager();
+        /*TournamentManager provider = new TournamentManager();
         if(provider.isClosed()) {
             
-        }
+        }*/
         
         btn_add_participant.setVisible(false);
         btn_delete_one.setVisible(false);
@@ -212,6 +212,7 @@ public class FXMLDocumentController implements Initializable {
             Parent root = (Parent) loaderFXML.load();
             FXMLAddParticipantController controller = loaderFXML.getController();
             controller.setMainController(this);
+            controller.initDataFromDb();
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
