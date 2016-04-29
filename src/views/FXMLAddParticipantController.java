@@ -18,8 +18,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import models.Contender;
-import models.Participant;
+import models.Member;
 import utils.MyDialog;
+import views.models.Person;
 
 /**
  * FXML Controller class
@@ -47,10 +48,8 @@ public class FXMLAddParticipantController implements Initializable {
         datas.ParticipantsManager provider = new datas.ParticipantsManager();
         ObservableList<String> pseudoList = FXCollections.observableArrayList();
 
-        for (Participant p : provider.selectAllParticipants()) {
-            pseudoList.add(p.getPseudo());
-           
-        }
+        for(Member p : provider.selectAllParticipants()) { pseudoList.add(p.getPseudo()); }
+        for(Person p : mainController.getData()) { pseudoList.remove(p.getPseudo()); };
 
         partcipantComboBox.getItems().addAll(pseudoList);
 

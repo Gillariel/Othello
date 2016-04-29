@@ -22,7 +22,7 @@ public class Contender {
 
     public Contender(String pseudo) {
         this.pseudo = pseudo;
-       
+        
     }
     
    

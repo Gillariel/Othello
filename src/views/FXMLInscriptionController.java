@@ -20,7 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-import models.Participant;
+import models.Member;
 import utils.MyDialog;
 import utils.SHA256;
 
@@ -85,7 +85,7 @@ public class FXMLInscriptionController implements Initializable {
         }
         datas.ParticipantsManager provider = new datas.ParticipantsManager();
         //Better to use BuilderFactory to not import the package
-        Participant p = new Participant(fieldPseudo.getText(), SHA256.encode(fieldPassword.getText()), fieldFirstname.getText(), fieldLastname.getText());
+        Member p = new Member(fieldPseudo.getText(), SHA256.encode(fieldPassword.getText()), fieldFirstname.getText(), fieldLastname.getText());
         if(provider.insertParticipant(p) > 0) {
             MyDialog.dialogWithoutHeader("Add", "The member has been successful added");
             try{

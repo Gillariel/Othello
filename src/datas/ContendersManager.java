@@ -6,7 +6,10 @@
 package datas;
 
 import helmo.nhpack.NHDatabaseSession;
+import java.util.ArrayList;
+import java.util.List;
 import models.Contender;
+import models.Member;
 
 /**
  *
@@ -18,10 +21,15 @@ public class ContendersManager extends DbConnect {
         super();
     }
 
+    public void zklhfzioqzhen() {
+        this.getDb().openTransaction();
+        
+    }
+    
     public Contender selectContenders(String pseudo) {
         try (NHDatabaseSession session = getDb()) {
             String[][] result = session.createStatement("SELECT pseudo"
-                    + "FROM Test where pseudo = @pseudo;")
+                    + "FROM Test where pseudo LIKE @pseudo;")
                     .bindParameter("@pseudo", pseudo)
                     .executeQuery();
             return DbEntityToObject.ContederParser(result);
@@ -30,6 +38,22 @@ public class ContendersManager extends DbConnect {
         }
     }
 
+    public List<Member> selectAllContenders() {
+        List<Member> list = new ArrayList<>();
+        try (NHDatabaseSession session = getDb()) {
+            String[][] result = session.createStatement("SELECT m.pseudo, m.firstname, m.lastname"
+                    + "FROM Members m "
+                    + "JOIN Contenders c on c.pseudo = m.pseudo "
+                    + "WHERE Exist(c.pseudo);")
+                    .executeQuery();
+            for(String[] One : result)
+                list.add(DbEntityToObject.ParticipantParser(One));
+            return list;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
     public int insertContenders(String pseudo) {
         try (NHDatabaseSession session = getDb()) {
             int result = session.createStatement("INSERT INTO TEST (pseudo)"
@@ -41,7 +65,8 @@ public class ContendersManager extends DbConnect {
             return -1;
         }
     }
-
+    
+    /*
     public int countContender() {
         try (NHDatabaseSession session = getDb()) {
             int result = session.createStatement("SELECT count(*)"
@@ -51,8 +76,7 @@ public class ContendersManager extends DbConnect {
         } catch (Exception e) {
             return -1;
         }
-
-    }
+    }*/
 
     public int deleteContenders(String pseudo) {
         try (NHDatabaseSession session = getDb()) {

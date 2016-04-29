@@ -21,7 +21,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import models.Participant;
+import models.Member;
 import utils.MyDialog;
 import views.models.Person;
 
@@ -93,11 +93,11 @@ public class FXMLDeleteMemberController implements Initializable {
     private void handle_btn_search(ActionEvent event) {
         data.clear();
         datas.ParticipantsManager provider = new ParticipantsManager();
-        List<Participant> result = provider.selectAllParticipants();
+        List<Member> result = provider.selectAllParticipants();
         if(result.isEmpty()) 
             MyDialog.dialogWithoutHeader("Info", "Database is empty right now.");
         else{
-            for(Participant p : result)
+            for(Member p : result)
                 if(p.getPseudo().contains(fieldPseudo.getText()))
                     data.add(new Person(p.getPseudo(), p.getFirstname(), p.getLastname(), 0, 0));
         }

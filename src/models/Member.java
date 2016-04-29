@@ -11,26 +11,26 @@ import utils.SHA256;
  *
  * @author User
  */
-public class Participant {
+public class Member {
     private String pseudo;
     private String password;
     private String firstname;
     private String lastname;
 
-    public Participant() {
+    public Member() {
         pseudo = "";
         firstname = "";
         lastname = "";
     }
 
-    public Participant(String pseudo, String firstname, String lastname) {
+    public Member(String pseudo, String firstname, String lastname) {
         this.pseudo = pseudo;
         this.password = "";
         this.firstname = firstname;
         this.lastname = lastname;
     }
     
-    public Participant(String pseudo, String password, String firstname, String lastname) {
+    public Member(String pseudo, String password, String firstname, String lastname) {
         this.pseudo = pseudo;
         this.password = password;
         this.firstname = firstname;

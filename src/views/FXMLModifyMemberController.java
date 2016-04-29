@@ -19,7 +19,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import models.Participant;
+import models.Member;
 import utils.MyDialog;
 import utils.SHA256;
 import views.models.Person;
@@ -31,7 +31,7 @@ import views.models.Person;
  */
 public class FXMLModifyMemberController implements Initializable {
 
-    Participant tempParticipant = new Participant();
+    Member tempParticipant = new Member();
     
     @FXML
     private Label labelSearch;
@@ -89,11 +89,11 @@ public class FXMLModifyMemberController implements Initializable {
     private void handleSearch(ActionEvent event) {
         data.clear();
         datas.ParticipantsManager provider = new datas.ParticipantsManager();
-        List<Participant> result = provider.selectAllParticipants();
+        List<Member> result = provider.selectAllParticipants();
         if(result.isEmpty()) 
             MyDialog.dialogWithoutHeader("Info", "Database is empty right now.");
         else{
-            for(Participant p : result)
+            for(Member p : result)
                 if(p.getPseudo().contains(fieldSearch.getText()))
                     data.add(new Person(p.getPseudo(), p.getFirstname(), p.getLastname(),0,0));
         }

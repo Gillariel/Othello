@@ -9,6 +9,7 @@ import datas.ContendersManager;
 import datas.ParticipantsManager;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,7 +31,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import models.Contender;
-import models.Participant;
+import models.Member;
+import models.Tournament;
 import utils.AppInfo;
 import utils.FasterFXMLLoader;
 import utils.MyDialog;
@@ -156,24 +158,17 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void handleCloseTournament(ActionEvent event) {
-
-        /*datas.ContendersManager provider = new ContendersManager();
-       
-        if (provider.countContender() < 2) {
+        if (data.size() < 2 || data.size() > 16) 
+            MyDialog.warningDialog("Error", "Number of member must be between 2 and 16 participants.");
+        
+        TournamentManager provider = new TournamentManager();
+        if(provider.isClosed()) {
             
-            MyDialog.warningDialog("Error", "You must add an other member to close the inscription");
         }
-        if (provider.countContender() > 16) {
-           MyDialog.warningDialog("Error", "You can add 16 participants");
-        }*/
-        btn_add_participant.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                MyDialog.warningDialog("Error", "Inscriptions are closed. You can't add a participant");
-                btn_add_participant.disarm();
-            }
-        });
-
+        
+        btn_add_participant.setVisible(false);
+        btn_delete_one.setVisible(false);
+        btn_delete_one.setVisible(false);
     }
 
     @FXML
@@ -257,7 +252,7 @@ public class FXMLDocumentController implements Initializable {
     public void addDataToTableView(String pseudo) {
         datas.ParticipantsManager provider = new ParticipantsManager();
         datas.ContendersManager pro = new ContendersManager();
-        Participant p = provider.selectParticipant(pseudo);
+        Member p = provider.selectParticipant(pseudo);
         Contender c = new Contender(pseudo);
         data.add(new Person(p.getPseudo(), p.getFirstname(), p.getLastname(), 0, 0));
 
@@ -268,6 +263,8 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
+    public List<Person> getData() { return data; }
+    
     public boolean isTableViewEmpty() {
         return CurrentParticipantsView.getItems().isEmpty();
     }

@@ -7,26 +7,26 @@ package datas;
 
 import java.util.List;
 import models.Contender;
-import models.Participant;
+import models.Member;
 
 /**
  *
  * @author User
  */
 public class DbEntityToObject {
-    public static Participant ParticipantParser(String[][] entity) {
+    public static Member ParticipantParser(String[][] entity) {
         //entity : [0] = pseudo, [1] = firstname, [2] = lastname 
-        return (entity != null)? new Participant(entity[0][0], entity[0][1], entity[0][2]) : null;
+        return (entity != null)? new Member(entity[0][0], entity[0][1], entity[0][2]) : null;
     }
     
-    public static Participant ParticipantParser(String[] entity) {
+    public static Member ParticipantParser(String[] entity) {
         //entity : [0] = pseudo, [1] = password, [2] = firstname, [3] = lastname 
-        return (entity != null)? new Participant(entity[0], entity[1], entity[2]) : null;
+        return (entity != null)? new Member(entity[0], entity[1], entity[2]) : null;
     }
     
     
     public static Contender ContederParser(String[][] entity) {
-        //entity : [0] = pseudo 
+        //entity : [0] = pseudo
         return (entity != null)? new Contender(entity[0][0]): null;
     }
     

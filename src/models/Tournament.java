@@ -5,6 +5,7 @@
  */
 package models;
 
+import datas.ContendersManager;
 import datas.ParticipantsManager;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -53,11 +54,17 @@ public class Tournament {
     * Modifier Schéma BD :  Contenders devient Member
     * une table Contenders sera crée, comprenant seulement les membres participants au tournoi en cours
     */
-    public Map<String,List<Game>> initData() {
-        List<Game> leafs = new ArrayList<>();
-        List<Game> internals = new ArrayList<>();
+    public Map<String,List<Member>> initData() {
+        List<Member> leafs = new ArrayList<>();
+        List<Member> internals = new ArrayList<>();
         
-        Map<String,List<Game>> result = new HashMap<String, List<Game>>();
+        // leafs = Tout les participants de la bd
+        ContendersManager provider = new ContendersManager();
+        leafs = provider.selectAllContenders();
+        
+        //Ajouter X/nbTour pour chaque tour un participant factice "?" -> X = nb De participants du tour
+        
+        Map<String,List<Member>> result = new HashMap<String, List<Member>>();
         Collections.shuffle(leafs); Collections.shuffle(internals);
         
         result.put("leafs",leafs); result.put("internals",internals);
@@ -65,12 +72,13 @@ public class Tournament {
     }
     
     public void bindDataToQueue() {
-        Map<String, List<Game>> data = initData();
+        Map<String, List<Member>> data = initData();
+        //boucle for simple car itérer sur i+2 et pas i+1 -> On prend 2 participants d'un coup
+        //Checker si tout seul, Game ou il gagne d'office
         for(Game leaf : data.get("leafs"))
             queue.add(leaf);
         for(Game internal : data.get("internals"))
             queue.add(internal);
-        
     }
     
     public long[] getParticipants_id() { return participants_id; }

@@ -8,7 +8,7 @@ package datas;
 import helmo.nhpack.NHDatabaseSession;
 import java.util.ArrayList;
 import java.util.List;
-import models.Participant;
+import models.Member;
 
 /**
  *
@@ -20,7 +20,7 @@ public class ParticipantsManager extends DbConnect {
     
     
    // try(blabla) = bloc de ressource -> appel automatique de close() à la fin
-    public Participant selectParticipant(String pseudo) {
+    public Member selectParticipant(String pseudo) {
         try(NHDatabaseSession session = getDb()){
             String[][] result = session.createStatement("SELECT pseudo, firstname, lastname "
                     + "FROM CONTENDERS "
@@ -33,8 +33,8 @@ public class ParticipantsManager extends DbConnect {
         }
     }
     
-    public List<Participant> selectAllParticipants() {
-        List<Participant> list = new ArrayList<>();
+    public List<Member> selectAllParticipants() {
+        List<Member> list = new ArrayList<>();
         try(NHDatabaseSession session = getDb()){
             String[][] result = session.createStatement("SELECT pseudo, firstname, lastname "
                     + "FROM CONTENDERS;")
@@ -48,7 +48,7 @@ public class ParticipantsManager extends DbConnect {
         }
     } 
     
-    public int insertParticipant(Participant p){
+    public int insertParticipant(Member p){
         try(NHDatabaseSession session = getDb()){
             
             int result = session.createStatement("INSERT INTO CONTENDERS (pseudo,firstname,lastname,wonGames,lostGames,_password) " 
@@ -80,7 +80,7 @@ public class ParticipantsManager extends DbConnect {
         }
     }
     
-    public int updateParticipant(Participant p) {
+    public int updateParticipant(Member p) {
         try(NHDatabaseSession session = getDb()){
             int result = session.createStatement("UPDATE CONTENDERS "
                     + "SET pseudo = @pseudo, _password = @password "
