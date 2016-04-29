@@ -27,10 +27,10 @@ import java.util.TreeSet;
 public class Tournament {
     private final long ID;
     private final int NB_PARTICIPANTS;
-    private long[] participants_id;
+    private List<String> participants_id;
     private PriorityQueue<Game> queue;
 
-    public Tournament(int NB_PARTICIPANTS, long[] participants_id) {
+    public Tournament(int NB_PARTICIPANTS, List<String> participants_id) {
         this.ID = System.currentTimeMillis();
         this.NB_PARTICIPANTS = NB_PARTICIPANTS;
         this.participants_id = participants_id;
@@ -75,15 +75,18 @@ public class Tournament {
         Map<String, List<Member>> data = initData();
         //boucle for simple car itérer sur i+2 et pas i+1 -> On prend 2 participants d'un coup
         //Checker si tout seul, Game ou il gagne d'office
-        /*for(Game leaf : data.get("leafs"))
-            queue.add(leaf);
-        for(Game internal : data.get("internals"))
-            queue.add(internal);
-        */
+        for(int i = 0; i < data.get("leafs").size(); i+=2){
+            Member currentLeft = data.get("leafs").get(i);
+            Member currentRight = data.get("leafs").get(i+1);
+            queue.add(new LeafGame(currentLeft.getPseudo(), currentRight.getPseudo(), 1));
+        }
+        for(int i = 0; i < data.get("leafs").size(); i+=2){
+            queue.add(InternalGame.questionMarkGame(2));
+        }
     }
     
-    public long[] getParticipants_id() { return participants_id; }
-    public void setParticipants_id(long[] participants_id) { this.participants_id = participants_id; }
+    /*public long[] getParticipants_id() { return participants_id; }
+    public void setParticipants_id(long[] participants_id) { this.participants_id = participants_id; }*/
     public PriorityQueue<Game> getQueue() { return queue; }
     public void setQueue(PriorityQueue queue) { this.queue = queue; }
 }

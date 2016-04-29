@@ -20,16 +20,11 @@ public class ContendersManager extends DbConnect {
     public ContendersManager() {
         super();
     }
-
-    public void zklhfzioqzhen() {
-        this.getDb().openTransaction();
-        
-    }
     
     public Contender selectContenders(String pseudo) {
         try (NHDatabaseSession session = getDb()) {
             String[][] result = session.createStatement("SELECT pseudo"
-                    + "FROM Test where pseudo LIKE @pseudo;")
+                    + "FROM Contenders where pseudo LIKE @pseudo;")
                     .bindParameter("@pseudo", pseudo)
                     .executeQuery();
             return DbEntityToObject.ContederParser(result);
@@ -56,7 +51,7 @@ public class ContendersManager extends DbConnect {
     
     public int insertContenders(String pseudo) {
         try (NHDatabaseSession session = getDb()) {
-            int result = session.createStatement("INSERT INTO TEST (pseudo)"
+            int result = session.createStatement("INSERT INTO Contenders (pseudo)"
                     + "VALUES (@pseudo);")
                     .bindParameter("@pseudo", pseudo)
                     .executeUpdate();
@@ -80,7 +75,7 @@ public class ContendersManager extends DbConnect {
 
     public int deleteContenders(String pseudo) {
         try (NHDatabaseSession session = getDb()) {
-            int result = session.createStatement("DELETE FROM Test WHERE pseudo LIKE @pseudo")
+            int result = session.createStatement("DELETE FROM Contenders WHERE pseudo LIKE @pseudo")
                     .bindParameter("@pseudo", pseudo)
                     .executeUpdate();
             return result;

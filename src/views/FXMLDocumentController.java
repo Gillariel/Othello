@@ -9,6 +9,7 @@ import datas.ContendersManager;
 import datas.ParticipantsManager;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -178,7 +179,28 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void handleGenerateTournament(ActionEvent event) {
-
+        List<String> pseudos = new ArrayList<>();
+        for(Person p : data)
+            pseudos.add(p.getPseudo());
+        Tournament t = new Tournament(data.size(), pseudos);
+        t.initData();
+        t.bindDataToQueue();
+        
+        try {
+            FXMLLoader loaderFXML = new FXMLLoader(getClass().getResource("/views/FXMLTestTournament.fxml"));
+            Parent root = (Parent) loaderFXML.load();
+            FXMLTestTournamentController controller = loaderFXML.getController();
+            controller.setController(this);
+            controller.setQueue(t.getQueue());
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            MyDialog.warningDialog("Erreur", "Erreur lors du chargement de fenêtre.");
+        }
     }
 
     //Never using it while the second app is not created and bit completed yet!

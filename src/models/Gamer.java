@@ -9,7 +9,7 @@ package models;
  *
  * @author User
  */
-class Gamer {
+public class Gamer {
     private String pseudo;
     private long score;
 

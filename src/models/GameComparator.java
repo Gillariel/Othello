@@ -15,7 +15,7 @@ public class GameComparator implements Comparator{
 
     @Override
     public int compare(Object o1, Object o2) {
-        return ((Game)o1).getPriority() - ((Game)o2).getPriority();
+        return ((Game)o2).getPriority() - ((Game)o1).getPriority();
     }
     
 }
