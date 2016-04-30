@@ -10,6 +10,8 @@ import datas.ParticipantsManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import static java.util.Collections.list;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -267,8 +269,10 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void handleBtnDeleteAllParticipants(ActionEvent event) {
-        if (MyDialog.confirmationDialog("All Delete", "Delete Participants not impact the Database", "Are you sure you want to delete all the participants in the list?")) {
+        if (MyDialog.confirmationDialog("All Delete", "Delete Participants have an impact on the Database", "Are you sure you want to delete all the participants in the list?")) {
+          
             CurrentParticipantsView.getItems().clear();
+            
         }
     }
 
