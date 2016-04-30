@@ -27,7 +27,7 @@ public class ContendersManager extends DbConnect {
                     + "FROM Contenders where pseudo LIKE @pseudo;")
                     .bindParameter("@pseudo", pseudo)
                     .executeQuery();
-            return DbEntityToObject.ContederParser(result);
+            return DbEntityToObject.ContenderParser(result);
         } catch (Exception e) {
             return null;
         }
@@ -36,13 +36,14 @@ public class ContendersManager extends DbConnect {
     public List<Member> selectAllContenders() {
         List<Member> list = new ArrayList<>();
         try (NHDatabaseSession session = getDb()) {
-            String[][] result = session.createStatement("SELECT m.pseudo, m.firstname, m.lastname"
-                    + "FROM Members m "
-                    + "JOIN Contenders c on c.pseudo = m.pseudo "
-                    + "WHERE Exist(c.pseudo);")
+            String[][] result = session.createStatement("SELECT m.pseudo"
+                    + "FROM Members m"
+                    + "Where EXISTS (SELECT c.pseudo"
+                    + "              FROM Contenders c"
+                    + "              WHERE c.pseudo IN(m.pseudo);")
                     .executeQuery();
-            for(String[] One : result)
-                list.add(DbEntityToObject.ParticipantParser(One));
+             for(String[]one : result)
+                list.add(DbEntityToObject.ParticipantParser(one));
             return list;
         } catch (Exception e) {
             return null;
