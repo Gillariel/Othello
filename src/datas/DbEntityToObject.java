@@ -25,12 +25,12 @@ public class DbEntityToObject {
     }
     
     
-    public static Contender ContederParser(String[][] entity) {
+    public static Contender ContenderParser(String[][] entity) {
         //entity : [0] = pseudo
         return (entity != null)? new Contender(entity[0][0]): null;
     }
     
-    public static Contender ContederParser(String[] entity) {
+    public static Contender ContenderParser(String[] entity) {
         //entity : [0] = pseudo 
         return (entity != null)? new Contender(entity[0]): null;
     }
