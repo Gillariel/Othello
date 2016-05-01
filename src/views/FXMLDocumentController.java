@@ -270,17 +270,16 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleBtnDeleteAllParticipants(ActionEvent event) {
         if (MyDialog.confirmationDialog("All Delete", "Delete Participants have an impact on the Database", "Are you sure you want to delete all the participants in the list?")) {
-          
-            CurrentParticipantsView.getItems().clear();
-            
-        }
+            datas.ContendersManager provider = new ContendersManager();
+            provider.deleteAllContenders();
+            CurrentParticipantsView.getItems().clear();}
     }
 
     public void addDataToTableView(String pseudo) {
         datas.ParticipantsManager provider = new ParticipantsManager();
         datas.ContendersManager pro = new ContendersManager();
         Member p = provider.selectParticipant(pseudo);
-        Contender c = new Contender(pseudo);
+        
         data.add(new Person(p.getPseudo(), p.getFirstname(), p.getLastname(), 0, 0));
 
         if (pro.insertContenders(pseudo) > 0) {
