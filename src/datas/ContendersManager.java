@@ -36,12 +36,13 @@ public class ContendersManager extends DbConnect {
     public List<Member> selectAllContenders() {
         List<Member> list = new ArrayList<>();
         try (NHDatabaseSession session = getDb()) {
-            String[][] result = session.createStatement("SELECT m.pseudo"
-                    + "FROM Members m"
-                    + "Where EXISTS (SELECT c.pseudo"
-                    + "              FROM Contenders c"
-                    + "              WHERE c.pseudo IN(m.pseudo);")
+            String[][] result = session.createStatement("SELECT m.pseudo,m.firstname,m.lastname "
+                    + "FROM Members m "
+                    + "Where EXISTS (SELECT c.pseudo "
+                    + "              FROM Contenders c "
+                    + "              WHERE c.pseudo IN(m.pseudo))")
                     .executeQuery();
+                   
              for(String[]one : result)
                 list.add(DbEntityToObject.ParticipantParser(one));
             return list;

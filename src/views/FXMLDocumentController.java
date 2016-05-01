@@ -272,7 +272,11 @@ public class FXMLDocumentController implements Initializable {
         if (MyDialog.confirmationDialog("All Delete", "Delete Participants have an impact on the Database", "Are you sure you want to delete all the participants in the list?")) {
             datas.ContendersManager provider = new ContendersManager();
             provider.deleteAllContenders();
-            CurrentParticipantsView.getItems().clear();}
+            CurrentParticipantsView.getItems().clear();
+           
+        
+        
+        }
     }
 
     public void addDataToTableView(String pseudo) {
