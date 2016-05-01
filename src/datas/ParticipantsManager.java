@@ -79,7 +79,7 @@ public class ParticipantsManager extends DbConnect {
             return -1;
         }
     }
-    
+
     public int updateParticipant(Member p) {
         try(NHDatabaseSession session = getDb()){
             int result = session.createStatement("UPDATE Members "
