@@ -84,4 +84,18 @@ public class ContendersManager extends DbConnect {
             return -1;
         }
     }
+    
+     public List<Contender> deleteAllContenders(){
+        List<Contender> allContenders = new ArrayList<>();
+        try(NHDatabaseSession session = getDb()){
+            String [][] result = session.createStatement("DELETE FROM Contenders")
+                    .executeQuery();
+            for(String[] c : result){
+                allContenders.add(DbEntityToObject.ContenderParser(c));
+            }
+            return allContenders;
+        }catch(Exception e) {
+            return null;
+        }
+    }
 }
