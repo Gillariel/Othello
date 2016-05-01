@@ -36,11 +36,11 @@ public class ContendersManager extends DbConnect {
     public List<Member> selectAllContenders() {
         List<Member> list = new ArrayList<>();
         try (NHDatabaseSession session = getDb()) {
-            String[][] result = session.createStatement("SELECT m.pseudo,m.firstname,m.lastname "
+            String[][] result = session.createStatement("SELECT m.pseudo,m.lastname,m.firstname "
                     + "FROM Members m "
                     + "Where EXISTS (SELECT c.pseudo "
                     + "              FROM Contenders c "
-                    + "              WHERE c.pseudo IN(m.pseudo))")
+                    + "              WHERE c.pseudo IN(m.pseudo));")
                     .executeQuery();
                    
              for(String[]one : result)
@@ -77,7 +77,7 @@ public class ContendersManager extends DbConnect {
 
     public int deleteContenders(String pseudo) {
         try (NHDatabaseSession session = getDb()) {
-            int result = session.createStatement("DELETE FROM Contenders WHERE pseudo LIKE @pseudo")
+            int result = session.createStatement("DELETE FROM Contenders WHERE pseudo LIKE @pseudo ")
                     .bindParameter("@pseudo", pseudo)
                     .executeUpdate();
             return result;
@@ -89,7 +89,8 @@ public class ContendersManager extends DbConnect {
      public List<Contender> deleteAllContenders(){
         List<Contender> allContenders = new ArrayList<>();
         try(NHDatabaseSession session = getDb()){
-            String [][] result = session.createStatement("DELETE FROM Contenders")
+            String [][] result = session.createStatement("DELETE "
+                    + "FROM Contenders ;")
                     .executeQuery();
             for(String[] c : result){
                 allContenders.add(DbEntityToObject.ContenderParser(c));
