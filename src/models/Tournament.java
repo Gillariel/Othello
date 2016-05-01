@@ -6,16 +6,12 @@
 package models;
 
 import datas.ContendersManager;
-import datas.ParticipantsManager;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Set;
-import java.util.TreeSet;
 /* A checker pour le déroulement complet (ensemble des games)
 * nombre de niveau = log²(nb_element) + 1
 *import java.util.PriorityQueue
@@ -73,11 +69,15 @@ public class Tournament {
     
     public void bindDataToQueue() {
         Map<String, List<Member>> data = initData();
+        Member currentLeft,currentRight;
         //boucle for simple car itérer sur i+2 et pas i+1 -> On prend 2 participants d'un coup
         //Checker si tout seul, Game ou il gagne d'office
         for(int i = 0; i < data.get("leafs").size(); i+=2){
-            Member currentLeft = data.get("leafs").get(i);
-            Member currentRight = data.get("leafs").get(i+1);
+            currentLeft = data.get("leafs").get(i);
+            if(!(data.size() < i+2))
+                currentRight = data.get("leafs").get(i+1);
+            else
+                currentRight = new Member("?", "?", "?");
             queue.add(new LeafGame(currentLeft.getPseudo(), currentRight.getPseudo(), 1));
         }
         for(int i = 0; i < data.get("leafs").size(); i+=2){

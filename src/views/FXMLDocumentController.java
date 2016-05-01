@@ -10,14 +10,11 @@ import datas.ParticipantsManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import static java.util.Collections.list;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -33,7 +30,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import models.Contender;
 import models.Member;
 import models.Tournament;
 import utils.AppInfo;
@@ -213,7 +209,7 @@ public class FXMLDocumentController implements Initializable {
             Runtime r = Runtime.getRuntime();
             Process p = r.exec(cmd);
             p.waitFor();//si l'application doit attendre a ce que ce process fini
-        } catch (Exception e) {
+        } catch (IOException | InterruptedException e) {
             MyDialog.warningDialog("Erreur", "Le programme 'Othello - Game' est-il bien installé? (Veuillez ne jamais le changer de place)");
         }
     }
