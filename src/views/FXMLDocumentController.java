@@ -30,6 +30,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import models.Contender;
 import models.Member;
 import models.Tournament;
 import utils.AppInfo;
@@ -164,10 +165,10 @@ public class FXMLDocumentController implements Initializable {
         if(provider.isClosed()) {
             
         }*/
-        
+        closeTournamentMenuItem.setDisable(true);
         btn_add_participant.setVisible(false);
         btn_delete_one.setVisible(false);
-        btn_delete_one.setVisible(false);
+        btn_delete_all.setVisible(false);
     }
 
     @FXML
@@ -269,9 +270,6 @@ public class FXMLDocumentController implements Initializable {
             datas.ContendersManager provider = new ContendersManager();
             provider.deleteAllContenders();
             CurrentParticipantsView.getItems().clear();
-           
-        
-        
         }
     }
 
@@ -288,7 +286,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-
+    
     public List<Person> getData() { return data; }
     
     public boolean isTableViewEmpty() {
