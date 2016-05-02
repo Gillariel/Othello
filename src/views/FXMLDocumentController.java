@@ -131,7 +131,8 @@ public class FXMLDocumentController implements Initializable {
 
         CurrentParticipantsView.setItems(data);
         CurrentParticipantsView.getColumns().addAll(pseudoTableColumn, firstnameTableColumn, lastnameTableColumn, wonGamesTableColumn, lostGamesTableColumn);
-
+        
+        generateTournamentMenuItem.setDisable(true);
     }
 
     //Check La Classe utils.FasterFXMLLoader si tu as un doute, c'est juste une manière de ne pas réécrire 100x le meme code :p
@@ -160,12 +161,8 @@ public class FXMLDocumentController implements Initializable {
     private void handleCloseTournament(ActionEvent event) {
         if (data.size() < 2 || data.size() > 16) 
             MyDialog.warningDialog("Error", "Number of member must be between 2 and 16 participants.");
-        
-        /*TournamentManager provider = new TournamentManager();
-        if(provider.isClosed()) {
-            
-        }*/
         closeTournamentMenuItem.setDisable(true);
+        generateTournamentMenuItem.setDisable(false);
         btn_add_participant.setVisible(false);
         btn_delete_one.setVisible(false);
         btn_delete_all.setVisible(false);
@@ -177,14 +174,15 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void handleGenerateTournament(ActionEvent event) {
+    private void handleGenerateTournament(ActionEvent event) {       
+       
         List<String> pseudos = new ArrayList<>();
         for(Person p : data)
             pseudos.add(p.getPseudo());
         Tournament t = new Tournament(data.size(), pseudos);
         t.initData();
         t.bindDataToQueue();
-        
+
         try {
             FXMLLoader loaderFXML = new FXMLLoader(getClass().getResource("/views/FXMLTestTournament.fxml"));
             Parent root = (Parent) loaderFXML.load();
@@ -286,7 +284,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-    
+       
     public List<Person> getData() { return data; }
     
     public boolean isTableViewEmpty() {
