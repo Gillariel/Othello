@@ -5,6 +5,7 @@
  */
 package othello;
 
+import datas.ContendersManager;
 import java.io.File;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -29,22 +30,25 @@ public class Othello extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/FXMLDocument.fxml"));
         Parent root = loader.load();
         FXMLDocumentController controller = loader.getController();
-        if(controllerFileExists(""+TableView.class))
+        /*if(controllerFileExists(""+TableView.class))
             controller.setTableView(Serializer.LoadData(TableView.class));
-            
+        */    
         Scene scene = new Scene(root);
         
-        System.out.println(TableView.class);
+        //System.out.println(TableView.class);
         
         stage.setScene(scene);
         stage.getIcons().add(new Image("http://swap.sec.net/annex/icon.png"));
         
         
         stage.setOnCloseRequest((WindowEvent event) -> {
-            if(!controller.isTableViewEmpty()){
+            /*if(!controller.isTableViewEmpty()){
                 if(MyDialog.confirmationDialog("Save", "Tournament is not finished and save in DB", "Do you want to save it in a specific file?"))
                     Serializer.save(controller.getTableView());
-            }
+            }*/
+            datas.ContendersManager provider = new ContendersManager();
+            provider.deleteAllContenders();
+            
         });
         stage.show();
     }
