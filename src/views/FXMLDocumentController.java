@@ -182,9 +182,8 @@ public class FXMLDocumentController implements Initializable {
         for(Person p : data)
             pseudos.add(p.getPseudo());
         Tournament t = new Tournament(data.size(), pseudos);
-        t.initData();
         try{
-            t.bindDataToQueue();
+            t.bindDataToQueue(t.initData(), (int)(Math.log(data.size())/Math.log(2)));
         }catch(InterruptedException e) { System.out.print(e); }
             
         try {

@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @author User
  */
-public class Game {
+public class Game implements Comparable<Game>{
     private final long ID;
     private int priority;
     private Gamer J1;
@@ -32,4 +32,9 @@ public class Game {
     public Gamer getJ2() { return J2; }
     public int getPriority() { return priority; }
     public void setPriority(int priority) { this.priority = priority; }
+
+    @Override
+    public int compareTo(Game o) {
+        return this.getPriority() - o.priority;
+    }
 }

@@ -50,45 +50,53 @@ public class Tournament {
     * Modifier Schéma BD :  Contenders devient Member
     * une table Contenders sera crée, comprenant seulement les membres participants au tournoi en cours
     */
-    public Map<String,List<Member>> initData() {
-        List<Member> leafs = new ArrayList<>();
-        List<Member> internals = new ArrayList<>();
+    public List<Member> initData() {
+        List<Member> result = new ArrayList<>();
+        //List<Member> internals = new ArrayList<>();
         
         // leafs = Tout les participants de la bd
         ContendersManager provider = new ContendersManager();
-        leafs = provider.selectAllContenders();
+        result = provider.selectAllContenders();
+         
+        //Map<String,List<Member>> result = new HashMap<String, List<Member>>();
+        //Collections.shuffle(leafs); Collections.shuffle(internals);
         
-        //Ajouter X/nbTour pour chaque tour un participant factice "?" -> X = nb De participants du tour
-        
-        Map<String,List<Member>> result = new HashMap<String, List<Member>>();
-        Collections.shuffle(leafs); Collections.shuffle(internals);
-        
-        result.put("leafs",leafs); result.put("internals",internals);
         return result;
     }
     
-    public synchronized void bindDataToQueue() throws InterruptedException {
-        Map<String, List<Member>> data = initData();
-        Member currentLeft,currentRight;
+    /*
+    * Ok pour un générer les leafs, aps les interals
+    * -> appeler récursivement bindDataToQueue(List<Membre> leafs, int guardian) après génération des internals.
+    * guardian : double log = Math.log(16)/Math.log(2) à l'initialisation, - 1 à chaque itération
+    */
+    public synchronized void bindDataToQueue(List<Member> leafs, int guardian) throws InterruptedException {
+        List<Member> leafList = initData();
+        Member currentLeft = null, currentRight = null;
         //boucle for simple car itérer sur i+2 et pas i+1 -> On prend 2 participants d'un coup
         //Checker si tout seul, Game ou il gagne d'office
-        for(int i = 0; i < data.get("leafs").size(); i+=2){
-            currentLeft = data.get("leafs").get(i);
-            if(!(data.size() < i+2))
-                currentRight = data.get("leafs").get(i+1);
-            else
+        for(int i = 0; i < leafList.size(); i++) {
+            if(i%2 == 1 && i == leafList.size()) {
+                currentLeft = leafList.get(i);
                 currentRight = new Member("?", "?", "?");
-            queue.add(new LeafGame(currentLeft.getPseudo(), currentRight.getPseudo(), 1));
+            }
+            if(i%2 == 0)
+                currentLeft = leafList.get(i);
+            else
+                currentRight = leafList.get(i);
+            
+            if(currentLeft == null && currentRight == null) {
+                queue.add(new LeafGame(currentLeft.getPseudo(), currentRight.getPseudo(), 1));
+                currentLeft = null; currentRight = null;
+            }
+            
             wait(50);
         }
-        for(int i = 0; i < data.get("internals").size(); i+=2){
+        for(int i = 0; i < data.get("internals").size(); i+=2) {
             queue.add(InternalGame.questionMarkGame(2));
             wait(50);
         }
     }
     
-    /*public long[] getParticipants_id() { return participants_id; }
-    public void setParticipants_id(long[] participants_id) { this.participants_id = participants_id; }*/
     public PriorityQueue<Game> getQueue() { return queue; }
     public void setQueue(PriorityQueue queue) { this.queue = queue; }
 }

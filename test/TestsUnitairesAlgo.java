@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import utils.Log;
 
 /**
  *
@@ -32,17 +33,122 @@ public class TestsUnitairesAlgo {
     
     @Test
     public void testGenerationTournoi2Participants() throws InterruptedException{
+        cleanDb();
         addContenders("Gillariel");
-        addContenders("HenryLeRi");
+        addContenders("Sevmi233");
         List<String>testParticipant = new ArrayList<>();
-        testParticipant.add("Gillariel"); testParticipant.add("HenryLeRi");
+        testParticipant.add("Gillariel"); testParticipant.add("Sevmi233");
         Tournament testTournament = new Tournament(2, testParticipant);
-        testTournament.initData();
-        testTournament.bindDataToQueue();
+        testTournament.bindDataToQueue(testTournament.initData(), Log.logBase2(2.0d));
         PriorityQueue<Game> q = new PriorityQueue();
-        q.add(new LeafGame("Gillariel", "HenryLeRi", 1));
-        Assert.assertEquals(q, testTournament.getQueue());
-        
+        q.add(new LeafGame("Gillariel", "Sevmi233", 1));
+        for(Game g : q)
+            for(Game ga : testTournament.getQueue()) {
+                Assert.assertEquals(g.getJ1().getPseudo(), ga.getJ1().getPseudo());
+                Assert.assertEquals(g.getJ2().getPseudo(), ga.getJ2().getPseudo());
+            }
+    }
+    
+    @Test
+    public void testGenerationTournoi3Participants() throws InterruptedException{
+        cleanDb();
+        addContenders("Gillariel");
+        addContenders("Sevmi233");
+        addContenders("HenriLeRi");
+        List<String>testParticipant = new ArrayList<>();
+        testParticipant.add("Gillariel"); testParticipant.add("Sevmi233"); testParticipant.add("HenriLeRi");
+        Tournament testTournament = new Tournament(3, testParticipant);
+        testTournament.bindDataToQueue(testTournament.initData(), Log.logBase2(3.0d));
+        PriorityQueue<Game> q = new PriorityQueue();
+        q.add(new LeafGame("Gillariel", "Sevmi233", 1));
+        q.add(new LeafGame("HenriLeRi", "?", 1));
+        for(Game g : q)
+            for(Game ga : testTournament.getQueue()) {
+                Assert.assertEquals(g.getJ1().getPseudo(), ga.getJ1().getPseudo());
+                Assert.assertEquals(g.getJ2().getPseudo(), ga.getJ2().getPseudo());
+            }
+    }
+    
+    @Test
+    public void testGenerationTournoi4Participants() throws InterruptedException{
+        cleanDb();
+        addContenders("Gillariel");
+        addContenders("Sevmi233");
+        addContenders("HenriLeRi");
+        addContenders("Ulrik233");
+        List<String>testParticipant = new ArrayList<>();
+        testParticipant.add("Gillariel"); testParticipant.add("Sevmi233"); testParticipant.add("HenriLeRi"); testParticipant.add("Ulrik233");
+        Tournament testTournament = new Tournament(4, testParticipant);
+        testTournament.bindDataToQueue(testTournament.initData(), Log.logBase2(4.0d));
+        PriorityQueue<Game> q = new PriorityQueue();
+        q.add(new LeafGame("Gillariel", "Sevmi233", 1));
+        q.add(new LeafGame("HenriLeRi", "Ulrik233", 1));
+        for(Game g : q)
+            for(Game ga : testTournament.getQueue()) {
+                Assert.assertEquals(g.getJ1().getPseudo(), ga.getJ1().getPseudo());
+                Assert.assertEquals(g.getJ2().getPseudo(), ga.getJ2().getPseudo());
+            }
+    }
+    
+    @Test
+    public void testGenerationTournoi8Participants() throws InterruptedException{
+        cleanDb();
+        addContenders("Gillariel");
+        addContenders("Sevmi233");
+        addContenders("HenriLeRi");
+        addContenders("Ulrik233");
+        addContenders("BatmanDu69");
+        addContenders("JohnVivant");
+        addContenders("PeaceOfCake");
+        addContenders("FChouffe");
+        List<String>testParticipant = new ArrayList<>();
+        testParticipant.add("Gillariel"); testParticipant.add("Sevmi233"); testParticipant.add("HenriLeRi"); testParticipant.add("Ulrik233");
+        testParticipant.add("BatmanDu69"); testParticipant.add("JohnVivant"); testParticipant.add("PeaceOfCake"); testParticipant.add("FChouffe");
+        Tournament testTournament = new Tournament(8, testParticipant);
+        testTournament.bindDataToQueue(testTournament.initData(), Log.logBase2(.0d));
+        PriorityQueue<Game> q = new PriorityQueue();
+        q.add(new LeafGame("Gillariel", "Sevmi233", 1));
+        q.add(new LeafGame("HenriLeRi", "Ulrik233", 1));
+        q.add(new LeafGame("BatmanDu69", "JohnVivant", 1));
+        q.add(new LeafGame("PeaceOfCake", "FChouffe", 1));
+        for(Game g : q)
+            for(Game ga : testTournament.getQueue()) {
+                Assert.assertEquals(g.getJ1().getPseudo(), ga.getJ1().getPseudo());
+                Assert.assertEquals(g.getJ2().getPseudo(), ga.getJ2().getPseudo());
+            }
+    }
+    
+    @Test
+    public void testGenerationTournoi7Participants() throws InterruptedException{
+        cleanDb();
+        addContenders("Gillariel");
+        addContenders("Sevmi233");
+        addContenders("HenriLeRi");
+        addContenders("Ulrik233");
+        addContenders("BatmanDu69");
+        addContenders("JohnVivant");
+        addContenders("PeaceOfCake");
+        List<String>testParticipant = new ArrayList<>();
+        testParticipant.add("Gillariel"); testParticipant.add("Sevmi233"); testParticipant.add("HenriLeRi"); testParticipant.add("Ulrik233");
+        testParticipant.add("BatmanDu69"); testParticipant.add("JohnVivant"); testParticipant.add("PeaceOfCake");
+        Tournament testTournament = new Tournament(7, testParticipant);
+        testTournament.bindDataToQueue(testTournament.initData(), Log.logBase2(7.0d));
+        PriorityQueue<Game> q = new PriorityQueue();
+        q.add(new LeafGame("Gillariel", "Sevmi233", 1));
+        q.add(new LeafGame("HenriLeRi", "Ulrik233", 1));
+        q.add(new LeafGame("BatmanDu69", "JohnVivant", 1));
+        q.add(new LeafGame("PeaceOfCake", "?", 1));
+        for(Game g : q)
+            for(Game ga : testTournament.getQueue()) {
+                Assert.assertEquals(g.getJ1().getPseudo(), ga.getJ1().getPseudo());
+                Assert.assertEquals(g.getJ2().getPseudo(), ga.getJ2().getPseudo());
+            }
+    }
+    
+    @Test
+    public void logBase2DonnelogBase2() {
+        double log = Math.log(16)/Math.log(2); 
+        Assert.assertEquals(4.0d, log, Double.POSITIVE_INFINITY);
     }
     
     @AfterClass
