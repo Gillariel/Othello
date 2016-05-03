@@ -159,8 +159,10 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void handleCloseTournament(ActionEvent event) {
-        if (data.size() < 2 || data.size() > 16) 
+        if (data.size() < 2 || data.size() > 16) {
             MyDialog.warningDialog("Error", "Number of member must be between 2 and 16 participants.");
+            return;
+        }
         closeTournamentMenuItem.setDisable(true);
         generateTournamentMenuItem.setDisable(false);
         btn_add_participant.setVisible(false);
@@ -181,8 +183,10 @@ public class FXMLDocumentController implements Initializable {
             pseudos.add(p.getPseudo());
         Tournament t = new Tournament(data.size(), pseudos);
         t.initData();
-        t.bindDataToQueue();
-
+        try{
+            t.bindDataToQueue();
+        }catch(InterruptedException e) { System.out.print(e); }
+            
         try {
             FXMLLoader loaderFXML = new FXMLLoader(getClass().getResource("/views/FXMLTestTournament.fxml"));
             Parent root = (Parent) loaderFXML.load();
@@ -280,7 +284,6 @@ public class FXMLDocumentController implements Initializable {
 
         if (pro.insertContenders(pseudo) > 0) {
             MyDialog.dialogWithoutHeader("Add", "The member has been successful added");
-
         }
 
     }

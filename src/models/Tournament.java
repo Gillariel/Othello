@@ -67,7 +67,7 @@ public class Tournament {
         return result;
     }
     
-    public void bindDataToQueue() {
+    public synchronized void bindDataToQueue() throws InterruptedException {
         Map<String, List<Member>> data = initData();
         Member currentLeft,currentRight;
         //boucle for simple car itérer sur i+2 et pas i+1 -> On prend 2 participants d'un coup
@@ -79,9 +79,11 @@ public class Tournament {
             else
                 currentRight = new Member("?", "?", "?");
             queue.add(new LeafGame(currentLeft.getPseudo(), currentRight.getPseudo(), 1));
+            wait(50);
         }
-        for(int i = 0; i < data.get("leafs").size(); i+=2){
+        for(int i = 0; i < data.get("internals").size(); i+=2){
             queue.add(InternalGame.questionMarkGame(2));
+            wait(50);
         }
     }
     
