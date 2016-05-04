@@ -8,10 +8,9 @@ package models;
 import datas.ContendersManager;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.PriorityQueue;
+import utils.Log;
 /* A checker pour le déroulement complet (ensemble des games)
 * nombre de niveau = log²(nb_element) + 1
 *import java.util.PriorityQueue
@@ -50,51 +49,55 @@ public class Tournament {
     * Modifier Schéma BD :  Contenders devient Member
     * une table Contenders sera crée, comprenant seulement les membres participants au tournoi en cours
     */
-    public List<Member> initData() {
-        List<Member> result = new ArrayList<>();
-        //List<Member> internals = new ArrayList<>();
-        
-        // leafs = Tout les participants de la bd
-        ContendersManager provider = new ContendersManager();
-        result = provider.selectAllContenders();
-         
-        //Map<String,List<Member>> result = new HashMap<String, List<Member>>();
-        //Collections.shuffle(leafs); Collections.shuffle(internals);
-        
-        return result;
-    }
-    
+   
     /*
     * Ok pour un générer les leafs, aps les interals
     * -> appeler récursivement bindDataToQueue(List<Membre> leafs, int guardian) après génération des internals.
     * guardian : double log = Math.log(16)/Math.log(2) à l'initialisation, - 1 à chaque itération
     */
-    public synchronized void bindDataToQueue(List<Member> leafs, int guardian) throws InterruptedException {
-        List<Member> leafList = initData();
+    public synchronized void bindDataToQueue(int guardian) throws InterruptedException {
+        final int NB_LEVEL = Log.logBase2((double)this.NB_PARTICIPANTS);
+        if(guardian == 1) {    
+            generateLeafs(1);
+            bindDataToQueue(guardian+1);
+        }
+        if(guardian < NB_LEVEL){
+            for(int i = 0; i < this.NB_PARTICIPANTS / (Math.pow(2, guardian)); i++) {
+                queue.add(InternalGame.questionMarkGame(1 + guardian + Log.logBase2((double)this.NB_PARTICIPANTS)));
+                wait(50);
+            }
+            bindDataToQueue(guardian+1);
+        }
+    }
+    
+    private List<Member> initLeafs() {
+        List<Member> leafs = new ArrayList<>();
+        ContendersManager provider = new ContendersManager();
+        leafs = provider.selectAllContenders();
+        Collections.shuffle(leafs);
+        return leafs;
+    }
+    
+    private synchronized void generateLeafs(int priority) throws InterruptedException {
         Member currentLeft = null, currentRight = null;
-        //boucle for simple car itérer sur i+2 et pas i+1 -> On prend 2 participants d'un coup
-        //Checker si tout seul, Game ou il gagne d'office
-        for(int i = 0; i < leafList.size(); i++) {
-            if(i%2 == 1 && i == leafList.size()) {
-                currentLeft = leafList.get(i);
-                currentRight = new Member("?", "?", "?");
-            }
-            if(i%2 == 0)
-                currentLeft = leafList.get(i);
-            else
-                currentRight = leafList.get(i);
+            List<Member> leafList = initLeafs();
+            for(int i = 0; i < leafList.size(); i++) {
+                wait(50);
+                if(i%2 == 1 && i == leafList.size()) {
+                    currentLeft = leafList.get(i);
+                    currentRight = new Member("?", "?", "?");
+                    break;
+                }
+                if(i%2 == 0)
+                    currentLeft = leafList.get(i);
+                else
+                    currentRight = leafList.get(i);
             
-            if(currentLeft == null && currentRight == null) {
-                queue.add(new LeafGame(currentLeft.getPseudo(), currentRight.getPseudo(), 1));
-                currentLeft = null; currentRight = null;
+                if(currentLeft != null && currentRight != null) {
+                    queue.add(new LeafGame(currentLeft.getPseudo(), currentRight.getPseudo(), priority));
+                    currentLeft = null; currentRight = null;
+                }
             }
-            
-            wait(50);
-        }
-        for(int i = 0; i < data.get("internals").size(); i+=2) {
-            queue.add(InternalGame.questionMarkGame(2));
-            wait(50);
-        }
     }
     
     public PriorityQueue<Game> getQueue() { return queue; }

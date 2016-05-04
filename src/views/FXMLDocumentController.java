@@ -7,6 +7,7 @@ package views;
 
 import datas.ContendersManager;
 import datas.ParticipantsManager;
+import helmo.nhpack.exceptions.NHPackException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,11 +31,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import models.Contender;
 import models.Member;
 import models.Tournament;
 import utils.AppInfo;
 import utils.FasterFXMLLoader;
+import utils.Log;
 import utils.MyDialog;
 import views.models.Person;
 
@@ -115,19 +116,19 @@ public class FXMLDocumentController implements Initializable {
         CurrentParticipantsView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         pseudoTableColumn = new TableColumn("Pseudo");
-        pseudoTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("pseudo"));
+        pseudoTableColumn.setCellValueFactory(new PropertyValueFactory<>("pseudo"));
 
         firstnameTableColumn = new TableColumn("First Name");
-        firstnameTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("firstname"));
+        firstnameTableColumn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
 
         lastnameTableColumn = new TableColumn("Last Name");
-        lastnameTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("lastname"));
+        lastnameTableColumn.setCellValueFactory(new PropertyValueFactory<>("lastname"));
 
         wonGamesTableColumn = new TableColumn("Won Games");
-        wonGamesTableColumn.setCellValueFactory(new PropertyValueFactory<Person, Integer>("wonGames"));
+        wonGamesTableColumn.setCellValueFactory(new PropertyValueFactory<>("wonGames"));
 
         lostGamesTableColumn = new TableColumn("Lost Games");
-        lostGamesTableColumn.setCellValueFactory(new PropertyValueFactory<Person, Integer>("lostGames"));
+        lostGamesTableColumn.setCellValueFactory(new PropertyValueFactory<>("lostGames"));
 
         CurrentParticipantsView.setItems(data);
         CurrentParticipantsView.getColumns().addAll(pseudoTableColumn, firstnameTableColumn, lastnameTableColumn, wonGamesTableColumn, lostGamesTableColumn);
@@ -181,10 +182,13 @@ public class FXMLDocumentController implements Initializable {
         List<String> pseudos = new ArrayList<>();
         for(Person p : data)
             pseudos.add(p.getPseudo());
-        Tournament t = new Tournament(data.size(), pseudos);
+        Tournament t = new Tournament(pseudos.size(), pseudos);
+        
         try{
-            t.bindDataToQueue(t.initData(), (int)(Math.log(data.size())/Math.log(2)));
-        }catch(InterruptedException e) { System.out.print(e); }
+            t.bindDataToQueue(Log.logBase2((double)data.size()));
+        }catch(InterruptedException e) { 
+            MyDialog.warningDialog("Internal Problem", "Error while generating tournament. Please close all your current prog and tru again!");
+        }
             
         try {
             FXMLLoader loaderFXML = new FXMLLoader(getClass().getResource("/views/FXMLTestTournament.fxml"));
@@ -243,6 +247,8 @@ public class FXMLDocumentController implements Initializable {
             stage.show();
         } catch (IOException e) {
             MyDialog.warningDialog("Erreur", "Erreur lors du chargement de fenêtre.");
+        } catch (Exception e) {
+            MyDialog.warningDialog("Connection Problem", "Please check your internet connection and try again");
         }
     }
 

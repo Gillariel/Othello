@@ -22,4 +22,7 @@ public class Gamer {
     public void setPseudo(String pseudo) { this.pseudo = pseudo; }
     public long getScore() { return score; }
     public void setScore(long score) { this.score = score; }
+    
+    @Override
+    public String toString() { return pseudo; }
 }

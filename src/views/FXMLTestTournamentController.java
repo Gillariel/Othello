@@ -46,16 +46,16 @@ public class FXMLTestTournamentController implements Initializable {
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         
         idColumns = new TableColumn("Id");
-        idColumns.setCellValueFactory(new PropertyValueFactory<Game, String>("id"));
+        idColumns.setCellValueFactory(new PropertyValueFactory<>("id"));
     
         priorityColumns = new TableColumn("Priority");
-        priorityColumns.setCellValueFactory(new PropertyValueFactory<Game, Integer>("priority"));
+        priorityColumns.setCellValueFactory(new PropertyValueFactory<>("priority"));
     
         J1Columns = new TableColumn("J1");
-        J1Columns.setCellValueFactory(new PropertyValueFactory<Game, Gamer>("J1"));
+        J1Columns.setCellValueFactory(new PropertyValueFactory<>("J1"));
         
         J2Columns = new TableColumn("J2");
-        J2Columns.setCellValueFactory(new PropertyValueFactory<Game, Gamer>("J2"));
+        J2Columns.setCellValueFactory(new PropertyValueFactory<>("J2"));
         
         tableView.getColumns().clear();
         tableView.getColumns().addAll(idColumns, priorityColumns, J1Columns, J2Columns);

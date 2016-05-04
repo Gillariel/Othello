@@ -9,6 +9,7 @@ import helmo.nhpack.NHDatabaseSession;
 import java.util.ArrayList;
 import java.util.List;
 import models.Member;
+import utils.MyDialog;
 
 /**
  *
@@ -44,6 +45,7 @@ public class ParticipantsManager extends DbConnect {
             
             return list;
         }catch(Exception e) {
+            MyDialog.warningDialog("Connection Problem", "Please check your internet connection and try again");
             return null;
         }
     } 

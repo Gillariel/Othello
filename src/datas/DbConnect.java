@@ -9,6 +9,7 @@ import helmo.nhpack.NHDatabaseSession;
 import helmo.nhpack.db.ConnectionConfig;
 import helmo.nhpack.db.SqlServerConnectionConfig;
 import helmo.nhpack.exceptions.NHPackException;
+import utils.MyDialog;
 
 /**
  *
@@ -33,7 +34,8 @@ public abstract class DbConnect {
         try{
             return new NHDatabaseSession(db);
         }catch(NHPackException e){
-            e.printStackTrace();
+            //e.printStackTrace();
+            MyDialog.warningDialog("Connection Problem", "Please check your internet connection and try again");
             return null;
         }
     }
