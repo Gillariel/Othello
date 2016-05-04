@@ -15,13 +15,13 @@ import utils.MyDialog;
  *
  * @author User
  */
-public class ParticipantsManager extends DbConnect {
+public class MembersManager extends DbConnect {
 
-    public ParticipantsManager() { super(); }
+    public MembersManager() { super(); }
     
     
    // try(blabla) = bloc de ressource -> appel automatique de close() à la fin
-    public Member selectParticipant(String pseudo) {
+    public Member selectMember(String pseudo) {
         try(NHDatabaseSession session = getDb()){
             String[][] result = session.createStatement("SELECT pseudo, firstname, lastname "
                     + "FROM Members "
@@ -34,7 +34,7 @@ public class ParticipantsManager extends DbConnect {
         }
     }
     
-    public List<Member> selectAllParticipants() {
+    public List<Member> selectAllMembers() {
         List<Member> list = new ArrayList<>();
         try(NHDatabaseSession session = getDb()){
             String[][] result = session.createStatement("SELECT pseudo, firstname, lastname "
@@ -50,7 +50,7 @@ public class ParticipantsManager extends DbConnect {
         }
     } 
     
-    public int insertParticipant(Member p){
+    public int inserMember(Member p){
         try(NHDatabaseSession session = getDb()){
             
             int result = session.createStatement("INSERT INTO Members (pseudo,firstname,lastname,wonGames,lostGames,_password) " 
@@ -71,7 +71,7 @@ public class ParticipantsManager extends DbConnect {
         }
     }
     
-    public int deleteParticipant(String pseudo) {
+    public int deleteMember(String pseudo) {
         try(NHDatabaseSession session = getDb()){
             int result = session.createStatement("DELETE FROM Members WHERE pseudo LIKE @pseudo")
                     .bindParameter("@pseudo", pseudo)
@@ -82,7 +82,7 @@ public class ParticipantsManager extends DbConnect {
         }
     }
 
-    public int updateParticipant(Member p) {
+    public int updateMember(Member p) {
         try(NHDatabaseSession session = getDb()){
             int result = session.createStatement("UPDATE Members "
                     + "SET pseudo = @pseudo, _password = @password "

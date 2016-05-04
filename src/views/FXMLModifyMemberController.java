@@ -88,8 +88,8 @@ public class FXMLModifyMemberController implements Initializable {
     @FXML
     private void handleSearch(ActionEvent event) {
         data.clear();
-        datas.ParticipantsManager provider = new datas.ParticipantsManager();
-        List<Member> result = provider.selectAllParticipants();
+        datas.MembersManager provider = new datas.MembersManager();
+        List<Member> result = provider.selectAllMembers();
         if(result.isEmpty()) 
             MyDialog.dialogWithoutHeader("Info", "Database is empty right now.");
         else{
@@ -112,8 +112,8 @@ public class FXMLModifyMemberController implements Initializable {
                 tempParticipant.setPassword(SHA256.encode(fieldPassword.getText()));
                 tempParticipant.setFirstname(p.getFirstname());
                 tempParticipant.setLastname(p.getLastname());
-                datas.ParticipantsManager provider = new datas.ParticipantsManager();
-                provider.updateParticipant(tempParticipant);
+                datas.MembersManager provider = new datas.MembersManager();
+                provider.updateMember(tempParticipant);
                 data.remove(selectedIndex);
                 data.add(new Person(tempParticipant.getPseudo(), tempParticipant.getFirstname(), tempParticipant.getLastname(), 0, 0));
                 MyDialog.dialogWithoutHeader("Result", "Update completely done!");
