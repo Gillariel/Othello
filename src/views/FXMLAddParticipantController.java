@@ -66,10 +66,10 @@ public class FXMLAddParticipantController implements Initializable {
     }
     
     public void initDataFromDb() {
-        datas.ParticipantsManager provider = new datas.ParticipantsManager();
+        datas.MembersManager provider = new datas.MembersManager();
         ObservableList<String> pseudoList = FXCollections.observableArrayList();
 
-        for(Member p : provider.selectAllParticipants()) pseudoList.add(p.getPseudo());
+        for(Member p : provider.selectAllMembers()) pseudoList.add(p.getPseudo());
         for(Person p : mainController.getData()) pseudoList.remove(p.getPseudo());
         
         partcipantComboBox.getItems().addAll(pseudoList);

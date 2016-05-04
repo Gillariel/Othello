@@ -5,7 +5,7 @@
  */
 package views;
 
-import datas.ParticipantsManager;
+import datas.MembersManager;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -75,9 +75,9 @@ public class FXMLDeleteMemberController implements Initializable {
     @FXML
     private void handle_btn_delete(ActionEvent event) {
         if(!memberTableView.getSelectionModel().isEmpty()) {
-            datas.ParticipantsManager provider = new ParticipantsManager();
+            datas.MembersManager provider = new MembersManager();
             int index = memberTableView.getSelectionModel().getSelectedIndex();
-           if(provider.deleteParticipant((memberTableView.getItems().get(index)).getPseudo()) > 0) {
+           if(provider.deleteMember((memberTableView.getItems().get(index)).getPseudo()) > 0) {
             MyDialog.dialogWithoutHeader("Delete", "The member has been successfully deleted ");
             memberTableView.getItems().remove(memberTableView.getSelectionModel().getSelectedIndex());
            }else{
@@ -92,8 +92,8 @@ public class FXMLDeleteMemberController implements Initializable {
     @FXML
     private void handle_btn_search(ActionEvent event) {
         data.clear();
-        datas.ParticipantsManager provider = new ParticipantsManager();
-        List<Member> result = provider.selectAllParticipants();
+        datas.MembersManager provider = new MembersManager();
+        List<Member> result = provider.selectAllMembers();
         if(result.isEmpty()) 
             MyDialog.dialogWithoutHeader("Info", "Database is empty right now.");
         else{

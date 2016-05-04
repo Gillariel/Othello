@@ -83,10 +83,10 @@ public class FXMLInscriptionController implements Initializable {
             MyDialog.warningDialog("Erreur", "Le mot de passe doit contenir au minimum 6 caractère");
             return;
         }
-        datas.ParticipantsManager provider = new datas.ParticipantsManager();
+        datas.MembersManager provider = new datas.MembersManager();
         //Better to use BuilderFactory to not import the package
         Member p = new Member(fieldPseudo.getText(), SHA256.encode(fieldPassword.getText()), fieldFirstname.getText(), fieldLastname.getText());
-        if(provider.insertParticipant(p) > 0) {
+        if(provider.inserMember(p) > 0) {
             MyDialog.dialogWithoutHeader("Add", "The member has been successful added");
             try{
                 //finalize() est une méthode détruisant completement l'objet et libérant ses ressources (a utiliser prudemment!)

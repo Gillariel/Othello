@@ -14,5 +14,5 @@ public class LeafGame extends Game {
     public LeafGame(String id1, String id2, int priority) {
         super(id1, id2, priority);
     }
-    
+  
 }

@@ -6,7 +6,7 @@
 package views;
 
 import datas.ContendersManager;
-import datas.ParticipantsManager;
+import datas.MembersManager;
 import helmo.nhpack.exceptions.NHPackException;
 import java.io.IOException;
 import java.net.URL;
@@ -281,9 +281,9 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public void addDataToTableView(String pseudo) {
-        datas.ParticipantsManager provider = new ParticipantsManager();
+        datas.MembersManager provider = new MembersManager();
         datas.ContendersManager pro = new ContendersManager();
-        Member p = provider.selectParticipant(pseudo);
+        Member p = provider.selectMember(pseudo);
         
         data.add(new Person(p.getPseudo(), p.getFirstname(), p.getLastname(), 0, 0));
 
