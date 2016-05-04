@@ -16,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import models.Game;
+import models.GameComparator;
 import models.Gamer;
 import views.models.Person;
 
@@ -67,6 +68,8 @@ public class FXMLTestTournamentController implements Initializable {
         queue.stream().forEach((g) -> {
             data.add(g);
         });
+        data.sort(new GameComparator());
+        
     }
     
     public void setController(FXMLDocumentController c){
