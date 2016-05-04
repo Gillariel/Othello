@@ -185,7 +185,7 @@ public class FXMLDocumentController implements Initializable {
         Tournament t = new Tournament(pseudos.size(), pseudos);
         
         try{
-            t.bindDataToQueue(Log.logBase2((double)data.size()));
+            t.bindDataToQueue(1);
         }catch(InterruptedException e) { 
             MyDialog.warningDialog("Internal Problem", "Error while generating tournament. Please close all your current prog and tru again!");
         }
