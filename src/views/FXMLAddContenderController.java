@@ -27,7 +27,7 @@ import views.models.Person;
  *
  * @author User
  */
-public class FXMLAddParticipantController implements Initializable {
+public class FXMLAddContenderController implements Initializable {
 
     private FXMLDocumentController mainController;
 

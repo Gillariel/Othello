@@ -50,7 +50,7 @@ public class MembersManager extends DbConnect {
         }
     } 
     
-    public int inserMember(Member p){
+    public int insertMember(Member p){
         try(NHDatabaseSession session = getDb()){
             
             int result = session.createStatement("INSERT INTO Members (pseudo,firstname,lastname,wonGames,lostGames,_password) " 

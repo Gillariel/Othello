@@ -7,7 +7,6 @@ package views;
 
 import datas.ContendersManager;
 import datas.MembersManager;
-import helmo.nhpack.exceptions.NHPackException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,7 +34,6 @@ import models.Member;
 import models.Tournament;
 import utils.AppInfo;
 import utils.FasterFXMLLoader;
-import utils.Log;
 import utils.MyDialog;
 import views.models.Person;
 
@@ -234,9 +232,9 @@ public class FXMLDocumentController implements Initializable {
     // Impossible de passer par FasterFXMLLoader car besoin d'une référence vers le controller principale (celui-ci)
     private void handleBtnAddParticipant(ActionEvent event) {
         try {
-            FXMLLoader loaderFXML = new FXMLLoader(getClass().getResource("/views/FXMLAddParticipant.fxml"));
+            FXMLLoader loaderFXML = new FXMLLoader(getClass().getResource("/views/FXMLAddContender.fxml"));
             Parent root = (Parent) loaderFXML.load();
-            FXMLAddParticipantController controller = loaderFXML.getController();
+            FXMLAddContenderController controller = loaderFXML.getController();
             controller.setMainController(this);
             controller.initDataFromDb();
             Scene scene = new Scene(root);
