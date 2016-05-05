@@ -6,6 +6,7 @@
 package models;
 
 import datas.ContendersManager;
+import datas.TournamentManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,21 +22,23 @@ public class Tournament {
     private final int NB_PARTICIPANTS;
     private List<String> participants_id;
     private PriorityQueue<Game> queue;
-    //private TournamentManager provider;
+    private TournamentManager provider;
     
     public Tournament(int NB_PARTICIPANTS, List<String> participants_id) {
         this.ID = System.currentTimeMillis();
         this.NB_PARTICIPANTS = NB_PARTICIPANTS;
         this.participants_id = participants_id;
         this.queue = new PriorityQueue(new GameComparator());
-        //this.provider = new TournamentManager();
+        this.provider = new TournamentManager();
     }
 
+    
+    
     public synchronized void bindDataToQueue(int guardian) throws InterruptedException {
         final int NB_LEVEL = Log.logBase2((double)this.NB_PARTICIPANTS);
         if(guardian == 1) {    
             generateLeafs(1);
-            //bindDataToQueue(guardian+1);
+            //bindDataToQueue(guardian+1)
         }
         if(guardian < NB_LEVEL){
             for(int i = 0; i < this.NB_PARTICIPANTS / (Math.pow(2, guardian)); i++) {
