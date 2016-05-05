@@ -21,12 +21,14 @@ public class Tournament {
     private final int NB_PARTICIPANTS;
     private List<String> participants_id;
     private PriorityQueue<Game> queue;
-
+    //private TournamentManager provider;
+    
     public Tournament(int NB_PARTICIPANTS, List<String> participants_id) {
         this.ID = System.currentTimeMillis();
         this.NB_PARTICIPANTS = NB_PARTICIPANTS;
         this.participants_id = participants_id;
         this.queue = new PriorityQueue(new GameComparator());
+        //this.provider = new TournamentManager();
     }
 
     public synchronized void bindDataToQueue(int guardian) throws InterruptedException {
@@ -37,11 +39,15 @@ public class Tournament {
         }
         if(guardian < NB_LEVEL){
             for(int i = 0; i < this.NB_PARTICIPANTS / (Math.pow(2, guardian)); i++) {
-                queue.add(InternalGame.questionMarkGame(1 + guardian));
+                Game game = InternalGame.questionMarkGame(1 + guardian);
+                queue.add(game);
+                //provider.insertGame(game);
                 wait(50);
             }
             bindDataToQueue(guardian+1);
         }
+        //au cas ou le provider doit être initialisé pour chaque insert...
+        //provider.insertgames(queue)
     }
     
     private List<Member> initLeafs() {
@@ -67,7 +73,9 @@ public class Tournament {
                     currentRight = leafList.get(i);
             
                 if(currentLeft != null && currentRight != null) {
-                    queue.add(new LeafGame(currentLeft.getPseudo(), currentRight.getPseudo(), priority));
+                    Game game = new LeafGame(currentLeft.getPseudo(), currentRight.getPseudo(), priority);
+                    queue.add(game);
+                    //provider.insertGame(game);
                     currentLeft = null; currentRight = null;
                 }
             }

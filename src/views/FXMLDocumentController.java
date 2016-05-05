@@ -245,9 +245,9 @@ public class FXMLDocumentController implements Initializable {
             stage.show();
         } catch (IOException e) {
             MyDialog.warningDialog("Erreur", "Erreur lors du chargement de fenêtre.");
-        } catch (Exception e) {
+        }/* catch (Exception e) {
             MyDialog.warningDialog("Connection Problem", "Please check your internet connection and try again");
-        }
+        }*/
     }
 
     @FXML
