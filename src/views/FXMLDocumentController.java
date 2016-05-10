@@ -7,6 +7,7 @@ package views;
 
 import datas.ContendersManager;
 import datas.MembersManager;
+import datas.TournamentManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,6 +31,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
+import models.Game;
+import models.GameComparator;
 import models.Member;
 import models.Tournament;
 import utils.AppInfo;
@@ -171,7 +175,27 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void handleSwitchTournament(ActionEvent event) {
-
+        TournamentManager provider = new TournamentManager();
+        List<Pair<String,String>> result = provider.selectAllcontenders();
+        String id = "", pseudo = "";
+        for(Pair<String,String> p : result){
+            id += p.getKey() + " ";
+            pseudo += p.getValue() + " ";
+        }
+        MyDialog.dialogWithoutHeader(id, pseudo);
+        
+        try{
+            List<Game> result1 = provider.selectAllGames();
+            String gameId = "", gameJ1 = "", gameJ2 = ""; 
+            for(Game g : result1){ 
+                gameId+= g.getId() + " ";
+                gameJ1+= g.getJ1().getPseudo() + " ";
+                gameJ2+= g.getJ2().getPseudo() + " ";
+            }
+            MyDialog.dialog(id, gameJ1, id);
+        }catch(NullPointerException e) {
+            MyDialog.warningDialog("Warning", "list de Games actuellement vide!");
+        }
     }
 
     @FXML
@@ -180,10 +204,10 @@ public class FXMLDocumentController implements Initializable {
         List<String> pseudos = new ArrayList<>();
         for(Person p : data)
             pseudos.add(p.getPseudo());
-        Tournament t = new Tournament(pseudos.size(), pseudos);
-        
+        Tournament t = new Tournament(pseudos.size(), pseudos, CastPersonsList(data));
         try{
             t.bindDataToQueue(1);
+            insertGamesToDb(t);
         }catch(InterruptedException e) { 
             MyDialog.warningDialog("Internal Problem", "Error while generating tournament. Please close all your current prog and tru again!");
         }
@@ -280,14 +304,14 @@ public class FXMLDocumentController implements Initializable {
 
     public void addDataToTableView(String pseudo) {
         datas.MembersManager provider = new MembersManager();
-        datas.ContendersManager pro = new ContendersManager();
+        //datas.ContendersManager pro = new ContendersManager();
         Member p = provider.selectMember(pseudo);
         
         data.add(new Person(p.getPseudo(), p.getFirstname(), p.getLastname(), 0, 0));
 
-        if (pro.insertContenders(pseudo) > 0) {
+        //if (pro.insertContenders(pseudo) > 0) {
             MyDialog.dialogWithoutHeader("Add", "The member has been successful added");
-        }
+        //}
 
     }
        
@@ -305,6 +329,24 @@ public class FXMLDocumentController implements Initializable {
         CurrentParticipantsView = t;
     }
 
+    public void insertGamesToDb(Tournament t) {
+        List<Game> games = new ArrayList<>();
+        t.getQueue().stream().forEach((g) -> {
+                games.add(g);
+        });
+        games.sort(new GameComparator());
+        datas.TournamentManager provider = new TournamentManager();
+        provider.insertGames(games);
+    }
+    
+    public List<Member> CastPersonsList(List<Person> list) {
+        List<Member> result = new ArrayList<>();
+        for(Person p : list){
+            result.add(new Member(p.getPseudo(), p.getFirstname(), p.getLastname()));
+        }
+        return result;
+    }
+    
     @Override
     public String toString() {
         return "FXMLController";

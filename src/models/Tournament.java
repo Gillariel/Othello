@@ -23,13 +23,15 @@ public class Tournament {
     private List<String> participants_id;
     private PriorityQueue<Game> queue;
     private TournamentManager provider;
+    private List<Member> leafs;
     
-    public Tournament(int NB_PARTICIPANTS, List<String> participants_id) {
+    public Tournament(int NB_PARTICIPANTS, List<String> participants_id, List<Member> leafs) {
         this.ID = System.currentTimeMillis();
         this.NB_PARTICIPANTS = NB_PARTICIPANTS;
         this.participants_id = participants_id;
         this.queue = new PriorityQueue(new GameComparator());
         this.provider = new TournamentManager();
+        this.leafs = leafs;
     }
 
     
@@ -38,25 +40,18 @@ public class Tournament {
         final int NB_LEVEL = Log.logBase2((double)this.NB_PARTICIPANTS);
         if(guardian == 1) {    
             generateLeafs(1);
-            //bindDataToQueue(guardian+1)
         }
         if(guardian < NB_LEVEL){
             for(int i = 0; i < this.NB_PARTICIPANTS / (Math.pow(2, guardian)); i++) {
                 Game game = InternalGame.questionMarkGame(1 + guardian);
                 queue.add(game);
-                //provider.insertGame(game);
                 wait(50);
             }
             bindDataToQueue(guardian+1);
         }
-        //au cas ou le provider doit être initialisé pour chaque insert...
-        //provider.insertgames(queue)
     }
     
     private List<Member> initLeafs() {
-        List<Member> leafs = new ArrayList<>();
-        ContendersManager provider = new ContendersManager();
-        leafs = provider.selectAllContenders();
         Collections.shuffle(leafs);
         return leafs;
     }
@@ -78,7 +73,6 @@ public class Tournament {
                 if(currentLeft != null && currentRight != null) {
                     Game game = new LeafGame(currentLeft.getPseudo(), currentRight.getPseudo(), priority);
                     queue.add(game);
-                    //provider.insertGame(game);
                     currentLeft = null; currentRight = null;
                 }
             }
