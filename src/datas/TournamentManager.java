@@ -6,6 +6,7 @@
 package datas;
 
 import helmo.nhpack.NHDatabaseSession;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.util.Pair;
@@ -68,17 +69,15 @@ public class TournamentManager extends DbConnect{
     */
     // For each game : Insert Contender with it associated game + Insert the game itself 
     public int insertGames(List<Game> list){
-        int result = 0, result1 = 0, result2 = 0;
-        
+        int result0 = 0,result = 0, result1 = 0, result2 = 0;
         
         try (NHDatabaseSession session = getDb()){
             session.openTransaction();
                 for(Game g : list){
-                result = session.createStatement("Insert into LeafGame (id, leftContender, rightContender) "
-                        + "VALUES (@id, @J1, @J2);")
+              if(!g.getJ1().getPseudo().equals("?") && !g.getJ2().getPseudo().equals(result)){
+                result0 = session.createStatement("Insert into Games (id,leftContenderScore, rightContenderScore,concreteType) "
+                        + "VALUES (@id,0,0,0);")
                         .bindParameter("@id",g.getId())
-                        .bindParameter("@J1",g.getJ1().getPseudo())
-                        .bindParameter("@J2",g.getJ2().getPseudo())
                         .executeUpdate();
                 
                 result1 = session.createStatement("INSERT INTO CONTENDERS (pseudo, id_game) VALUES (@pseudo, @id);")
@@ -90,9 +89,18 @@ public class TournamentManager extends DbConnect{
                         .bindParameter("@pseudo", g.getJ2().getPseudo())
                         .bindParameter("@id", g.getId())
                         .executeUpdate();
-                }
+                    
+                result = session.createStatement("Insert into LeafGames (id,leftContender,rightContender) "
+                        + "VALUES (@id, @J1, @J2);")
+                        .bindParameter("@id",g.getId())
+                        .bindParameter("@J1",g.getJ1().getPseudo())
+                        .bindParameter("@J2",g.getJ2().getPseudo())
+                        .executeUpdate();
                 System.out.println(session.getLastError());
-            if(result + result1 + result2 < 0){
+                }
+               }
+             
+            if(result0 + result + result1 + result2 < 0){
                session.rollback();
                return -1;
             }else{
