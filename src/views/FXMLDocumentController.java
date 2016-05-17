@@ -5,7 +5,7 @@
  */
 package views;
 
-import datas.ContendersManager;
+
 import datas.MembersManager;
 import datas.TournamentManager;
 import java.io.IOException;
@@ -176,7 +176,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleSwitchTournament(ActionEvent event) {
         TournamentManager provider = new TournamentManager();
-        List<Pair<String,String>> result = provider.selectAllContenders();
+        List<Pair<String,String>> result = provider.selectAllParticipant();
         String id = "", pseudo = "";
         for(Pair<String,String> p : result){
             id += p.getKey() + " ";
@@ -256,9 +256,9 @@ public class FXMLDocumentController implements Initializable {
     // Impossible de passer par FasterFXMLLoader car besoin d'une référence vers le controller principale (celui-ci)
     private void handleBtnAddParticipant(ActionEvent event) {
         try {
-            FXMLLoader loaderFXML = new FXMLLoader(getClass().getResource("/views/FXMLAddContender.fxml"));
+            FXMLLoader loaderFXML = new FXMLLoader(getClass().getResource("/views/FXMLAddParticipant.fxml"));
             Parent root = (Parent) loaderFXML.load();
-            FXMLAddContenderController controller = loaderFXML.getController();
+            FXMLAddParticipantController controller = loaderFXML.getController();
             controller.setMainController(this);
             controller.initDataFromDb();
             Scene scene = new Scene(root);
@@ -280,13 +280,9 @@ public class FXMLDocumentController implements Initializable {
         if (!CurrentParticipantsView.getSelectionModel().isEmpty()) {
             if (MyDialog.confirmationDialog("Delete", "Delete Participant have an impact to the contenders", "Are you sure you want to delete all the participants in the list?")) {
 
-                ContendersManager provider = new ContendersManager();
                 int index = CurrentParticipantsView.getSelectionModel().getSelectedIndex();
-
-                if (provider.deleteContenders(CurrentParticipantsView.getItems().get(index).getPseudo()) > 0) {
-                    MyDialog.dialogWithoutHeader("Delete", "The participant has been successfully deleted ");
-                    CurrentParticipantsView.getItems().remove(CurrentParticipantsView.getSelectionModel().getSelectedIndex());
-                }
+                CurrentParticipantsView.getItems().remove(CurrentParticipantsView.getSelectionModel().getSelectedIndex());
+                MyDialog.dialogWithoutHeader("Delete", "The participant has been successfully deleted ");
             } else {
                 MyDialog.warningDialog("Warning", "no participants has been selected.\nPlease choose one before deleting.");
             }
@@ -296,8 +292,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleBtnDeleteAllParticipants(ActionEvent event) {
         if (MyDialog.confirmationDialog("All Delete", "Delete Participants have an impact on the Database", "Are you sure you want to delete all the participants in the list?")) {
-            datas.ContendersManager provider = new ContendersManager();
-            provider.deleteAllContenders();
             CurrentParticipantsView.getItems().clear();
         }
     }

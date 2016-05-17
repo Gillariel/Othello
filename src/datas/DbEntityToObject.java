@@ -5,8 +5,7 @@
  */
 package datas;
 
-import java.util.List;
-import models.Contender;
+
 import models.Game;
 import models.Member;
 
@@ -25,17 +24,6 @@ public class DbEntityToObject {
         return (entity != null)? new Member(entity[0], entity[1], entity[2]) : null;
     }
     
-    
-    public static Contender ContenderParser(String[][] entity) {
-        //entity : [0] = pseudo
-        return (entity != null)? new Contender(entity[0][0]): null;
-    }
-    
-    public static Contender ContenderParser(String[] entity) {
-        //entity : [0] = pseudo 
-        return (entity != null)? new Contender(entity[0]): null;
-    }
-
     static Game GameParser(String[] entity) {
         return (entity != null)? new Game(Integer.parseInt(entity[0]), entity[1], entity[2], Integer.parseInt(entity[3])) : null;
     }

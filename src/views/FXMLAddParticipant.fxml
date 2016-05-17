@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.FXMLAddContenderController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.FXMLAddParticipantController">
    <children>
       <MenuBar fx:id="mainMenuMenuBar">
         <menus>
@@ -27,7 +27,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ComboBox fx:id="partcipantComboBox" layoutX="218.0" layoutY="89.0" prefWidth="150.0" />
+      <ComboBox fx:id="participantComboBox" layoutX="218.0" layoutY="89.0" prefWidth="150.0" />
       <Label fx:id="partcipantLabel" layoutX="75.0" layoutY="93.0" text="Choose participant :" />
       <Button fx:id="btn_confirm" layoutX="253.0" layoutY="188.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Add" />
    </children>

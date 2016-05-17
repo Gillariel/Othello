@@ -34,6 +34,10 @@ public class Game implements Comparable<Game>{
         this.priority = priority;
     }
     
+     public static Game questionMarkGame(int priority) {
+        return new Game("?", "?",priority);
+    }
+    
     public long getId() { return ID; }
     public Gamer getJ1() { return J1; }
     public Gamer getJ2() { return J2; }

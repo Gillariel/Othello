@@ -5,13 +5,11 @@
  */
 
 
-import datas.ContendersManager;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 import models.Game;
-import models.InternalGame;
-import models.LeafGame;
 import models.Tournament;
 import org.junit.Assert;
 import org.junit.Test;
@@ -176,6 +174,7 @@ public class TestsUnitairesAlgo {
             }
     }
     */
+    /*
     @AfterClass
     public static void cleanDb() {
         datas.ContendersManager provider = new ContendersManager();
@@ -185,6 +184,6 @@ public class TestsUnitairesAlgo {
     private void addContenders(String pseudo){
         ContendersManager provider = new ContendersManager();
         provider.insertContenders(pseudo);
-    }
+    }*/
    
 }

@@ -15,7 +15,5 @@ public class InternalGame extends Game{
         super(id1, id2, priority);
     }
     
-    public static InternalGame questionMarkGame(int priority) {
-        return new InternalGame("?", "?",priority);
-    }
+   
 }

@@ -17,7 +17,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
-import models.Contender;
 import models.Member;
 import utils.MyDialog;
 import views.models.Person;
@@ -27,17 +26,17 @@ import views.models.Person;
  *
  * @author User
  */
-public class FXMLAddContenderController implements Initializable {
+public class FXMLAddParticipantController implements Initializable {
 
     private FXMLDocumentController mainController;
 
     @FXML
     private MenuBar mainMenuMenuBar;
     @FXML
-    private ComboBox<String> partcipantComboBox;
+    private ComboBox<String> participantComboBox;
     @FXML
     private Label partcipantLabel;
-    @FXML
+    @FXML 
     private Button btn_confirm;
 
     /**
@@ -49,10 +48,11 @@ public class FXMLAddContenderController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 
-                if (!partcipantComboBox.getSelectionModel().isEmpty()) {
+                if (!participantComboBox.getSelectionModel().isEmpty()) {
                     
-                    mainController.addDataToTableView(partcipantComboBox.getItems().get(partcipantComboBox.getSelectionModel().getSelectedIndex()));
-                    partcipantComboBox.getItems().remove(partcipantComboBox.getSelectionModel().getSelectedIndex());
+                    mainController.addDataToTableView(participantComboBox.getItems().get(participantComboBox.getSelectionModel().getSelectedIndex()));
+                    participantComboBox.getItems().remove(participantComboBox.getSelectionModel().getSelectedIndex());
+                  
                      
                 } else {
                     MyDialog.warningDialog("Erreur", "Please select participant to add in the list below or cancel.");
@@ -72,6 +72,6 @@ public class FXMLAddContenderController implements Initializable {
         for(Member p : provider.selectAllMembers()) pseudoList.add(p.getPseudo());
         for(Person p : mainController.getData()) pseudoList.remove(p.getPseudo());
         
-        partcipantComboBox.getItems().addAll(pseudoList);
+        participantComboBox.getItems().addAll(pseudoList);
     }
 }
