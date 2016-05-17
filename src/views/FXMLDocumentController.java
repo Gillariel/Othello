@@ -176,7 +176,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleSwitchTournament(ActionEvent event) {
         TournamentManager provider = new TournamentManager();
-        List<Pair<String,String>> result = provider.selectAllcontenders();
+        List<Pair<String,String>> result = provider.selectAllContenders();
         String id = "", pseudo = "";
         for(Pair<String,String> p : result){
             id += p.getKey() + " ";
