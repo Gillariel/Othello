@@ -73,33 +73,54 @@ public class TournamentManager extends DbConnect{
         
         try (NHDatabaseSession session = getDb()){
             session.openTransaction();
+            
+                result1 = session.createStatement("INSERT INTO CONTENDERS (pseudo, id_game) VALUES (@pseudo, 0);")
+                            .bindParameter("@pseudo", "?")
+                            .executeUpdate();
+                
                 for(Game g : list){
-              if(!g.getJ1().getPseudo().equals("?") && !g.getJ2().getPseudo().equals(result)){
-                result0 = session.createStatement("Insert into Games (id,leftContenderScore, rightContenderScore,concreteType) "
-                        + "VALUES (@id,0,0,0);")
-                        .bindParameter("@id",g.getId())
-                        .executeUpdate();
+                    if(!(g.getJ1().getPseudo().equals("?") && g.getJ2().getPseudo().equals("?"))){
+                        result0 = session.createStatement("INSERT INTO Games (id,leftContenderScore, rightContenderScore,concreteType) "
+                            + "VALUES (@id,0,0,0);")
+                            .bindParameter("@id",g.getId())
+                            .executeUpdate();
                 
-                result1 = session.createStatement("INSERT INTO CONTENDERS (pseudo, id_game) VALUES (@pseudo, @id);")
-                        .bindParameter("@pseudo", g.getJ1().getPseudo())
-                        .bindParameter("@id", g.getId())
-                        .executeUpdate();
+                        result1 = session.createStatement("INSERT INTO CONTENDERS (pseudo, id_game) VALUES (@pseudo, @id);")
+                            .bindParameter("@pseudo", g.getJ1().getPseudo())
+                            .bindParameter("@id", g.getId())
+                            .executeUpdate();
                 
-                result2 = session.createStatement("INSERT INTO CONTENDERS (pseudo, id_game) VALUES (@pseudo, @id);")
-                        .bindParameter("@pseudo", g.getJ2().getPseudo())
-                        .bindParameter("@id", g.getId())
-                        .executeUpdate();
+                        result2 = session.createStatement("INSERT INTO CONTENDERS (pseudo, id_game) VALUES (@pseudo, @id);")
+                            .bindParameter("@pseudo", g.getJ2().getPseudo())
+                            .bindParameter("@id", g.getId())
+                            .executeUpdate();
                     
-                result = session.createStatement("Insert into LeafGames (id,leftContender,rightContender) "
-                        + "VALUES (@id, @J1, @J2);")
-                        .bindParameter("@id",g.getId())
-                        .bindParameter("@J1",g.getJ1().getPseudo())
-                        .bindParameter("@J2",g.getJ2().getPseudo())
-                        .executeUpdate();
-                System.out.println(session.getLastError());
+                        result = session.createStatement("INSERT INTO LeafGames (id,leftContender,rightContender) "
+                            + "VALUES (@id, @J1, @J2);")
+                            .bindParameter("@id",g.getId())
+                            .bindParameter("@J1",g.getJ1().getPseudo())
+                            .bindParameter("@J2",g.getJ2().getPseudo())
+                            .executeUpdate();
+                    System.out.println(session.getLastError());
+                    }else if(g.getJ2().getPseudo().equals("?")){
+                        result2 = session.createStatement("INSERT INTO CONTENDERS (pseudo, id_game) VALUES (@pseudo, @id);")
+                            .bindParameter("@pseudo", g.getJ1().getPseudo())
+                            .bindParameter("@id", g.getId())
+                            .executeUpdate();
+                        
+                        result = session.createStatement("INSERT INTO LeafGames (id,leftContender,rightContender) "
+                            + "VALUES (@id, '?', '?');")
+                            .bindParameter("@id",g.getId())
+                            .executeUpdate();
+                        
+                    }else{
+                        result = session.createStatement("INSERT INTO LeafGames (id,leftContender,rightContender) "
+                            + "VALUES (@id, '?', '?');")
+                            .bindParameter("@id",g.getId())
+                            .executeUpdate();
+                    }
                 }
-               }
-             
+            
             if(result0 + result + result1 + result2 < 0){
                session.rollback();
                return -1;
