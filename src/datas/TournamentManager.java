@@ -25,8 +25,6 @@ public class TournamentManager extends DbConnect{
         try (NHDatabaseSession session = getDb()){
                 
                 for(Game g : list){
-                    
-                    if(!(g.getJ1().getPseudo().equals("?") && g.getJ2().getPseudo().equals("?"))){
                         result = session.createStatement("INSERT INTO Games (id, leftContenderScore, rightContenderScore, "
                                 + "leftContender, rightContender, _priority) "
                                 + "VALUES (@id, 0, 0, @pseudoJ1, @pseudoJ2, @priority);")
@@ -36,7 +34,7 @@ public class TournamentManager extends DbConnect{
                                 .bindParameter("@priority",g.getPriority())
                                 .executeUpdate();
                     System.out.println(session.getLastError());
-                    }
+                    
                 }
             if(result < 0){
                return -1;
