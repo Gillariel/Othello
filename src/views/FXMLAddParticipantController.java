@@ -52,7 +52,6 @@ public class FXMLAddParticipantController implements Initializable {
                     
                     mainController.addDataToTableView(participantComboBox.getItems().get(participantComboBox.getSelectionModel().getSelectedIndex()));
                     participantComboBox.getItems().remove(participantComboBox.getSelectionModel().getSelectedIndex());
-                  
                      
                 } else {
                     MyDialog.warningDialog("Erreur", "Please select participant to add in the list below or cancel.");
@@ -73,5 +72,6 @@ public class FXMLAddParticipantController implements Initializable {
         for(Person p : mainController.getData()) pseudoList.remove(p.getPseudo());
         
         participantComboBox.getItems().addAll(pseudoList);
+        participantComboBox.getItems().remove("?");
     }
 }

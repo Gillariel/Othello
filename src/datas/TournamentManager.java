@@ -19,7 +19,6 @@ public class TournamentManager extends DbConnect{
 
     public TournamentManager() {super(); }
     
-    // For each game : Insert Member with it associated game + Insert the game itself 
     public int insertGames(List<Game> list){
         int result = 0,result0 = 0;
         
@@ -28,9 +27,9 @@ public class TournamentManager extends DbConnect{
                 for(Game g : list){
                     
                     if(!(g.getJ1().getPseudo().equals("?") && g.getJ2().getPseudo().equals("?"))){
-                        result = session.createStatement("INSERT INTO Games (id,leftContenderScore,rightContenderScore, "
-                                + "leftContender,rightContender,_priority) "
-                                + "VALUES (@id,0,0,@pseudoJ1,@pseudoJ2,@priority);")
+                        result = session.createStatement("INSERT INTO Games (id, leftContenderScore, rightContenderScore, "
+                                + "leftContender, rightContender, _priority) "
+                                + "VALUES (@id, 0, 0, @pseudoJ1, @pseudoJ2, @priority);")
                                 .bindParameter("@id",g.getId())
                                 .bindParameter("@pseudoJ1",g.getJ1().getPseudo())
                                 .bindParameter("@pseudoJ2",g.getJ2().getPseudo())
@@ -48,7 +47,7 @@ public class TournamentManager extends DbConnect{
         }
     }
     
-    public List<Pair<String, String>> selectAllParticipant() {
+    /*public List<Pair<String, String>> selectAllParticipant() {
         List<Pair<String,String>> participants = new ArrayList<>();
         try (NHDatabaseSession session = getDb()){
             String[][] result = session.createStatement("SELECT id_game, pseudo "
@@ -60,17 +59,17 @@ public class TournamentManager extends DbConnect{
         }catch (Exception e) {
             return null;
         }
-    }
+    }*/
     
     //Renvoie la liste des games du tour actuelle.
     public List<Game> selectAllGames() {
         List<Game> games = new ArrayList<>();
         try (NHDatabaseSession session = getDb()){
             String[][] result = session.createStatement("SELECT id, leftContender, rightContender, _priority "
-                    + "FROM Games  "
-                    + "WHERE _priority = (SELECT Min(_priority "
+                    + "FROM Games "
+                    + "WHERE _priority = (SELECT Min(_priority) "
                                       + "FROM Games "
-                                      + "WHERE LeftContenders != '?');")
+                                      + "WHERE LeftContender != '?');")
 
                 .executeQuery();
             for(String[] game : result) 
@@ -84,11 +83,11 @@ public class TournamentManager extends DbConnect{
     public List<Pair<String, String>> selectAllVsParticipant() {
         List<Pair<String,String>> games = new ArrayList<>();
         try (NHDatabaseSession session = getDb()){
-            String[][] result = session.createStatement("SELECT leftContender, rightContender"
+            String[][] result = session.createStatement("SELECT leftContender, rightContender "
                     + "FROM Games "
-                    + "WHERE _priority = (SELECT _priority "
+                    + "WHERE _priority = (SELECT Min(_priority) "
                                       + "FROM Games "
-                                      + "WHERE LeftContender IS NOT NULL;")
+                                      + "WHERE LeftContender != '?');")
                     .executeQuery();
             for(String[] g : result) 
                 games.add(new Pair<String,String>(g[0], g[1]));

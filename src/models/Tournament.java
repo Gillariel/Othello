@@ -47,7 +47,7 @@ public class Tournament {
                 queue.add(game);
                 wait(50);
             }
-            bindDataToQueue(guardian+1);
+            bindDataToQueue(guardian + 1);
         }
     }
     
@@ -61,7 +61,7 @@ public class Tournament {
             List<Member> turnGameList = initTurnGame();
             for(int i = 0; i < turnGameList.size(); i++) {
                 wait(50);
-                if(i%2 == 1 && i == turnGameList.size()) {
+                if(i%2 == 1 && i == turnGameList.size() - 1) {
                     currentLeft = turnGameList.get(i);
                     currentRight = new Member("?", "?", "?");
                 }

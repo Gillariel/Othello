@@ -138,14 +138,12 @@ public class FXMLDocumentController implements Initializable {
         generateTournamentMenuItem.setDisable(true);
     }
 
-    //Check La Classe utils.FasterFXMLLoader si tu as un doute, c'est juste une manière de ne pas réécrire 100x le meme code :p
     @FXML
     private void handleNewMember(ActionEvent event) {
         FasterFXMLLoader.load("/views/FXMLInscription.fxml", this, "New Member");
     }
 
     @FXML
-    // Méthode faisant le lien entre le click sur le menu et le lancement de la fenetre
     private void handleDeleteMember(ActionEvent event) {
         FasterFXMLLoader.load("/views/FXMLDeleteMember.fxml", this, "Delete Member");
     }
@@ -176,11 +174,10 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleSwitchTournament(ActionEvent event) {
         TournamentManager provider = new TournamentManager();
-        List<Pair<String,String>> result = provider.selectAllParticipant();
         String id = "", pseudo = "";
-        for(Pair<String,String> p : result){
-            id += p.getKey() + " ";
-            pseudo += p.getValue() + " ";
+        for(Pair<String,String> p : provider.selectAllVsParticipant()){
+            id += (p.getKey() + " ");
+            pseudo += (p.getValue() + " ");
         }
         MyDialog.dialogWithoutHeader(id, pseudo);
         
@@ -188,11 +185,11 @@ public class FXMLDocumentController implements Initializable {
             List<Game> result1 = provider.selectAllGames();
             String gameId = "", gameJ1 = "", gameJ2 = ""; 
             for(Game g : result1){ 
-                gameId+= g.getId() + " ";
-                gameJ1+= g.getJ1().getPseudo() + " ";
-                gameJ2+= g.getJ2().getPseudo() + " ";
+                gameId += g.getId() + " / ";
+                gameJ1 += g.getJ1().getPseudo() + " / ";
+                gameJ2 += g.getJ2().getPseudo() + " / ";
             }
-            MyDialog.dialog(id, gameJ1, id);
+            MyDialog.dialog(id, gameJ1, gameJ2);
         }catch(NullPointerException e) {
             MyDialog.warningDialog("Warning", "list de Games actuellement vide!");
         }
@@ -209,7 +206,7 @@ public class FXMLDocumentController implements Initializable {
             t.bindDataToQueue(1);
             insertGamesToDb(t);
         }catch(InterruptedException e) { 
-            MyDialog.warningDialog("Internal Problem", "Error while generating tournament. Please close all your current prog and tru again!");
+            MyDialog.warningDialog("Internal Problem", "Error while generating tournament. Please close all your current prog and try again!");
         }
             
         try {
@@ -232,11 +229,11 @@ public class FXMLDocumentController implements Initializable {
     //Never using it while the second app is not created and bit completed yet!
     @FXML
     private void handleLaunchGame(ActionEvent event) {
-        String cmd = "c:\\windows\\Othello_Game.exe";
+        String cmd = "C:\\Users\\User\\Documents\\NetBeansProjects\\Othello_Game\\dist\\Othello_Game.jar";
         try {
             Runtime r = Runtime.getRuntime();
             Process p = r.exec(cmd);
-            p.waitFor();//si l'application doit attendre a ce que ce process fini
+            p.waitFor();
         } catch (IOException | InterruptedException e) {
             MyDialog.warningDialog("Erreur", "Le programme 'Othello - Game' est-il bien installé? (Veuillez ne jamais le changer de place)");
         }
@@ -269,9 +266,7 @@ public class FXMLDocumentController implements Initializable {
             stage.show();
         } catch (IOException e) {
             MyDialog.warningDialog("Erreur", "Erreur lors du chargement de fenêtre.");
-        }/* catch (Exception e) {
-            MyDialog.warningDialog("Connection Problem", "Please check your internet connection and try again");
-        }*/
+        }
     }
 
     @FXML
@@ -298,14 +293,11 @@ public class FXMLDocumentController implements Initializable {
 
     public void addDataToTableView(String pseudo) {
         datas.MembersManager provider = new MembersManager();
-        //datas.ContendersManager pro = new ContendersManager();
         Member p = provider.selectMember(pseudo);
         
         data.add(new Person(p.getPseudo(), p.getFirstname(), p.getLastname(), 0, 0));
 
-        //if (pro.insertContenders(pseudo) > 0) {
-            MyDialog.dialogWithoutHeader("Add", "The member has been successful added");
-        //}
+        MyDialog.dialogWithoutHeader("Add", "The member has been successful added");
 
     }
        
@@ -326,7 +318,7 @@ public class FXMLDocumentController implements Initializable {
     public void insertGamesToDb(Tournament t) {
         List<Game> games = new ArrayList<>();
         t.getQueue().stream().forEach((g) -> {
-                games.add(g);
+            games.add(g);
         });
         games.sort(new GameComparator());
         datas.TournamentManager provider = new TournamentManager();
@@ -339,10 +331,5 @@ public class FXMLDocumentController implements Initializable {
             result.add(new Member(p.getPseudo(), p.getFirstname(), p.getLastname()));
         }
         return result;
-    }
-    
-    @Override
-    public String toString() {
-        return "FXMLController";
     }
 }

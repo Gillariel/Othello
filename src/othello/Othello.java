@@ -26,26 +26,9 @@ public class Othello extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/FXMLDocument.fxml"));
         Parent root = loader.load();
         FXMLDocumentController controller = loader.getController();
-        /*if(controllerFileExists(""+TableView.class))
-            controller.setTableView(Serializer.LoadData(TableView.class));
-        */    
         Scene scene = new Scene(root);
-        
-        //System.out.println(TableView.class);
-        
         stage.setScene(scene);
         stage.getIcons().add(new Image("http://swap.sec.net/annex/icon.png"));
-        
-        //plus besoin puisqu'on ne supprime plus de contenders et si on supprime les membres
-        /*stage.setOnCloseRequest((WindowEvent event) -> {
-            /*if(!controller.isTableViewEmpty()){
-                if(MyDialog.confirmationDialog("Save", "Tournament is not finished and save in DB", "Do you want to save it in a specific file?"))
-                    Serializer.save(controller.getTableView());
-            }
-            datas.ContendersManager provider = new ContendersManager();
-            provider.deleteAllContenders();
-            
-        };)*/
         stage.show();
     }
 
@@ -54,10 +37,5 @@ public class Othello extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-    }
-    
-    private boolean controllerFileExists(String name){
-        File file = new File(name + ".object");
-        return file.exists();
     }
 }
