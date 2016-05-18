@@ -7,7 +7,6 @@ package models;
 
 
 import datas.TournamentManager;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -22,7 +21,7 @@ public class Tournament {
     private final int NB_PARTICIPANTS;
     private List<String> participants_id;
     private PriorityQueue<Game> queue;
-    private TournamentManager provider;
+    //private TournamentManager provider;
     private List<Member> turnGame;
     
     public Tournament(int NB_PARTICIPANTS, List<String> participants_id, List<Member> turnGame) {
@@ -30,7 +29,7 @@ public class Tournament {
         this.NB_PARTICIPANTS = NB_PARTICIPANTS;
         this.participants_id = participants_id;
         this.queue = new PriorityQueue(new GameComparator());
-        this.provider = new TournamentManager();
+        //this.provider = new TournamentManager();
         this.turnGame = turnGame;
     }
 
@@ -42,7 +41,7 @@ public class Tournament {
             generateTurnGame(1);
         }
         if(guardian < NB_LEVEL){
-            for(int i = 0; i < this.NB_PARTICIPANTS / (Math.pow(2, guardian)); i++) {
+            for(int i = 0; i < this.NB_PARTICIPANTS / (Math.pow(2, guardian+1)); i++) {
                 Game game = Game.questionMarkGame(1 + guardian);
                 queue.add(game);
                 wait(50);
@@ -61,7 +60,7 @@ public class Tournament {
             List<Member> turnGameList = initTurnGame();
             for(int i = 0; i < turnGameList.size(); i++) {
                 wait(50);
-                if(i%2 == 1 && i == turnGameList.size() - 1) {
+                if(i%2 == 1 && i == turnGameList.size()) {
                     currentLeft = turnGameList.get(i);
                     currentRight = new Member("?", "?", "?");
                 }

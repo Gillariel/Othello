@@ -220,6 +220,7 @@ public class FXMLDocumentController implements Initializable {
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.setResizable(false);
+            MyDialog.confirmationDialog("Test", "English", "Or French");
             stage.show();
         } catch (IOException e) {
             MyDialog.warningDialog("Erreur", "Erreur lors du chargement de fenêtre.");
