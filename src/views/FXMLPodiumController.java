@@ -28,7 +28,7 @@ import models.Gamer;
 public class FXMLPodiumController implements Initializable {
 
     @FXML
-    private AnchorPane thirdLabel;
+    private Label thirdLabel;
     @FXML
     private TableView<Gamer> podiumTableView;
     @FXML
@@ -55,6 +55,10 @@ public class FXMLPodiumController implements Initializable {
        
         addDataToTableView();
         
+        winnerLabel.setText(data.get(0).getPseudo());
+        secondLabel.setText(data.get(1).getPseudo());
+        thirdLabel.setText(data.get(2).getPseudo());
+        
         podiumTableView.setItems(data);
     }
     
@@ -62,7 +66,7 @@ public class FXMLPodiumController implements Initializable {
         datas.MembersManager provider = new MembersManager();
         List<Gamer> gamers = provider.selectParticipantsScore();
         gamers.stream().forEach((g) -> {
-            data.add(g); 
+            data.add(g);
         });
     }
        

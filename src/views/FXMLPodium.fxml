@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" fx:id="thirdLabel" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.FXMLPodiumController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.FXMLPodiumController">
    <children>
       <TableView fx:id="podiumTableView" layoutX="14.0" layoutY="57.0" prefHeight="277.0" prefWidth="150.0">
         <columns>
@@ -30,8 +30,8 @@
             <Image url="@../ressources/bronze.jpg" />
          </image>
       </ImageView>
-      <Label fx:id="winnerLabel" layoutX="320.0" layoutY="57.0" text="Winner:" />
-      <Label fx:id="secondLabel" layoutX="179.0" layoutY="201.0" text="Second :" />
-      <Label layoutX="468.0" layoutY="197.0" text="Third:" />
+      <Label fx:id="winnerLabel" layoutX="349.0" layoutY="49.0" text="Winner:" />
+      <Label fx:id="secondLabel" layoutX="200.0" layoutY="197.0" text="Second :" />
+      <Label fx:id="thirdLabel" layoutX="507.0" layoutY="197.0" text="Third:" />
    </children>
 </AnchorPane>
