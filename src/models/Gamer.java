@@ -17,6 +17,11 @@ public class Gamer {
         this.pseudo = pseudo;
         this.score = 0;
     }
+    
+    public Gamer(String pseudo,long score){
+        this.pseudo = pseudo;
+        this.score = score;
+    }
 
     public String getPseudo() { return pseudo; }
     public void setPseudo(String pseudo) { this.pseudo = pseudo; }

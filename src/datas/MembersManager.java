@@ -8,6 +8,7 @@ package datas;
 import helmo.nhpack.NHDatabaseSession;
 import java.util.ArrayList;
 import java.util.List;
+import models.Gamer;
 import models.Member;
 import utils.MyDialog;
 
@@ -100,5 +101,27 @@ public class MembersManager extends DbConnect {
     
     public boolean isConnected(){
         return this.getDb().isConnected();  
+    }
+    
+     public List<Gamer> selectParticipantsScore() {
+        List<Gamer> list = new ArrayList<>();
+            try(NHDatabaseSession session = getDb()){
+            String[][] result = session.createStatement("select m.pseudo,sum(g.leftContenderScore) as Total " 
+                    + "from Members m " 
+                    + "join Games g on g.leftContender = m.pseudo" 
+                    + "group by m.pseudo " 
+                    + "UNION " 
+                    + "select m.pseudo,sum(g.rightContenderScore) " 
+                    + "from Members m " 
+                    + "join Games g on g.rightContender = m.pseudo " 
+                    + "group by m.pseudo " 
+                    + "order by sum(leftContenderScore) desc ;")
+                    .executeQuery();
+            for(String[] participant : result)
+                list.add(DbEntityToObject.GamerParser(participant));
+            return list;
+        }catch(Exception e) {
+            return null;
+        }
     }
 }

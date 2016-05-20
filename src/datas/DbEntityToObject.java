@@ -7,6 +7,7 @@ package datas;
 
 
 import models.Game;
+import models.Gamer;
 import models.Member;
 
 /**
@@ -24,7 +25,12 @@ public class DbEntityToObject {
         return (entity != null)? new Member(entity[0], entity[1], entity[2]) : null;
     }
     
-    static Game GameParser(String[] entity) {
+    public static Gamer GamerParser(String[] entity) {
+        //entity : [0] = pseudo, [1] = score 
+        return (entity != null)? new Gamer(entity[0], Long.parseLong(entity[1])) : null;
+    }
+    
+    public static Game GameParser(String[] entity) {
         return (entity != null)? new Game(Integer.parseInt(entity[0]), entity[1], entity[2], Integer.parseInt(entity[3])) : null;
     }
 }

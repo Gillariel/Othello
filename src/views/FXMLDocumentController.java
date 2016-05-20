@@ -155,7 +155,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void handleCurrentTournament(ActionEvent event) {
-
+        FasterFXMLLoader.load("FXMLPodium.fxml", this);
     }
 
     @FXML
@@ -163,6 +163,8 @@ public class FXMLDocumentController implements Initializable {
         if (data.size() < 2 || data.size() > 16) {
             MyDialog.warningDialog("Error", "Number of member must be between 2 and 16 participants.");
             return;
+        }else{
+            MyDialog.dialogWithoutHeader("Confirmation", "The tournament is closed");
         }
         closeTournamentMenuItem.setDisable(true);
         generateTournamentMenuItem.setDisable(false);
@@ -220,7 +222,6 @@ public class FXMLDocumentController implements Initializable {
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.setResizable(false);
-            MyDialog.confirmationDialog("Test", "English", "Or French");
             stage.show();
         } catch (IOException e) {
             MyDialog.warningDialog("Erreur", "Erreur lors du chargement de fenêtre.");
