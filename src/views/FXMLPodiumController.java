@@ -40,7 +40,8 @@ public class FXMLPodiumController implements Initializable {
     @FXML
     private Label secondLabel;
 
-     private final ObservableList<Gamer> data = FXCollections.observableArrayList();
+    private ObservableList<Gamer> data = FXCollections.observableArrayList();
+    
     /**
      * Initializes the controller class.
      */
@@ -49,21 +50,19 @@ public class FXMLPodiumController implements Initializable {
         podiumTableView.setEditable(true);
         podiumTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         
-        pseudoTableColumn = new TableColumn("Pseudo");
         pseudoTableColumn.setCellValueFactory(new PropertyValueFactory<>("pseudo"));
-        
-        scoreTableColumn = new TableColumn("Score");
         scoreTableColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
        
+        addDataToTableView();
+        
         podiumTableView.setItems(data);
-        podiumTableView.getColumns().addAll(pseudoTableColumn,scoreTableColumn);
-    }    
+    }
     
     public void addDataToTableView() {
         datas.MembersManager provider = new MembersManager();
         List<Gamer> gamers = provider.selectParticipantsScore();
         gamers.stream().forEach((g) -> {
-            data.add(g);   
+            data.add(g); 
         });
     }
        

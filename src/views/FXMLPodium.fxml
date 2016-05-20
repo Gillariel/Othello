@@ -7,8 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" fx:id="thirdLabel" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="views.FXMLPodiumController">
+<AnchorPane id="AnchorPane" fx:id="thirdLabel" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.FXMLPodiumController">
    <children>
       <TableView fx:id="podiumTableView" layoutX="14.0" layoutY="57.0" prefHeight="277.0" prefWidth="150.0">
         <columns>
@@ -18,17 +17,17 @@
       </TableView>
       <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="340.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../gold.jpg" />
+            <Image url="@../ressources/gold.jpg" />
          </image>
       </ImageView>
       <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="194.0" layoutY="228.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../silver.jpg" />
+            <Image url="@../ressources/silver.jpg" />
          </image>
       </ImageView>
       <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="495.0" layoutY="224.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../bronze.jpg" />
+            <Image url="@../ressources/bronze.jpg" />
          </image>
       </ImageView>
       <Label fx:id="winnerLabel" layoutX="320.0" layoutY="57.0" text="Winner:" />

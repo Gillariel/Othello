@@ -20,8 +20,6 @@ public class MembersManager extends DbConnect {
 
     public MembersManager() { super(); }
     
-    
-   // try(blabla) = bloc de ressource -> appel automatique de close() à la fin
     public Member selectMember(String pseudo) {
         try(NHDatabaseSession session = getDb()){
             String[][] result = session.createStatement("SELECT pseudo, firstname, lastname "
@@ -60,10 +58,6 @@ public class MembersManager extends DbConnect {
                     .bindParameter("@password",p.getPassword())
                     .bindParameter("@firstname",p.getFirstname())
                     .bindParameter("@lastname",p.getLastname())
-                    /**
-                     * textuellement: exécuter la mise à jour de la bd donc valable pour les insert et les update sur les
-                    * tables
-                     * */
                     .executeUpdate();
             
             return result;      
@@ -99,23 +93,21 @@ public class MembersManager extends DbConnect {
         }
     }
     
-    public boolean isConnected(){
-        return this.getDb().isConnected();  
-    }
-    
      public List<Gamer> selectParticipantsScore() {
         List<Gamer> list = new ArrayList<>();
             try(NHDatabaseSession session = getDb()){
-            String[][] result = session.createStatement("select m.pseudo,sum(g.leftContenderScore) as Total " 
-                    + "from Members m " 
-                    + "join Games g on g.leftContender = m.pseudo" 
-                    + "group by m.pseudo " 
+            String[][] result = session.createStatement("SELECT m.pseudo,sum(g.leftContenderScore) AS Total " 
+                    + "FROM Members m " 
+                    + "JOIN Games g ON g.leftContender = m.pseudo "
+                    + "WHERE pseudo != '?' " 
+                    + "GROUP BY m.pseudo " 
                     + "UNION " 
-                    + "select m.pseudo,sum(g.rightContenderScore) " 
-                    + "from Members m " 
-                    + "join Games g on g.rightContender = m.pseudo " 
-                    + "group by m.pseudo " 
-                    + "order by sum(leftContenderScore) desc ;")
+                    + "SELECT m.pseudo,sum(g.rightContenderScore) " 
+                    + "FROM Members m " 
+                    + "JOIN Games g ON g.rightContender = m.pseudo "
+                    + "WHERE pseudo != '?' " 
+                    + "GROUP BY m.pseudo " 
+                    + "ORDER BY sum(leftContenderScore) DESC ;")
                     .executeQuery();
             for(String[] participant : result)
                 list.add(DbEntityToObject.GamerParser(participant));
