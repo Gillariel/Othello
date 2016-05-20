@@ -6,9 +6,7 @@
 package views;
 
 import datas.MembersManager;
-import datas.TournamentManager;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -21,9 +19,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import models.Gamer;
-import models.Member;
-import utils.MyDialog;
-import views.models.Person;
 
 /**
  * FXML Controller class

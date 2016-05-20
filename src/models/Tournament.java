@@ -39,6 +39,7 @@ public class Tournament {
         final int NB_LEVEL = Log.logBase2((double)this.NB_PARTICIPANTS);
         if(guardian == 1) {    
             generateTurnGame(1);
+            wait(50);
         }
         if(guardian < NB_LEVEL){
             for(int i = 0; i < this.NB_PARTICIPANTS / (Math.pow(2, guardian + 1)); i++) {
@@ -60,16 +61,17 @@ public class Tournament {
             List<Member> turnGameList = initTurnGame();
             for(int i = 0; i < turnGameList.size(); i++) {
                 wait(50);
-                if(i%2 == 0 && i == turnGameList.size() - 1) {
-                    currentLeft = turnGameList.get(i);
-                    currentRight = new Member("?", "?", "?");
-                    queue.add(new Game(currentLeft.getPseudo(), currentRight.getPseudo(), priority));
-                }
-                if(i%2 == 0)
+                
+                if(i%2 == 0 && i != turnGameList.size() - 1)
                     currentLeft = turnGameList.get(i);
                 else
                     currentRight = turnGameList.get(i);
             
+                if(i%2 == 0 && i == turnGameList.size() - 1) {
+                    currentLeft = turnGameList.get(i);
+                    currentRight = new Member("?", "?", "?");
+                }
+                
                 if(currentLeft != null && currentRight != null) {
                     Game game = new Game(currentLeft.getPseudo(), currentRight.getPseudo(), priority);
                     queue.add(game);
